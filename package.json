@@ -1,0 +1,40 @@
+{
+  "name": "igoresha-dev-ui-kit",
+  "version": "0.1.0",
+  "author": "qvlxty",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsup src/index.ts --format esm,cjs --dts --clean",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
+  },
+  "devDependencies": {
+    "@storybook/addon-themes": "^9.1.13",
+    "@storybook/builder-vite": "^9.1.13",
+    "@storybook/react-vite": "^9.1.13",
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.2",
+    "storybook": "^9.1.13",
+    "tsup": "^8.5.0",
+    "typescript": "^5.9.3",
+    "vite": "^7.1.11"
+  },
+  "peerDependencies": {
+    "effector": "^23.2.2",
+    "effector-react": "^23.2.1",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "styled-components": "^6.1.12"
+  },
+  "dependencies": {
+    "effector": "^23.4.4",
+    "effector-react": "^23.3.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "react-icons": "^5.5.0",
+    "styled-components": "^6.1.19"
+  }
+}

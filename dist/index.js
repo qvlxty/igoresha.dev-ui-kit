@@ -30,20 +30,34 @@ var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: tru
 // src/index.ts
 var index_exports = {};
 __export(index_exports, {
+  $currentTheme: () => $currentTheme,
   Avatar: () => Avatar,
   AvatarThumb: () => AvatarThumb,
   Badge: () => Badge,
   Button: () => Button,
   Dropdown: () => Dropdown,
   Input: () => Input,
+  LARGE_WIDTH_PX: () => LARGE_WIDTH_PX,
   LinkButton: () => LinkButton,
   Loader: () => Loader,
+  MOBILE_WIDTH: () => MOBILE_WIDTH,
   Modal: () => Modal,
+  NavPanel: () => NavPanel,
   ProgressBar: () => ProgressBar,
   Range: () => Range,
   Switch: () => Switch,
+  TABLET_WIDTH: () => TABLET_WIDTH,
+  THEME_KEY: () => THEME_KEY,
   TabBar: () => TabBar,
-  TextArea: () => TextArea
+  TextArea: () => TextArea,
+  ThemeProvider: () => ThemeProvider,
+  loadThemeFx: () => loadThemeFx,
+  onLgWidth: () => onLgWidth,
+  onMdWidth: () => onMdWidth,
+  onSmWidth: () => onSmWidth,
+  themeVar: () => themeVar,
+  toggleTheme: () => toggleTheme,
+  useTheme: () => useTheme
 });
 module.exports = __toCommonJS(index_exports);
 
@@ -148,12 +162,26 @@ var darkTheme = {
   error: "#F53333"
 };
 
+// src/theming/themes/index.ts
+var availableThemes = {
+  dark: darkTheme,
+  light: lightTheme
+};
+
 // src/theming/ThemeProvider.tsx
 var import_jsx_runtime = require("react/jsx-runtime");
+var ThemeProvider = ({ children }) => {
+  const theme2 = (0, import_effector_react.useUnit)($currentTheme);
+  return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_styled_components.ThemeProvider, { theme: availableThemes[theme2], children });
+};
 
 // src/theming/helpers.ts
 var import_react = __toESM(require("react"));
 var import_styled_components2 = require("styled-components");
+var useTheme = () => {
+  const theme2 = import_react.default.useContext(import_styled_components2.ThemeContext);
+  return theme2;
+};
 function themeVar(varName) {
   return function s({ theme: theme2 }) {
     return theme2[varName];
@@ -205,7 +233,7 @@ var stringToColor = (str, startHash = 0) => {
 // src/components/AvatarThumb.tsx
 var import_styled_components4 = __toESM(require("styled-components"));
 var import_jsx_runtime3 = require("react/jsx-runtime");
-var AvatarThumb = ({ nickname, style }) => /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Wrap, { style: { ...style, backgroundColor: stringToColor(nickname) }, children: nickname[0].toUpperCase() });
+var AvatarThumb = ({ nickname, style }) => /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Wrap, { style: { ...style, backgroundColor: stringToColor(nickname || "0") }, children: nickname.length > 0 && nickname[0].toUpperCase() });
 var Wrap = import_styled_components4.default.div`
     width: 32px;
     height: 32px;
@@ -306,6 +334,8 @@ var LinkButton = import_styled_components6.default.a`
     ${ButtonCss}
     text-decoration: none;
 `;
+Button.displayName = "Button";
+LinkButton.displayName = "LinkButton";
 
 // src/components/Dropdown.tsx
 var import_react2 = __toESM(require("react"));
@@ -489,6 +519,7 @@ var Loader = import_styled_components9.default.div`
     100% { transform: rotate(360deg); }
   }
 `;
+Loader.displayName = "Loader";
 
 // src/components/Modal.tsx
 var import_react4 = __toESM(require("react"));
@@ -498,9 +529,12 @@ var Modal = ({ visible, onClose, children, loading = false, style }) => {
   import_react4.default.useEffect(() => {
     if (visible) {
       document.body.style.overflow = "hidden";
-      return;
+    } else {
+      document.body.style.overflow = "auto";
     }
-    document.body.style.overflow = "auto";
+    return () => {
+      document.body.style.overflow = "auto";
+    };
   }, [visible]);
   if (!visible) {
     return null;
@@ -670,7 +704,7 @@ var TabBar = ({ options, selected, onSet }) => {
     Item,
     {
       $active: item.value === selected,
-      onClick: () => onSet(item.value),
+      onClick: () => onSet?.(item.value),
       children: item.title
     },
     index
@@ -755,20 +789,105 @@ var ErrorText2 = import_styled_components15.default.div`
     font-size: 14px;
     margin-top: 4px;
 `;
+
+// src/components/NavPanel.tsx
+var import_styled_components16 = __toESM(require("styled-components"));
+var import_jsx_runtime12 = require("react/jsx-runtime");
+var NavPanel = ({
+  links,
+  LinkElement
+}) => {
+  return /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(Container5, { children: /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(Wrapper2, { children: links.map((v, idx) => /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)(import_jsx_runtime12.Fragment, { children: [
+    v === "Separator" && /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(Separator, {}, idx),
+    v !== "Separator" && /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(
+      LinkElement,
+      {
+        className: "link-element",
+        to: v.to,
+        children: v.icon
+      },
+      idx
+    )
+  ] })) }) });
+};
+var Container5 = import_styled_components16.default.div`
+    width: 60px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    border-right: 1px solid ${themeVar("default700")};
+    background: ${themeVar("default800")};
+    background-size: cover;
+    z-index: 11;
+  
+`;
+var Wrapper2 = import_styled_components16.default.div`
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    box-sizing: border-box;
+
+
+    .link-element {
+        display: flex;
+        align-items: center;
+        border: 1px solid #00000000;
+        justify-content: center;
+
+        border-radius: 50%;
+        padding: 8px;
+        cursor: pointer;
+        & * {
+            color: ${themeVar("default500")};
+        }
+        &:hover {
+            background-color: ${themeVar("default800")};
+            border: 1px solid ${themeVar("default700")};
+            svg {
+                fill: ${themeVar("default600")};
+                stroke: ${themeVar("default600")};
+            }
+        }
+    }
+`;
+var Separator = import_styled_components16.default.div`
+    flex-shrink: 1;
+    flex-grow: 1;
+`;
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
+  $currentTheme,
   Avatar,
   AvatarThumb,
   Badge,
   Button,
   Dropdown,
   Input,
+  LARGE_WIDTH_PX,
   LinkButton,
   Loader,
+  MOBILE_WIDTH,
   Modal,
+  NavPanel,
   ProgressBar,
   Range,
   Switch,
+  TABLET_WIDTH,
+  THEME_KEY,
   TabBar,
-  TextArea
+  TextArea,
+  ThemeProvider,
+  loadThemeFx,
+  onLgWidth,
+  onMdWidth,
+  onSmWidth,
+  themeVar,
+  toggleTheme,
+  useTheme
 });

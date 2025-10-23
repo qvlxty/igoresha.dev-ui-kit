@@ -101,12 +101,26 @@ var darkTheme = {
   error: "#F53333"
 };
 
+// src/theming/themes/index.ts
+var availableThemes = {
+  dark: darkTheme,
+  light: lightTheme
+};
+
 // src/theming/ThemeProvider.tsx
 import { jsx } from "react/jsx-runtime";
+var ThemeProvider = ({ children }) => {
+  const theme2 = useUnit($currentTheme);
+  return /* @__PURE__ */ jsx(Provider, { theme: availableThemes[theme2], children });
+};
 
 // src/theming/helpers.ts
 import React from "react";
 import { ThemeContext } from "styled-components";
+var useTheme = () => {
+  const theme2 = React.useContext(ThemeContext);
+  return theme2;
+};
 function themeVar(varName) {
   return function s({ theme: theme2 }) {
     return theme2[varName];
@@ -158,7 +172,7 @@ var stringToColor = (str, startHash = 0) => {
 // src/components/AvatarThumb.tsx
 import styled2 from "styled-components";
 import { jsx as jsx3 } from "react/jsx-runtime";
-var AvatarThumb = ({ nickname, style }) => /* @__PURE__ */ jsx3(Wrap, { style: { ...style, backgroundColor: stringToColor(nickname) }, children: nickname[0].toUpperCase() });
+var AvatarThumb = ({ nickname, style }) => /* @__PURE__ */ jsx3(Wrap, { style: { ...style, backgroundColor: stringToColor(nickname || "0") }, children: nickname.length > 0 && nickname[0].toUpperCase() });
 var Wrap = styled2.div`
     width: 32px;
     height: 32px;
@@ -259,6 +273,8 @@ var LinkButton = styled4.a`
     ${ButtonCss}
     text-decoration: none;
 `;
+Button.displayName = "Button";
+LinkButton.displayName = "LinkButton";
 
 // src/components/Dropdown.tsx
 import React2 from "react";
@@ -442,6 +458,7 @@ var Loader = styled7.div`
     100% { transform: rotate(360deg); }
   }
 `;
+Loader.displayName = "Loader";
 
 // src/components/Modal.tsx
 import React4 from "react";
@@ -451,9 +468,12 @@ var Modal = ({ visible, onClose, children, loading = false, style }) => {
   React4.useEffect(() => {
     if (visible) {
       document.body.style.overflow = "hidden";
-      return;
+    } else {
+      document.body.style.overflow = "auto";
     }
-    document.body.style.overflow = "auto";
+    return () => {
+      document.body.style.overflow = "auto";
+    };
   }, [visible]);
   if (!visible) {
     return null;
@@ -623,7 +643,7 @@ var TabBar = ({ options, selected, onSet }) => {
     Item,
     {
       $active: item.value === selected,
-      onClick: () => onSet(item.value),
+      onClick: () => onSet?.(item.value),
       children: item.title
     },
     index
@@ -708,19 +728,104 @@ var ErrorText2 = styled13.div`
     font-size: 14px;
     margin-top: 4px;
 `;
+
+// src/components/NavPanel.tsx
+import styled14 from "styled-components";
+import { Fragment as Fragment3, jsx as jsx12, jsxs as jsxs6 } from "react/jsx-runtime";
+var NavPanel = ({
+  links,
+  LinkElement
+}) => {
+  return /* @__PURE__ */ jsx12(Container5, { children: /* @__PURE__ */ jsx12(Wrapper2, { children: links.map((v, idx) => /* @__PURE__ */ jsxs6(Fragment3, { children: [
+    v === "Separator" && /* @__PURE__ */ jsx12(Separator, {}, idx),
+    v !== "Separator" && /* @__PURE__ */ jsx12(
+      LinkElement,
+      {
+        className: "link-element",
+        to: v.to,
+        children: v.icon
+      },
+      idx
+    )
+  ] })) }) });
+};
+var Container5 = styled14.div`
+    width: 60px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    border-right: 1px solid ${themeVar("default700")};
+    background: ${themeVar("default800")};
+    background-size: cover;
+    z-index: 11;
+  
+`;
+var Wrapper2 = styled14.div`
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    box-sizing: border-box;
+
+
+    .link-element {
+        display: flex;
+        align-items: center;
+        border: 1px solid #00000000;
+        justify-content: center;
+
+        border-radius: 50%;
+        padding: 8px;
+        cursor: pointer;
+        & * {
+            color: ${themeVar("default500")};
+        }
+        &:hover {
+            background-color: ${themeVar("default800")};
+            border: 1px solid ${themeVar("default700")};
+            svg {
+                fill: ${themeVar("default600")};
+                stroke: ${themeVar("default600")};
+            }
+        }
+    }
+`;
+var Separator = styled14.div`
+    flex-shrink: 1;
+    flex-grow: 1;
+`;
 export {
+  $currentTheme,
   Avatar,
   AvatarThumb,
   Badge,
   Button,
   Dropdown,
   Input,
+  LARGE_WIDTH_PX,
   LinkButton,
   Loader,
+  MOBILE_WIDTH,
   Modal,
+  NavPanel,
   ProgressBar,
   Range,
   Switch,
+  TABLET_WIDTH,
+  THEME_KEY,
   TabBar,
-  TextArea
+  TextArea,
+  ThemeProvider,
+  loadThemeFx,
+  onLgWidth,
+  onMdWidth,
+  onSmWidth,
+  themeVar,
+  toggleTheme,
+  useTheme
 };

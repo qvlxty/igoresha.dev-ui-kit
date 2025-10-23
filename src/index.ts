@@ -12,3 +12,5 @@ export * from './components/Switch'
 export * from './components/TabBar'
 export * from './components/TextArea'
 export * from './components/NavPanel'
+
+export * from './theming'

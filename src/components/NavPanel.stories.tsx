@@ -1,8 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
-import { Input } from './Input';
 import { NavPanel } from './NavPanel';
-import { Link } from 'storybook/internal/router';
 import { AiOutlineOrderedList, AiOutlineAccountBook } from 'react-icons/ai'
 
 const meta = {

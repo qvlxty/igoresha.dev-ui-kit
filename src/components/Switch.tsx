@@ -2,8 +2,8 @@ import styled from 'styled-components'
 import { themeVar } from '../theming'
 
 type Props = {
-  checked: boolean
-  onChange: () => void
+  checked?: boolean
+  onChange?: () => void
   disabled?: boolean
 }
 

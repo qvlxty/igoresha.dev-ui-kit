@@ -9,7 +9,7 @@ type Props<T> = {
         title?: React.ReactNode,
     }[],
     selected: T,
-    onSet: (v: T) => void
+    onSet?: (v: T) => void
 }
 
 export const TabBar = <T,>({ options, selected, onSet }: Props<T>) => {
@@ -19,7 +19,7 @@ export const TabBar = <T,>({ options, selected, onSet }: Props<T>) => {
                 <Item
                     key={index}
                     $active={item.value === selected}
-                    onClick={() => onSet(item.value)}
+                    onClick={() => onSet?.(item.value)}
                 >
                     {item.title}
                 </Item>

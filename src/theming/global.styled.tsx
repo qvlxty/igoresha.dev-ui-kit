@@ -1,10 +1,9 @@
 import { createGlobalStyle } from 'styled-components'
 
 import { themeVar } from './helpers'
-import { ThemedStyledProps } from './types'
 import { Typography } from '../Typography'
 
-export const GlobalStyled = createGlobalStyle<ThemedStyledProps>`
+export const GlobalStyled = createGlobalStyle`
     body {
         margin: 0;
         padding: 0;

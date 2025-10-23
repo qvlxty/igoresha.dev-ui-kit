@@ -163,6 +163,6 @@ type Props = {
 };
 declare const NavPanel: ({ links, LinkElement }: Props) => react_jsx_runtime.JSX.Element;
 
-declare const GlobalStyled: React$1.NamedExoticComponent<styled_components.ExecutionProps & ThemedStyledProps>;
+declare const GlobalStyled: React$1.NamedExoticComponent<styled_components.ExecutionProps & object>;
 
 export { $currentTheme, Avatar, AvatarThumb, Badge, Button, Dropdown, GlobalStyled, Input, LARGE_WIDTH_PX, LinkButton, Loader, MOBILE_WIDTH, Modal, NavPanel, ProgressBar, Range, Switch, TABLET_WIDTH, THEME_KEY, TabBar, TextArea, type Theme, type ThemeItem, ThemeProvider, type ThemedStyledProps, availableThemes, loadThemeFx, onLgWidth, onMdWidth, onSmWidth, themeVar, toggleTheme, useTheme };

@@ -36,6 +36,7 @@ __export(index_exports, {
   Badge: () => Badge,
   Button: () => Button,
   Dropdown: () => Dropdown,
+  GlobalStyled: () => GlobalStyled,
   Input: () => Input,
   LARGE_WIDTH_PX: () => LARGE_WIDTH_PX,
   LinkButton: () => LinkButton,
@@ -855,6 +856,83 @@ var Separator = import_styled_components16.default.div`
     flex-shrink: 1;
     flex-grow: 1;
 `;
+
+// src/theming/global.styled.tsx
+var import_styled_components18 = require("styled-components");
+
+// src/Typography.tsx
+var import_styled_components17 = require("styled-components");
+var Typography = import_styled_components17.css`
+    h1 {
+        font-size: 24px;
+        gap: 12px;
+        background-color: ${themeVar("backgroundColor")};
+    }
+`;
+
+// src/theming/global.styled.tsx
+var GlobalStyled = import_styled_components18.createGlobalStyle`
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: Roboto;
+        color: ${themeVar("fontColor")};
+        background-color: ${themeVar("backgroundColor")};
+    }
+
+    body,
+    * {
+        font-family: 'Roboto';
+        box-sizing: border-box;
+    }
+
+    a {
+        text-decoration: none;
+        color: #111;
+    }
+
+    label {
+        font-weight: 300;
+        font-size: 14px;
+        margin-left: 4px;
+    }
+
+    body {
+        background: ${themeVar("backgroundColor")};
+        font-family: 'Roboto';
+        margin: 0;
+        color: ${themeVar("fontColor")};
+        padding: 0;
+    }
+
+    @font-face {
+        font-family: Roboto mono;
+        src: url('/fonts/RobotoMono-Regular.ttf');
+    }
+
+
+    @keyframes fadeout
+    { 
+        from { opacity: 0;}
+        to { opacity: 1}
+    }
+
+    @-webkit-keyframes fadeout 
+    {
+        from { opacity: 0;}
+        to {opacity: 1;}
+    }
+
+    a {
+        color: ${themeVar("accent500")};
+    }
+
+    h1,h2,h3 {
+        padding: 0;
+        margin: 0;
+    }
+    ${Typography};
+`;
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   $currentTheme,
@@ -863,6 +941,7 @@ var Separator = import_styled_components16.default.div`
   Badge,
   Button,
   Dropdown,
+  GlobalStyled,
   Input,
   LARGE_WIDTH_PX,
   LinkButton,

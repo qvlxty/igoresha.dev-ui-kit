@@ -18,7 +18,7 @@ import * as NavPanel from './NavPanel.stories'
         links={[
             { to: '/root', icon: <AiOutlineOrderedList /> },
             'Separator',
-            { to: '/root', icon: <AiOutlineAccountBook /> },
+            { onClick: () => alert('Hello'), icon: <AiOutlineAccountBook /> },
             'Separator',
             { to: '/root', icon: <AiOutlineAccountBook /> },
         ]}

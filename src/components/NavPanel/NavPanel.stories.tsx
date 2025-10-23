@@ -31,7 +31,7 @@ export const Elemenet: Story = {
     links: [
         { to: '/root', icon: <AiOutlineOrderedList /> },
         'Separator',
-        { to: '/root', icon: <AiOutlineAccountBook /> },
+        { onClick: () => alert('Hello'), icon: <AiOutlineAccountBook /> },
         'Separator',
         { to: '/root', icon: <AiOutlineAccountBook /> },
     ]

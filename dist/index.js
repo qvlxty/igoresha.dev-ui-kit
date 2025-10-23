@@ -770,15 +770,26 @@ var NavPanel = ({
 }) => {
   return /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(Container6, { children: /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(Wrapper3, { children: links.map((v, idx) => /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)(import_jsx_runtime11.Fragment, { children: [
     v === "Separator" && /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(Separator, {}, idx),
-    v !== "Separator" && /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(
-      LinkElement,
-      {
-        className: "link-element",
-        to: v.to,
-        children: v.icon
-      },
-      idx
-    )
+    v !== "Separator" && /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)(import_jsx_runtime11.Fragment, { children: [
+      "to" in v && /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(
+        LinkElement,
+        {
+          className: "link-element",
+          to: v.to,
+          children: v.icon
+        },
+        idx
+      ),
+      "onClick" in v && /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(
+        "button",
+        {
+          className: "link-element",
+          onClick: v.onClick,
+          children: v.icon
+        },
+        idx
+      )
+    ] })
   ] })) }) });
 };
 var Container6 = import_styled_components15.default.div`
@@ -810,7 +821,7 @@ var Wrapper3 = import_styled_components15.default.div`
         align-items: center;
         border: 1px solid #00000000;
         justify-content: center;
-
+        outline: none;
         border-radius: 50%;
         padding: 8px;
         cursor: pointer;

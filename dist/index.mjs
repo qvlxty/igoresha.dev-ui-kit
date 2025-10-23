@@ -708,15 +708,26 @@ var NavPanel = ({
 }) => {
   return /* @__PURE__ */ jsx11(Container6, { children: /* @__PURE__ */ jsx11(Wrapper3, { children: links.map((v, idx) => /* @__PURE__ */ jsxs6(Fragment3, { children: [
     v === "Separator" && /* @__PURE__ */ jsx11(Separator, {}, idx),
-    v !== "Separator" && /* @__PURE__ */ jsx11(
-      LinkElement,
-      {
-        className: "link-element",
-        to: v.to,
-        children: v.icon
-      },
-      idx
-    )
+    v !== "Separator" && /* @__PURE__ */ jsxs6(Fragment3, { children: [
+      "to" in v && /* @__PURE__ */ jsx11(
+        LinkElement,
+        {
+          className: "link-element",
+          to: v.to,
+          children: v.icon
+        },
+        idx
+      ),
+      "onClick" in v && /* @__PURE__ */ jsx11(
+        "button",
+        {
+          className: "link-element",
+          onClick: v.onClick,
+          children: v.icon
+        },
+        idx
+      )
+    ] })
   ] })) }) });
 };
 var Container6 = styled13.div`
@@ -748,7 +759,7 @@ var Wrapper3 = styled13.div`
         align-items: center;
         border: 1px solid #00000000;
         justify-content: center;
-
+        outline: none;
         border-radius: 50%;
         padding: 8px;
         cursor: pointer;

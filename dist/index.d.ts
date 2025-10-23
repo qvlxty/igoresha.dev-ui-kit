@@ -144,6 +144,9 @@ declare const TextArea: React__default.ForwardRefExoticComponent<Omit<React__def
 type NavPanelItem = 'Separator' | {
     to: string;
     icon: React__default.ReactNode;
+} | {
+    onClick: () => void;
+    icon: React__default.ReactNode;
 };
 type Props = {
     links: NavPanelItem[];

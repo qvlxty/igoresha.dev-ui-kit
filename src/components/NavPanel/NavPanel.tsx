@@ -5,6 +5,9 @@ import React, { JSX } from "react"
 type NavPanelItem = 'Separator' | {
     to: string,
     icon: React.ReactNode
+} | {
+    onClick: () => void,
+    icon: React.ReactNode
 }
 
 type Props = {
@@ -20,7 +23,7 @@ type Props = {
 
 export const NavPanel = ({
     links, LinkElement
-}:Props) => {
+}: Props) => {
     return (
         <Container>
             <Wrapper>
@@ -28,16 +31,25 @@ export const NavPanel = ({
                     <>
                         {v === 'Separator' && (
                             <Separator key={idx} />
-                        )} 
+                        )}
                         {v !== 'Separator' && (
-                            <LinkElement 
-                                className={'link-element'}
-                                to={v.to} 
-                                key={idx} 
-                            >
-                                {v.icon}
-                            </LinkElement>
-                        )} 
+                            <>
+                                {'to' in v && (<LinkElement
+                                    className={'link-element'}
+                                    to={v.to}
+                                    key={idx}
+                                >
+                                    {v.icon}
+                                </LinkElement>)}
+                                {'onClick' in v && (<button
+                                    className={'link-element'}
+                                    onClick={v.onClick}
+                                    key={idx}
+                                >
+                                    {v.icon}
+                                </button>)}
+                            </>
+                        )}
                     </>
                 ))}
             </Wrapper>
@@ -75,7 +87,7 @@ const Wrapper = styled.div`
         align-items: center;
         border: 1px solid #00000000;
         justify-content: center;
-
+        outline: none;
         border-radius: 50%;
         padding: 8px;
         cursor: pointer;

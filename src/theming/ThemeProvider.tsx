@@ -3,7 +3,7 @@ import {
   ThemeProvider as Provider,
 } from 'styled-components'
 import { useUnit } from 'effector-react'
-import { $currentTheme } from './model/public'
+import { $currentTheme } from './model'
 import { availableThemes } from './themes'
 
 

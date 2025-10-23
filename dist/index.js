@@ -68,31 +68,18 @@ var import_styled_components3 = __toESM(require("styled-components"));
 var import_styled_components = require("styled-components");
 var import_effector_react = require("effector-react");
 
-// src/theming/model/public.ts
-var import_effector2 = require("effector");
-
-// src/theming/model/const.ts
-var THEME_KEY = "THEME";
-var MOBILE_WIDTH = 600;
-var TABLET_WIDTH = 900;
-var LARGE_WIDTH_PX = 1024;
-var onSmWidth = `@media only screen and (max-width: ${MOBILE_WIDTH}px)`;
-var onMdWidth = `@media only screen and (max-width: ${TABLET_WIDTH}px)`;
-var onLgWidth = `@media only screen and (max-width: ${LARGE_WIDTH_PX}px)`;
-
-// src/lib/create-persisted-store.ts
+// src/lib/create-theme-store.ts
 var import_effector = require("effector");
-var createPersistedStore = ({
+var createThemeStore = ({
   d = (0, import_effector.createDomain)(),
   defaultValue,
-  key,
-  serializer = JSON.stringify,
-  deserializer = JSON.parse
+  key
 }) => {
   const $store = d.store(defaultValue);
   const loadFx = d.effect();
   const saveFx = d.effect();
-  $store.on(loadFx.doneData, (_, d2) => d2).on(saveFx.done, (_, { params }) => params);
+  const toggleEvent = d.event();
+  $store.on(loadFx.doneData, (_, d2) => d2).on(saveFx.done, (_, { params }) => params).on(toggleEvent, (s) => s === "light" ? "dark" : "light");
   (0, import_effector.sample)({
     clock: $store.updates,
     target: saveFx
@@ -102,23 +89,31 @@ var createPersistedStore = ({
     if (d2 === null) {
       return defaultValue;
     }
-    return deserializer(d2);
+    return JSON.parse(d2);
   });
   saveFx.use((p) => {
-    localStorage.setItem(key, serializer(p));
+    localStorage.setItem(key, JSON.stringify(p));
   });
   return {
     loadFx,
     saveFx,
-    $store
+    $store,
+    toggleEvent
   };
 };
 
-// src/theming/model/public.ts
-var theme = createPersistedStore({ defaultValue: "light", key: THEME_KEY });
+// src/theming/model.ts
+var THEME_KEY = "THEME";
+var MOBILE_WIDTH = 600;
+var TABLET_WIDTH = 900;
+var LARGE_WIDTH_PX = 1024;
+var onSmWidth = `@media only screen and (max-width: ${MOBILE_WIDTH}px)`;
+var onMdWidth = `@media only screen and (max-width: ${TABLET_WIDTH}px)`;
+var onLgWidth = `@media only screen and (max-width: ${LARGE_WIDTH_PX}px)`;
+var theme = createThemeStore({ defaultValue: "light", key: THEME_KEY });
 var $currentTheme = theme.$store;
 var loadThemeFx = theme.loadFx;
-var toggleTheme = (0, import_effector2.createEvent)();
+var toggleTheme = theme.toggleEvent;
 
 // src/theming/themes/light.ts
 var lightTheme = {

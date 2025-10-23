@@ -1,5 +1,5 @@
 import styled, { css } from "styled-components"
-import { themeVar } from "../theming"
+import { themeVar } from "../../theming"
 import React, { JSX } from "react"
 
 type NavPanelItem = 'Separator' | {

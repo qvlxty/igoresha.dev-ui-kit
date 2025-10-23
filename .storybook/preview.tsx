@@ -3,7 +3,6 @@ import { withThemeFromJSXProvider } from '@storybook/addon-themes';
 import { availableThemes } from '../src/theming/themes'
 import { GlobalStyled } from '../src/theming/global.styled'
 import { ThemeProvider } from 'styled-components';
-import { DocsContainer } from '@storybook/addon-docs/blocks';
 
 
 const preview: Preview = {

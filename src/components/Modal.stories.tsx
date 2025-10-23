@@ -1,9 +1,8 @@
-import { Loader } from './Loader';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Modal } from './Modal';
 import { useArgs } from 'storybook/internal/preview-api';
 import { Button } from './Button';
-
+import styled from 'styled-components';
 
 
 const meta = {
@@ -13,7 +12,6 @@ const meta = {
     layout: 'centered',
      docs: {
       story: {
-        inline: false,
         iframeHeight: 700,
       },
     },
@@ -26,6 +24,7 @@ const meta = {
 
 export default meta;
 type Story = StoryObj<typeof meta>;
+
 
 export const Element: Story = {
   render: function Component(args) {

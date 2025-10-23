@@ -43,12 +43,6 @@ var createThemeStore = ({
 
 // src/theming/model.ts
 var THEME_KEY = "THEME";
-var MOBILE_WIDTH = 600;
-var TABLET_WIDTH = 900;
-var LARGE_WIDTH_PX = 1024;
-var onSmWidth = `@media only screen and (max-width: ${MOBILE_WIDTH}px)`;
-var onMdWidth = `@media only screen and (max-width: ${TABLET_WIDTH}px)`;
-var onLgWidth = `@media only screen and (max-width: ${LARGE_WIDTH_PX}px)`;
 var theme = createThemeStore({ defaultValue: "light", key: THEME_KEY });
 var $currentTheme = theme.$store;
 var loadThemeFx = theme.loadFx;
@@ -93,7 +87,10 @@ var darkTheme = {
   default500: "#8888aa",
   default400: "#a5a5c0",
   default300: "#b5b5d0",
-  error: "#F53333"
+  secondary500: "#29a0e6",
+  secondary400: "#125780",
+  error500: "#c9403e",
+  error400: "#631413"
 };
 
 // src/theming/themes/index.ts
@@ -104,9 +101,9 @@ var availableThemes = {
 
 // src/theming/ThemeProvider.tsx
 import { jsx } from "react/jsx-runtime";
-var ThemeProvider = ({ children }) => {
+var ThemeProvider = ({ children, overrideTheme = availableThemes }) => {
   const theme2 = useUnit($currentTheme);
-  return /* @__PURE__ */ jsx(Provider, { theme: availableThemes[theme2], children });
+  return /* @__PURE__ */ jsx(Provider, { theme: overrideTheme[theme2], children });
 };
 
 // src/theming/helpers.ts
@@ -179,41 +176,9 @@ var Wrap = styled2.div`
 
 `;
 
-// src/components/Badge.tsx
-import styled3, { css as css2 } from "styled-components";
-import { jsx as jsx4 } from "react/jsx-runtime";
-var Badge = ({ children, color = "accent", size, style }) => {
-  return /* @__PURE__ */ jsx4(
-    StatusWrapper,
-    {
-      size,
-      color,
-      style,
-      children
-    }
-  );
-};
-var StatusWrapper = styled3.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 16px;
-  color: ${themeVar("fontColor")};
-  border: 3px solid ${({ color = "accent", theme: theme2 }) => theme2[`${color}500`]};
-  background-color: ${({ color = "accent", theme: theme2 }) => theme2[`${color}400`]};
-  border-radius: 4px;
-  padding: 6px;
-  padding-left: 15px;
-  padding-right: 15px;
-  
-  ${({ size }) => size && css2`
-      font-size: ${size}px;
-  `}
-`;
-
 // src/components/Button.tsx
-import styled4, { css as css3 } from "styled-components";
-var ButtonCss = css3`
+import styled3, { css as css2 } from "styled-components";
+var ButtonCss = css2`
     padding: 8px 16px;
     border-radius: 6px;
     border: 1px ${({ $dashed }) => $dashed ? "dashed" : "solid"} ${themeVar("default500")};
@@ -223,7 +188,7 @@ var ButtonCss = css3`
     align-items: center;
     font-size: 16px;
     cursor: pointer;
-    ${({ $haveIcon }) => $haveIcon && css3`
+    ${({ $haveIcon }) => $haveIcon && css2`
         svg {
             margin-right: 8px;
         }
@@ -233,7 +198,7 @@ var ButtonCss = css3`
         background: ${themeVar("default500")};
         transition: 0.2s;
     }
-    ${({ $primary }) => $primary && css3`
+    ${({ $primary }) => $primary && css2`
         background: ${themeVar("accent500")};
         color: #fff;
         border: none;
@@ -242,7 +207,7 @@ var ButtonCss = css3`
             background: ${themeVar("accent400")};
         }
     `}
-    ${({ $secondary }) => $secondary && css3`
+    ${({ $secondary }) => $secondary && css2`
         background: ${themeVar("secondary500")};
         color: #fff;
         border: none;
@@ -251,7 +216,7 @@ var ButtonCss = css3`
             color: #fff;
         }
     `}
-    ${({ $danger }) => $danger && css3`
+    ${({ $danger }) => $danger && css2`
         background: ${themeVar("error500")};
         color: #fff;
         border: none;
@@ -261,10 +226,10 @@ var ButtonCss = css3`
         }
     `}
 `;
-var Button = styled4.button`
+var Button = styled3.button`
     ${ButtonCss}
 `;
-var LinkButton = styled4.a`
+var LinkButton = styled3.a`
     ${ButtonCss}
     text-decoration: none;
 `;
@@ -273,8 +238,18 @@ LinkButton.displayName = "LinkButton";
 
 // src/components/Dropdown.tsx
 import React2 from "react";
-import styled5 from "styled-components";
-import { jsx as jsx5, jsxs } from "react/jsx-runtime";
+import styled4 from "styled-components";
+
+// src/const.ts
+var MOBILE_WIDTH = 600;
+var TABLET_WIDTH = 900;
+var LARGE_WIDTH_PX = 1024;
+var onSmWidth = `@media only screen and (max-width: ${MOBILE_WIDTH}px)`;
+var onMdWidth = `@media only screen and (max-width: ${TABLET_WIDTH}px)`;
+var onLgWidth = `@media only screen and (max-width: ${LARGE_WIDTH_PX}px)`;
+
+// src/components/Dropdown.tsx
+import { jsx as jsx4, jsxs } from "react/jsx-runtime";
 var Dropdown = ({ options, onOptionChange, selected, placeholder = "Empty", headerIcon }) => {
   const [isOpen, setIsOpen] = React2.useState(false);
   const toggleList = () => setIsOpen(!isOpen);
@@ -297,34 +272,34 @@ var Dropdown = ({ options, onOptionChange, selected, placeholder = "Empty", head
       document.removeEventListener("click", handleClickOutside);
     };
   }, [isOpen]);
-  return /* @__PURE__ */ jsxs(DropDownContainer, { ref, children: [
-    /* @__PURE__ */ jsxs(DropDownHeader, { onClick: toggleList, children: [
+  return /* @__PURE__ */ jsxs(Container, { ref, children: [
+    /* @__PURE__ */ jsxs(Header, { onClick: toggleList, children: [
       /* @__PURE__ */ jsxs("div", { children: [
-        selectedText && /* @__PURE__ */ jsx5("div", { children: selectedText }),
-        !selectedText && /* @__PURE__ */ jsx5("div", { children: placeholder })
+        selectedText && /* @__PURE__ */ jsx4("div", { children: selectedText }),
+        !selectedText && /* @__PURE__ */ jsx4("div", { children: placeholder })
       ] }),
       headerIcon
     ] }),
-    isOpen && /* @__PURE__ */ jsx5(DropDownWrapper, { children: /* @__PURE__ */ jsx5(DropDownListContainer, { children: /* @__PURE__ */ jsx5(DropDownList, { children: options.map((item) => /* @__PURE__ */ jsxs(
+    isOpen && /* @__PURE__ */ jsx4(Wrapper, { children: /* @__PURE__ */ jsx4(ListContainer, { children: /* @__PURE__ */ jsx4(List, { children: options.map((item) => /* @__PURE__ */ jsxs(
       ListItem,
       {
         onClick: () => onOptionClicked(item),
         children: [
-          /* @__PURE__ */ jsx5("div", { children: item.text }),
-          /* @__PURE__ */ jsx5("div", { children: item.icon })
+          /* @__PURE__ */ jsx4("div", { children: item.text }),
+          /* @__PURE__ */ jsx4("div", { children: item.icon })
         ]
       },
       item.value
     )) }) }) })
   ] });
 };
-var DropDownContainer = styled5.div`
+var Container = styled4.div`
     width: 240px;
     ${onSmWidth} {
         width: 100%;
     }
 `;
-var DropDownHeader = styled5.div`
+var Header = styled4.div`
     border-radius: 4px;
     border: 1px solid ${themeVar("default800")};
     padding: 14px;
@@ -342,12 +317,12 @@ var DropDownHeader = styled5.div`
         border: 1px solid ${themeVar("default600")};
     }
 `;
-var DropDownWrapper = styled5.div`
+var Wrapper = styled4.div`
     position: relative;
     z-index: 1;
 
 `;
-var DropDownListContainer = styled5.div`
+var ListContainer = styled4.div`
     position: absolute;
     height: 0;
     border-radius: 4px;
@@ -355,7 +330,7 @@ var DropDownListContainer = styled5.div`
     width: 240px;
     right:0;
 `;
-var DropDownList = styled5.ul`
+var List = styled4.ul`
     padding: 0;
     margin: 0;
     margin-top: -4px;
@@ -371,7 +346,7 @@ var DropDownList = styled5.ul`
     max-height: 80vh;
     overflow-y: auto;
 `;
-var ListItem = styled5.li`
+var ListItem = styled4.li`
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -392,8 +367,8 @@ var ListItem = styled5.li`
 
 // src/components/Input.tsx
 import React3 from "react";
-import styled6, { css as css4 } from "styled-components";
-import { Fragment, jsx as jsx6, jsxs as jsxs2 } from "react/jsx-runtime";
+import styled5, { css as css3 } from "styled-components";
+import { Fragment, jsx as jsx5, jsxs as jsxs2 } from "react/jsx-runtime";
 var Input = React3.forwardRef(({
   onChange,
   errorText,
@@ -401,7 +376,7 @@ var Input = React3.forwardRef(({
   ...props
 }, ref) => {
   return /* @__PURE__ */ jsxs2(Fragment, { children: [
-    /* @__PURE__ */ jsx6(
+    /* @__PURE__ */ jsx5(
       InputWrapper,
       {
         onChange: (e) => onChange?.(e.target.value),
@@ -410,10 +385,10 @@ var Input = React3.forwardRef(({
         ...props
       }
     ),
-    errorText && /* @__PURE__ */ jsx6(ErrorText, { children: errorText })
+    errorText && /* @__PURE__ */ jsx5(ErrorText, { children: errorText })
   ] });
 });
-var InputWrapper = styled6.input`
+var InputWrapper = styled5.input`
     flex-direction: row;
     font-size: 16px;
     padding: 10px;
@@ -425,7 +400,7 @@ var InputWrapper = styled6.input`
         outline: none;
         border: 1px solid ${themeVar("default600")};
     }
-    ${({ $hasError }) => $hasError && css4`
+    ${({ $hasError }) => $hasError && css3`
         border-color: ${themeVar("error500")};
     `}
     &::placeholder {
@@ -433,15 +408,15 @@ var InputWrapper = styled6.input`
         font-weight: 300;
     }
 `;
-var ErrorText = styled6.div`
+var ErrorText = styled5.div`
     color: ${themeVar("error500")};
     font-size: 14px;
     margin-top: 4px;
 `;
 
 // src/components/Loader.tsx
-import styled7 from "styled-components";
-var Loader = styled7.div`
+import styled6 from "styled-components";
+var Loader = styled6.div`
   border: 2px solid ${themeVar("default300")};
   border-top: 2px solid ${themeVar("default700")}; 
   border-radius: 50%;
@@ -457,8 +432,8 @@ Loader.displayName = "Loader";
 
 // src/components/Modal.tsx
 import React4 from "react";
-import styled8 from "styled-components";
-import { jsx as jsx7, jsxs as jsxs3 } from "react/jsx-runtime";
+import styled7 from "styled-components";
+import { jsx as jsx6, jsxs as jsxs3 } from "react/jsx-runtime";
 var Modal = ({ visible, onClose, children, loading = false, style }) => {
   React4.useEffect(() => {
     if (visible) {
@@ -474,11 +449,11 @@ var Modal = ({ visible, onClose, children, loading = false, style }) => {
     return null;
   }
   return /* @__PURE__ */ jsxs3(Overlay, { onClick: () => onClose(), style, children: [
-    loading && /* @__PURE__ */ jsx7(Loader, {}),
-    !loading && /* @__PURE__ */ jsx7(Container, { onClick: (e) => e.stopPropagation(), children })
+    loading && /* @__PURE__ */ jsx6(Loader, {}),
+    !loading && /* @__PURE__ */ jsx6(Container2, { onClick: (e) => e.stopPropagation(), children })
   ] });
 };
-var Container = styled8.div`
+var Container2 = styled7.div`
     background-color: ${themeVar("backgroundColor")};
     width: 85vw;
     padding: 30px;
@@ -489,7 +464,7 @@ var Container = styled8.div`
     overflow-y: auto;
     box-shadow: 0, 0, 8px, #111;
 `;
-var Overlay = styled8.div`
+var Overlay = styled7.div`
     z-index: 20;
     width: 100vw;
     height: 100vh;
@@ -506,10 +481,10 @@ var Overlay = styled8.div`
 `;
 
 // src/components/ProgressBar.tsx
-import styled9 from "styled-components";
-import { jsx as jsx8 } from "react/jsx-runtime";
-var ProgressBar = ({ completed, style }) => /* @__PURE__ */ jsx8(Container2, { style, children: /* @__PURE__ */ jsx8(Filter, { completed }) });
-var Container2 = styled9.div`
+import styled8 from "styled-components";
+import { jsx as jsx7 } from "react/jsx-runtime";
+var ProgressBar = ({ completed, style }) => /* @__PURE__ */ jsx7(Container3, { style, children: /* @__PURE__ */ jsx7(Filter, { completed }) });
+var Container3 = styled8.div`
     border-radius: 50px;
     background-color: ${themeVar("default400")};
     text-align: center;
@@ -517,7 +492,7 @@ var Container2 = styled9.div`
     flex-grow: 1;
     height: 40px;
 `;
-var Filter = styled9.div`
+var Filter = styled8.div`
     height: 40px;
     width: ${({ completed }) => completed}%;
     max-width: 100%;
@@ -527,8 +502,8 @@ var Filter = styled9.div`
 `;
 
 // src/components/Range.tsx
-import styled10 from "styled-components";
-var Range = styled10.input.attrs({ type: "range" })`
+import styled9 from "styled-components";
+var Range = styled9.input.attrs({ type: "range" })`
   &[type='range'] {
     outline: none;
     -webkit-appearance: none;
@@ -558,25 +533,25 @@ var Range = styled10.input.attrs({ type: "range" })`
 `;
 
 // src/components/Switch.tsx
-import styled11 from "styled-components";
-import { jsx as jsx9, jsxs as jsxs4 } from "react/jsx-runtime";
-var Switch = ({ checked, onChange, disabled }) => /* @__PURE__ */ jsx9(Container3, { children: /* @__PURE__ */ jsxs4(Label, { className: "switch", children: [
-  /* @__PURE__ */ jsx9(Input2, { type: "checkbox", checked, onChange, disabled }),
-  /* @__PURE__ */ jsx9("span", { className: "slider round" })
+import styled10 from "styled-components";
+import { jsx as jsx8, jsxs as jsxs4 } from "react/jsx-runtime";
+var Switch = ({ checked, onChange, disabled }) => /* @__PURE__ */ jsx8(Container4, { children: /* @__PURE__ */ jsxs4(Label, { className: "switch", children: [
+  /* @__PURE__ */ jsx8(Input2, { type: "checkbox", checked, onChange, disabled }),
+  /* @__PURE__ */ jsx8("span", { className: "slider round" })
 ] }) });
-var Label = styled11.label`
+var Label = styled10.label`
     position: relative;
     display: block;
     width: 40px;
     height: 18px;
     margin-left: 0;
 `;
-var Input2 = styled11.input`
+var Input2 = styled10.input`
     opacity: 0;
     width: 0;
     height: 0;
 `;
-var Container3 = styled11.div`
+var Container4 = styled10.div`
 & {
   .slider {
     position: absolute;
@@ -631,10 +606,10 @@ var Container3 = styled11.div`
 `;
 
 // src/components/TabBar.tsx
-import styled12, { css as css6 } from "styled-components";
-import { jsx as jsx10 } from "react/jsx-runtime";
+import styled11, { css as css4 } from "styled-components";
+import { jsx as jsx9 } from "react/jsx-runtime";
 var TabBar = ({ options, selected, onSet }) => {
-  return /* @__PURE__ */ jsx10(Container4, { children: options.map((item, index) => /* @__PURE__ */ jsx10(
+  return /* @__PURE__ */ jsx9(Container5, { children: options.map((item, index) => /* @__PURE__ */ jsx9(
     Item,
     {
       $active: item.value === selected,
@@ -644,7 +619,7 @@ var TabBar = ({ options, selected, onSet }) => {
     index
   )) });
 };
-var Item = styled12.div`
+var Item = styled11.div`
     font-size: 16px;
     white-space: nowrap;
     padding: 16px 18px;
@@ -655,7 +630,7 @@ var Item = styled12.div`
     align-items: center;
     justify-content: center;
     color: ${themeVar("default400")};
-    ${({ $active }) => $active && css6`
+    ${({ $active }) => $active && css4`
         color: ${themeVar("accent500")};
     `}
     &:hover {
@@ -668,7 +643,7 @@ var Item = styled12.div`
         font-size: 14px;
     }
 `;
-var Container4 = styled12.div`
+var Container5 = styled11.div`
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -680,17 +655,17 @@ var Container4 = styled12.div`
 `;
 
 // src/components/TextArea.tsx
-import styled13, { css as css7 } from "styled-components";
+import styled12, { css as css5 } from "styled-components";
 import React5 from "react";
-import { Fragment as Fragment2, jsx as jsx11, jsxs as jsxs5 } from "react/jsx-runtime";
+import { Fragment as Fragment2, jsx as jsx10, jsxs as jsxs5 } from "react/jsx-runtime";
 var TextArea = React5.forwardRef(({
   onChange,
   $errorText,
   $hasError,
   ...props
 }, ref) => /* @__PURE__ */ jsxs5(Fragment2, { children: [
-  /* @__PURE__ */ jsx11(
-    Wrapper,
+  /* @__PURE__ */ jsx10(
+    Wrapper2,
     {
       ref,
       $hasError,
@@ -698,9 +673,9 @@ var TextArea = React5.forwardRef(({
       ...props
     }
   ),
-  $errorText && /* @__PURE__ */ jsx11(ErrorText2, { children: $errorText })
+  $errorText && /* @__PURE__ */ jsx10(ErrorText2, { children: $errorText })
 ] }));
-var Wrapper = styled13.textarea`
+var Wrapper2 = styled12.textarea`
     font-size: 16px;
     font-family: 'roboto';
     padding: 10px;
@@ -714,26 +689,26 @@ var Wrapper = styled13.textarea`
         outline: none;
         box-shadow: 0px 0px 2px #${themeVar("accent600")};
     }
-    ${({ $hasError }) => $hasError && css7`
+    ${({ $hasError }) => $hasError && css5`
         border-color: ${themeVar("error500")};
     `}
 `;
-var ErrorText2 = styled13.div`
+var ErrorText2 = styled12.div`
     color: ${themeVar("error500")};
     font-size: 14px;
     margin-top: 4px;
 `;
 
-// src/components/NavPanel.tsx
-import styled14 from "styled-components";
-import { Fragment as Fragment3, jsx as jsx12, jsxs as jsxs6 } from "react/jsx-runtime";
+// src/components/NavPanel/NavPanel.tsx
+import styled13 from "styled-components";
+import { Fragment as Fragment3, jsx as jsx11, jsxs as jsxs6 } from "react/jsx-runtime";
 var NavPanel = ({
   links,
   LinkElement
 }) => {
-  return /* @__PURE__ */ jsx12(Container5, { children: /* @__PURE__ */ jsx12(Wrapper2, { children: links.map((v, idx) => /* @__PURE__ */ jsxs6(Fragment3, { children: [
-    v === "Separator" && /* @__PURE__ */ jsx12(Separator, {}, idx),
-    v !== "Separator" && /* @__PURE__ */ jsx12(
+  return /* @__PURE__ */ jsx11(Container6, { children: /* @__PURE__ */ jsx11(Wrapper3, { children: links.map((v, idx) => /* @__PURE__ */ jsxs6(Fragment3, { children: [
+    v === "Separator" && /* @__PURE__ */ jsx11(Separator, {}, idx),
+    v !== "Separator" && /* @__PURE__ */ jsx11(
       LinkElement,
       {
         className: "link-element",
@@ -744,7 +719,7 @@ var NavPanel = ({
     )
   ] })) }) });
 };
-var Container5 = styled14.div`
+var Container6 = styled13.div`
     width: 60px;
     position: fixed;
     left: 0;
@@ -756,7 +731,7 @@ var Container5 = styled14.div`
     z-index: 11;
   
 `;
-var Wrapper2 = styled14.div`
+var Wrapper3 = styled13.div`
     width: 100%;
     height: 100%;
     display: flex;
@@ -790,25 +765,13 @@ var Wrapper2 = styled14.div`
         }
     }
 `;
-var Separator = styled14.div`
+var Separator = styled13.div`
     flex-shrink: 1;
     flex-grow: 1;
 `;
 
 // src/theming/global.styled.tsx
 import { createGlobalStyle } from "styled-components";
-
-// src/Typography.tsx
-import { css as css9 } from "styled-components";
-var Typography = css9`
-    h1 {
-        font-size: 24px;
-        gap: 12px;
-        background-color: ${themeVar("backgroundColor")};
-    }
-`;
-
-// src/theming/global.styled.tsx
 var GlobalStyled = createGlobalStyle`
     body {
         margin: 0;
@@ -822,11 +785,6 @@ var GlobalStyled = createGlobalStyle`
     * {
         font-family: 'Roboto';
         box-sizing: border-box;
-    }
-
-    a {
-        text-decoration: none;
-        color: #111;
     }
 
     label {
@@ -865,17 +823,15 @@ var GlobalStyled = createGlobalStyle`
         color: ${themeVar("accent500")};
     }
 
-    h1,h2,h3 {
+    h1, h2, h3 {
         padding: 0;
         margin: 0;
     }
-    ${Typography};
 `;
 export {
   $currentTheme,
   Avatar,
   AvatarThumb,
-  Badge,
   Button,
   Dropdown,
   GlobalStyled,

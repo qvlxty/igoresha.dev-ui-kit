@@ -1,10 +1,9 @@
-import { ThemeItem } from '../model'
 import { darkTheme } from './dark'
 import { lightTheme } from './light'
 
 export type Theme = typeof lightTheme
 
-export const availableThemes: Record<ThemeItem, Theme> = {
+export const availableThemes = {
     dark: darkTheme as Theme,
     light: lightTheme as Theme
 }

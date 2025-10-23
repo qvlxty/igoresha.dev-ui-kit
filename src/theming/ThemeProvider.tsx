@@ -4,13 +4,16 @@ import {
 } from 'styled-components'
 import { useUnit } from 'effector-react'
 import { $currentTheme } from './model'
-import { availableThemes } from './themes'
+import { availableThemes, Theme } from './themes'
 
+type Props = {
+  overrideTheme?: typeof availableThemes
+}
 
-export const ThemeProvider = ({ children }: React.PropsWithChildren) => {
+export const ThemeProvider = ({ children, overrideTheme = availableThemes }: React.PropsWithChildren<Props>) => {
   const theme = useUnit($currentTheme)
   return (
-    <Provider theme={availableThemes[theme]}>
+    <Provider theme={overrideTheme[theme]}>
       {children}
     </Provider>
   )

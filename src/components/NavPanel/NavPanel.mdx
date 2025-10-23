@@ -1,0 +1,28 @@
+import { Meta, Controls, Canvas, Story } from '@storybook/addon-docs/blocks';
+import * as NavPanel from './NavPanel.stories'
+
+<Meta of={NavPanel} />
+
+<div style={{marginLeft: '70px'}}>
+    # Пример NavPanel
+
+    <Story>
+    <NavPanel />
+    </Story>
+
+    ```tsx
+    import { Link } from 'react-router'
+
+    <NavPanel
+        LinkElement={Link}
+        links={[
+            { to: '/root', icon: <AiOutlineOrderedList /> },
+            'Separator',
+            { to: '/root', icon: <AiOutlineAccountBook /> },
+            'Separator',
+            { to: '/root', icon: <AiOutlineAccountBook /> },
+        ]}
+    
+    />
+    ```
+</div>

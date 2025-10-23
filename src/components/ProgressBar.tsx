@@ -1,5 +1,5 @@
-import styled, { css } from 'styled-components'
-import { themeVar, useTheme } from '../theming'
+import styled from 'styled-components'
+import { themeVar } from '../theming'
 
 type Props = {
   completed: number,

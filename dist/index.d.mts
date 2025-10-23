@@ -1,9 +1,9 @@
 import * as react_jsx_runtime from 'react/jsx-runtime';
+import * as styled_components_dist_types from 'styled-components/dist/types';
 import * as React$1 from 'react';
 import React__default from 'react';
-import * as styled_components_dist_types from 'styled-components/dist/types';
-import * as effector from 'effector';
 import * as styled_components from 'styled-components';
+import * as effector from 'effector';
 
 interface Props$8 {
     url?: string;
@@ -18,27 +18,6 @@ type Props$7 = {
     style?: React.CSSProperties;
 };
 declare const AvatarThumb: ({ nickname, style }: Props$7) => react_jsx_runtime.JSX.Element;
-
-type Props$6 = {
-    color?: 'accent' | 'default';
-    size?: number;
-    style?: React__default.CSSProperties;
-};
-declare const Badge: ({ children, color, size, style }: React__default.PropsWithChildren<Props$6>) => react_jsx_runtime.JSX.Element;
-
-declare const ThemeProvider: ({ children }: React__default.PropsWithChildren) => react_jsx_runtime.JSX.Element;
-
-declare const THEME_KEY = "THEME";
-declare const MOBILE_WIDTH = 600;
-declare const TABLET_WIDTH = 900;
-declare const LARGE_WIDTH_PX = 1024;
-type ThemeItem = 'dark' | 'light';
-declare const onSmWidth = "@media only screen and (max-width: 600px)";
-declare const onMdWidth = "@media only screen and (max-width: 900px)";
-declare const onLgWidth = "@media only screen and (max-width: 1024px)";
-declare const $currentTheme: effector.StoreWritable<"light" | "dark">;
-declare const loadThemeFx: effector.Effect<void, "light" | "dark", Error>;
-declare const toggleTheme: effector.EventCallable<void>;
 
 declare const lightTheme: {
     backgroundColor: string;
@@ -62,7 +41,15 @@ declare const lightTheme: {
 };
 
 type Theme = typeof lightTheme;
-declare const availableThemes: Record<ThemeItem, Theme>;
+declare const availableThemes: {
+    dark: Theme;
+    light: Theme;
+};
+
+type Props$6 = {
+    overrideTheme?: typeof availableThemes;
+};
+declare const ThemeProvider: ({ children, overrideTheme }: React__default.PropsWithChildren<Props$6>) => react_jsx_runtime.JSX.Element;
 
 type ThemedStyledProps = {
     theme: Theme;
@@ -74,6 +61,12 @@ declare module 'styled-components' {
 
 declare const useTheme: () => Theme;
 declare function themeVar(varName: keyof Theme): ({ theme }: ThemedStyledProps) => string;
+
+declare const THEME_KEY = "THEME";
+type ThemeItem = 'dark' | 'light';
+declare const $currentTheme: effector.StoreWritable<"light" | "dark">;
+declare const loadThemeFx: effector.Effect<void, "light" | "dark", Error>;
+declare const toggleTheme: effector.EventCallable<void>;
 
 type ButtonProps = {
     $haveIcon?: boolean;
@@ -163,6 +156,13 @@ type Props = {
 };
 declare const NavPanel: ({ links, LinkElement }: Props) => react_jsx_runtime.JSX.Element;
 
-declare const GlobalStyled: React$1.NamedExoticComponent<styled_components.ExecutionProps & object>;
+declare const GlobalStyled: React$1.NamedExoticComponent<styled_components.ExecutionProps & ThemedStyledProps>;
 
-export { $currentTheme, Avatar, AvatarThumb, Badge, Button, Dropdown, GlobalStyled, Input, LARGE_WIDTH_PX, LinkButton, Loader, MOBILE_WIDTH, Modal, NavPanel, ProgressBar, Range, Switch, TABLET_WIDTH, THEME_KEY, TabBar, TextArea, type Theme, type ThemeItem, ThemeProvider, type ThemedStyledProps, availableThemes, loadThemeFx, onLgWidth, onMdWidth, onSmWidth, themeVar, toggleTheme, useTheme };
+declare const MOBILE_WIDTH = 600;
+declare const TABLET_WIDTH = 900;
+declare const LARGE_WIDTH_PX = 1024;
+declare const onSmWidth = "@media only screen and (max-width: 600px)";
+declare const onMdWidth = "@media only screen and (max-width: 900px)";
+declare const onLgWidth = "@media only screen and (max-width: 1024px)";
+
+export { $currentTheme, Avatar, AvatarThumb, Button, Dropdown, GlobalStyled, Input, LARGE_WIDTH_PX, LinkButton, Loader, MOBILE_WIDTH, Modal, NavPanel, ProgressBar, Range, Switch, TABLET_WIDTH, THEME_KEY, TabBar, TextArea, type Theme, type ThemeItem, ThemeProvider, type ThemedStyledProps, availableThemes, loadThemeFx, onLgWidth, onMdWidth, onSmWidth, themeVar, toggleTheme, useTheme };

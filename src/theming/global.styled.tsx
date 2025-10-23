@@ -1,7 +1,6 @@
 import { createGlobalStyle } from 'styled-components'
 
 import { themeVar } from './helpers'
-import { Typography } from '../Typography'
 
 export const GlobalStyled = createGlobalStyle`
     body {
@@ -16,11 +15,6 @@ export const GlobalStyled = createGlobalStyle`
     * {
         font-family: 'Roboto';
         box-sizing: border-box;
-    }
-
-    a {
-        text-decoration: none;
-        color: #111;
     }
 
     label {
@@ -59,9 +53,8 @@ export const GlobalStyled = createGlobalStyle`
         color: ${themeVar('accent500')};
     }
 
-    h1,h2,h3 {
+    h1, h2, h3 {
         padding: 0;
         margin: 0;
     }
-    ${Typography};
 `

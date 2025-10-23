@@ -33,7 +33,6 @@ __export(index_exports, {
   $currentTheme: () => $currentTheme,
   Avatar: () => Avatar,
   AvatarThumb: () => AvatarThumb,
-  Badge: () => Badge,
   Button: () => Button,
   Dropdown: () => Dropdown,
   GlobalStyled: () => GlobalStyled,
@@ -106,12 +105,6 @@ var createThemeStore = ({
 
 // src/theming/model.ts
 var THEME_KEY = "THEME";
-var MOBILE_WIDTH = 600;
-var TABLET_WIDTH = 900;
-var LARGE_WIDTH_PX = 1024;
-var onSmWidth = `@media only screen and (max-width: ${MOBILE_WIDTH}px)`;
-var onMdWidth = `@media only screen and (max-width: ${TABLET_WIDTH}px)`;
-var onLgWidth = `@media only screen and (max-width: ${LARGE_WIDTH_PX}px)`;
 var theme = createThemeStore({ defaultValue: "light", key: THEME_KEY });
 var $currentTheme = theme.$store;
 var loadThemeFx = theme.loadFx;
@@ -156,7 +149,10 @@ var darkTheme = {
   default500: "#8888aa",
   default400: "#a5a5c0",
   default300: "#b5b5d0",
-  error: "#F53333"
+  secondary500: "#29a0e6",
+  secondary400: "#125780",
+  error500: "#c9403e",
+  error400: "#631413"
 };
 
 // src/theming/themes/index.ts
@@ -167,9 +163,9 @@ var availableThemes = {
 
 // src/theming/ThemeProvider.tsx
 var import_jsx_runtime = require("react/jsx-runtime");
-var ThemeProvider = ({ children }) => {
+var ThemeProvider = ({ children, overrideTheme = availableThemes }) => {
   const theme2 = (0, import_effector_react.useUnit)($currentTheme);
-  return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_styled_components.ThemeProvider, { theme: availableThemes[theme2], children });
+  return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_styled_components.ThemeProvider, { theme: overrideTheme[theme2], children });
 };
 
 // src/theming/helpers.ts
@@ -242,41 +238,9 @@ var Wrap = import_styled_components4.default.div`
 
 `;
 
-// src/components/Badge.tsx
-var import_styled_components5 = __toESM(require("styled-components"));
-var import_jsx_runtime4 = require("react/jsx-runtime");
-var Badge = ({ children, color = "accent", size, style }) => {
-  return /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(
-    StatusWrapper,
-    {
-      size,
-      color,
-      style,
-      children
-    }
-  );
-};
-var StatusWrapper = import_styled_components5.default.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 16px;
-  color: ${themeVar("fontColor")};
-  border: 3px solid ${({ color = "accent", theme: theme2 }) => theme2[`${color}500`]};
-  background-color: ${({ color = "accent", theme: theme2 }) => theme2[`${color}400`]};
-  border-radius: 4px;
-  padding: 6px;
-  padding-left: 15px;
-  padding-right: 15px;
-  
-  ${({ size }) => size && import_styled_components5.css`
-      font-size: ${size}px;
-  `}
-`;
-
 // src/components/Button.tsx
-var import_styled_components6 = __toESM(require("styled-components"));
-var ButtonCss = import_styled_components6.css`
+var import_styled_components5 = __toESM(require("styled-components"));
+var ButtonCss = import_styled_components5.css`
     padding: 8px 16px;
     border-radius: 6px;
     border: 1px ${({ $dashed }) => $dashed ? "dashed" : "solid"} ${themeVar("default500")};
@@ -286,7 +250,7 @@ var ButtonCss = import_styled_components6.css`
     align-items: center;
     font-size: 16px;
     cursor: pointer;
-    ${({ $haveIcon }) => $haveIcon && import_styled_components6.css`
+    ${({ $haveIcon }) => $haveIcon && import_styled_components5.css`
         svg {
             margin-right: 8px;
         }
@@ -296,7 +260,7 @@ var ButtonCss = import_styled_components6.css`
         background: ${themeVar("default500")};
         transition: 0.2s;
     }
-    ${({ $primary }) => $primary && import_styled_components6.css`
+    ${({ $primary }) => $primary && import_styled_components5.css`
         background: ${themeVar("accent500")};
         color: #fff;
         border: none;
@@ -305,7 +269,7 @@ var ButtonCss = import_styled_components6.css`
             background: ${themeVar("accent400")};
         }
     `}
-    ${({ $secondary }) => $secondary && import_styled_components6.css`
+    ${({ $secondary }) => $secondary && import_styled_components5.css`
         background: ${themeVar("secondary500")};
         color: #fff;
         border: none;
@@ -314,7 +278,7 @@ var ButtonCss = import_styled_components6.css`
             color: #fff;
         }
     `}
-    ${({ $danger }) => $danger && import_styled_components6.css`
+    ${({ $danger }) => $danger && import_styled_components5.css`
         background: ${themeVar("error500")};
         color: #fff;
         border: none;
@@ -324,10 +288,10 @@ var ButtonCss = import_styled_components6.css`
         }
     `}
 `;
-var Button = import_styled_components6.default.button`
+var Button = import_styled_components5.default.button`
     ${ButtonCss}
 `;
-var LinkButton = import_styled_components6.default.a`
+var LinkButton = import_styled_components5.default.a`
     ${ButtonCss}
     text-decoration: none;
 `;
@@ -336,8 +300,18 @@ LinkButton.displayName = "LinkButton";
 
 // src/components/Dropdown.tsx
 var import_react2 = __toESM(require("react"));
-var import_styled_components7 = __toESM(require("styled-components"));
-var import_jsx_runtime5 = require("react/jsx-runtime");
+var import_styled_components6 = __toESM(require("styled-components"));
+
+// src/const.ts
+var MOBILE_WIDTH = 600;
+var TABLET_WIDTH = 900;
+var LARGE_WIDTH_PX = 1024;
+var onSmWidth = `@media only screen and (max-width: ${MOBILE_WIDTH}px)`;
+var onMdWidth = `@media only screen and (max-width: ${TABLET_WIDTH}px)`;
+var onLgWidth = `@media only screen and (max-width: ${LARGE_WIDTH_PX}px)`;
+
+// src/components/Dropdown.tsx
+var import_jsx_runtime4 = require("react/jsx-runtime");
 var Dropdown = ({ options, onOptionChange, selected, placeholder = "Empty", headerIcon }) => {
   const [isOpen, setIsOpen] = import_react2.default.useState(false);
   const toggleList = () => setIsOpen(!isOpen);
@@ -360,34 +334,34 @@ var Dropdown = ({ options, onOptionChange, selected, placeholder = "Empty", head
       document.removeEventListener("click", handleClickOutside);
     };
   }, [isOpen]);
-  return /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)(DropDownContainer, { ref, children: [
-    /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)(DropDownHeader, { onClick: toggleList, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("div", { children: [
-        selectedText && /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("div", { children: selectedText }),
-        !selectedText && /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("div", { children: placeholder })
+  return /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)(Container, { ref, children: [
+    /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)(Header, { onClick: toggleList, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)("div", { children: [
+        selectedText && /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("div", { children: selectedText }),
+        !selectedText && /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("div", { children: placeholder })
       ] }),
       headerIcon
     ] }),
-    isOpen && /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(DropDownWrapper, { children: /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(DropDownListContainer, { children: /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(DropDownList, { children: options.map((item) => /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)(
+    isOpen && /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(Wrapper, { children: /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(ListContainer, { children: /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(List, { children: options.map((item) => /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)(
       ListItem,
       {
         onClick: () => onOptionClicked(item),
         children: [
-          /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("div", { children: item.text }),
-          /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("div", { children: item.icon })
+          /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("div", { children: item.text }),
+          /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("div", { children: item.icon })
         ]
       },
       item.value
     )) }) }) })
   ] });
 };
-var DropDownContainer = import_styled_components7.default.div`
+var Container = import_styled_components6.default.div`
     width: 240px;
     ${onSmWidth} {
         width: 100%;
     }
 `;
-var DropDownHeader = import_styled_components7.default.div`
+var Header = import_styled_components6.default.div`
     border-radius: 4px;
     border: 1px solid ${themeVar("default800")};
     padding: 14px;
@@ -405,12 +379,12 @@ var DropDownHeader = import_styled_components7.default.div`
         border: 1px solid ${themeVar("default600")};
     }
 `;
-var DropDownWrapper = import_styled_components7.default.div`
+var Wrapper = import_styled_components6.default.div`
     position: relative;
     z-index: 1;
 
 `;
-var DropDownListContainer = import_styled_components7.default.div`
+var ListContainer = import_styled_components6.default.div`
     position: absolute;
     height: 0;
     border-radius: 4px;
@@ -418,7 +392,7 @@ var DropDownListContainer = import_styled_components7.default.div`
     width: 240px;
     right:0;
 `;
-var DropDownList = import_styled_components7.default.ul`
+var List = import_styled_components6.default.ul`
     padding: 0;
     margin: 0;
     margin-top: -4px;
@@ -434,7 +408,7 @@ var DropDownList = import_styled_components7.default.ul`
     max-height: 80vh;
     overflow-y: auto;
 `;
-var ListItem = import_styled_components7.default.li`
+var ListItem = import_styled_components6.default.li`
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -455,16 +429,16 @@ var ListItem = import_styled_components7.default.li`
 
 // src/components/Input.tsx
 var import_react3 = __toESM(require("react"));
-var import_styled_components8 = __toESM(require("styled-components"));
-var import_jsx_runtime6 = require("react/jsx-runtime");
+var import_styled_components7 = __toESM(require("styled-components"));
+var import_jsx_runtime5 = require("react/jsx-runtime");
 var Input = import_react3.default.forwardRef(({
   onChange,
   errorText,
   hasError,
   ...props
 }, ref) => {
-  return /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)(import_jsx_runtime6.Fragment, { children: [
-    /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)(import_jsx_runtime5.Fragment, { children: [
+    /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(
       InputWrapper,
       {
         onChange: (e) => onChange?.(e.target.value),
@@ -473,10 +447,10 @@ var Input = import_react3.default.forwardRef(({
         ...props
       }
     ),
-    errorText && /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(ErrorText, { children: errorText })
+    errorText && /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(ErrorText, { children: errorText })
   ] });
 });
-var InputWrapper = import_styled_components8.default.input`
+var InputWrapper = import_styled_components7.default.input`
     flex-direction: row;
     font-size: 16px;
     padding: 10px;
@@ -488,7 +462,7 @@ var InputWrapper = import_styled_components8.default.input`
         outline: none;
         border: 1px solid ${themeVar("default600")};
     }
-    ${({ $hasError }) => $hasError && import_styled_components8.css`
+    ${({ $hasError }) => $hasError && import_styled_components7.css`
         border-color: ${themeVar("error500")};
     `}
     &::placeholder {
@@ -496,15 +470,15 @@ var InputWrapper = import_styled_components8.default.input`
         font-weight: 300;
     }
 `;
-var ErrorText = import_styled_components8.default.div`
+var ErrorText = import_styled_components7.default.div`
     color: ${themeVar("error500")};
     font-size: 14px;
     margin-top: 4px;
 `;
 
 // src/components/Loader.tsx
-var import_styled_components9 = __toESM(require("styled-components"));
-var Loader = import_styled_components9.default.div`
+var import_styled_components8 = __toESM(require("styled-components"));
+var Loader = import_styled_components8.default.div`
   border: 2px solid ${themeVar("default300")};
   border-top: 2px solid ${themeVar("default700")}; 
   border-radius: 50%;
@@ -520,8 +494,8 @@ Loader.displayName = "Loader";
 
 // src/components/Modal.tsx
 var import_react4 = __toESM(require("react"));
-var import_styled_components10 = __toESM(require("styled-components"));
-var import_jsx_runtime7 = require("react/jsx-runtime");
+var import_styled_components9 = __toESM(require("styled-components"));
+var import_jsx_runtime6 = require("react/jsx-runtime");
 var Modal = ({ visible, onClose, children, loading = false, style }) => {
   import_react4.default.useEffect(() => {
     if (visible) {
@@ -536,12 +510,12 @@ var Modal = ({ visible, onClose, children, loading = false, style }) => {
   if (!visible) {
     return null;
   }
-  return /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)(Overlay, { onClick: () => onClose(), style, children: [
-    loading && /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(Loader, {}),
-    !loading && /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(Container, { onClick: (e) => e.stopPropagation(), children })
+  return /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)(Overlay, { onClick: () => onClose(), style, children: [
+    loading && /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(Loader, {}),
+    !loading && /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(Container2, { onClick: (e) => e.stopPropagation(), children })
   ] });
 };
-var Container = import_styled_components10.default.div`
+var Container2 = import_styled_components9.default.div`
     background-color: ${themeVar("backgroundColor")};
     width: 85vw;
     padding: 30px;
@@ -552,7 +526,7 @@ var Container = import_styled_components10.default.div`
     overflow-y: auto;
     box-shadow: 0, 0, 8px, #111;
 `;
-var Overlay = import_styled_components10.default.div`
+var Overlay = import_styled_components9.default.div`
     z-index: 20;
     width: 100vw;
     height: 100vh;
@@ -569,10 +543,10 @@ var Overlay = import_styled_components10.default.div`
 `;
 
 // src/components/ProgressBar.tsx
-var import_styled_components11 = __toESM(require("styled-components"));
-var import_jsx_runtime8 = require("react/jsx-runtime");
-var ProgressBar = ({ completed, style }) => /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(Container2, { style, children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(Filter, { completed }) });
-var Container2 = import_styled_components11.default.div`
+var import_styled_components10 = __toESM(require("styled-components"));
+var import_jsx_runtime7 = require("react/jsx-runtime");
+var ProgressBar = ({ completed, style }) => /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(Container3, { style, children: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(Filter, { completed }) });
+var Container3 = import_styled_components10.default.div`
     border-radius: 50px;
     background-color: ${themeVar("default400")};
     text-align: center;
@@ -580,7 +554,7 @@ var Container2 = import_styled_components11.default.div`
     flex-grow: 1;
     height: 40px;
 `;
-var Filter = import_styled_components11.default.div`
+var Filter = import_styled_components10.default.div`
     height: 40px;
     width: ${({ completed }) => completed}%;
     max-width: 100%;
@@ -590,8 +564,8 @@ var Filter = import_styled_components11.default.div`
 `;
 
 // src/components/Range.tsx
-var import_styled_components12 = __toESM(require("styled-components"));
-var Range = import_styled_components12.default.input.attrs({ type: "range" })`
+var import_styled_components11 = __toESM(require("styled-components"));
+var Range = import_styled_components11.default.input.attrs({ type: "range" })`
   &[type='range'] {
     outline: none;
     -webkit-appearance: none;
@@ -621,25 +595,25 @@ var Range = import_styled_components12.default.input.attrs({ type: "range" })`
 `;
 
 // src/components/Switch.tsx
-var import_styled_components13 = __toESM(require("styled-components"));
-var import_jsx_runtime9 = require("react/jsx-runtime");
-var Switch = ({ checked, onChange, disabled }) => /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(Container3, { children: /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)(Label, { className: "switch", children: [
-  /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(Input2, { type: "checkbox", checked, onChange, disabled }),
-  /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("span", { className: "slider round" })
+var import_styled_components12 = __toESM(require("styled-components"));
+var import_jsx_runtime8 = require("react/jsx-runtime");
+var Switch = ({ checked, onChange, disabled }) => /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(Container4, { children: /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)(Label, { className: "switch", children: [
+  /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(Input2, { type: "checkbox", checked, onChange, disabled }),
+  /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("span", { className: "slider round" })
 ] }) });
-var Label = import_styled_components13.default.label`
+var Label = import_styled_components12.default.label`
     position: relative;
     display: block;
     width: 40px;
     height: 18px;
     margin-left: 0;
 `;
-var Input2 = import_styled_components13.default.input`
+var Input2 = import_styled_components12.default.input`
     opacity: 0;
     width: 0;
     height: 0;
 `;
-var Container3 = import_styled_components13.default.div`
+var Container4 = import_styled_components12.default.div`
 & {
   .slider {
     position: absolute;
@@ -694,10 +668,10 @@ var Container3 = import_styled_components13.default.div`
 `;
 
 // src/components/TabBar.tsx
-var import_styled_components14 = __toESM(require("styled-components"));
-var import_jsx_runtime10 = require("react/jsx-runtime");
+var import_styled_components13 = __toESM(require("styled-components"));
+var import_jsx_runtime9 = require("react/jsx-runtime");
 var TabBar = ({ options, selected, onSet }) => {
-  return /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(Container4, { children: options.map((item, index) => /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(Container5, { children: options.map((item, index) => /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(
     Item,
     {
       $active: item.value === selected,
@@ -707,7 +681,7 @@ var TabBar = ({ options, selected, onSet }) => {
     index
   )) });
 };
-var Item = import_styled_components14.default.div`
+var Item = import_styled_components13.default.div`
     font-size: 16px;
     white-space: nowrap;
     padding: 16px 18px;
@@ -718,7 +692,7 @@ var Item = import_styled_components14.default.div`
     align-items: center;
     justify-content: center;
     color: ${themeVar("default400")};
-    ${({ $active }) => $active && import_styled_components14.css`
+    ${({ $active }) => $active && import_styled_components13.css`
         color: ${themeVar("accent500")};
     `}
     &:hover {
@@ -731,7 +705,7 @@ var Item = import_styled_components14.default.div`
         font-size: 14px;
     }
 `;
-var Container4 = import_styled_components14.default.div`
+var Container5 = import_styled_components13.default.div`
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -743,17 +717,17 @@ var Container4 = import_styled_components14.default.div`
 `;
 
 // src/components/TextArea.tsx
-var import_styled_components15 = __toESM(require("styled-components"));
+var import_styled_components14 = __toESM(require("styled-components"));
 var import_react5 = __toESM(require("react"));
-var import_jsx_runtime11 = require("react/jsx-runtime");
+var import_jsx_runtime10 = require("react/jsx-runtime");
 var TextArea = import_react5.default.forwardRef(({
   onChange,
   $errorText,
   $hasError,
   ...props
-}, ref) => /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)(import_jsx_runtime11.Fragment, { children: [
-  /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(
-    Wrapper,
+}, ref) => /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)(import_jsx_runtime10.Fragment, { children: [
+  /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(
+    Wrapper2,
     {
       ref,
       $hasError,
@@ -761,9 +735,9 @@ var TextArea = import_react5.default.forwardRef(({
       ...props
     }
   ),
-  $errorText && /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(ErrorText2, { children: $errorText })
+  $errorText && /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(ErrorText2, { children: $errorText })
 ] }));
-var Wrapper = import_styled_components15.default.textarea`
+var Wrapper2 = import_styled_components14.default.textarea`
     font-size: 16px;
     font-family: 'roboto';
     padding: 10px;
@@ -777,26 +751,26 @@ var Wrapper = import_styled_components15.default.textarea`
         outline: none;
         box-shadow: 0px 0px 2px #${themeVar("accent600")};
     }
-    ${({ $hasError }) => $hasError && import_styled_components15.css`
+    ${({ $hasError }) => $hasError && import_styled_components14.css`
         border-color: ${themeVar("error500")};
     `}
 `;
-var ErrorText2 = import_styled_components15.default.div`
+var ErrorText2 = import_styled_components14.default.div`
     color: ${themeVar("error500")};
     font-size: 14px;
     margin-top: 4px;
 `;
 
-// src/components/NavPanel.tsx
-var import_styled_components16 = __toESM(require("styled-components"));
-var import_jsx_runtime12 = require("react/jsx-runtime");
+// src/components/NavPanel/NavPanel.tsx
+var import_styled_components15 = __toESM(require("styled-components"));
+var import_jsx_runtime11 = require("react/jsx-runtime");
 var NavPanel = ({
   links,
   LinkElement
 }) => {
-  return /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(Container5, { children: /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(Wrapper2, { children: links.map((v, idx) => /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)(import_jsx_runtime12.Fragment, { children: [
-    v === "Separator" && /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(Separator, {}, idx),
-    v !== "Separator" && /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(Container6, { children: /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(Wrapper3, { children: links.map((v, idx) => /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)(import_jsx_runtime11.Fragment, { children: [
+    v === "Separator" && /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(Separator, {}, idx),
+    v !== "Separator" && /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(
       LinkElement,
       {
         className: "link-element",
@@ -807,7 +781,7 @@ var NavPanel = ({
     )
   ] })) }) });
 };
-var Container5 = import_styled_components16.default.div`
+var Container6 = import_styled_components15.default.div`
     width: 60px;
     position: fixed;
     left: 0;
@@ -819,7 +793,7 @@ var Container5 = import_styled_components16.default.div`
     z-index: 11;
   
 `;
-var Wrapper2 = import_styled_components16.default.div`
+var Wrapper3 = import_styled_components15.default.div`
     width: 100%;
     height: 100%;
     display: flex;
@@ -853,26 +827,14 @@ var Wrapper2 = import_styled_components16.default.div`
         }
     }
 `;
-var Separator = import_styled_components16.default.div`
+var Separator = import_styled_components15.default.div`
     flex-shrink: 1;
     flex-grow: 1;
 `;
 
 // src/theming/global.styled.tsx
-var import_styled_components18 = require("styled-components");
-
-// src/Typography.tsx
-var import_styled_components17 = require("styled-components");
-var Typography = import_styled_components17.css`
-    h1 {
-        font-size: 24px;
-        gap: 12px;
-        background-color: ${themeVar("backgroundColor")};
-    }
-`;
-
-// src/theming/global.styled.tsx
-var GlobalStyled = import_styled_components18.createGlobalStyle`
+var import_styled_components16 = require("styled-components");
+var GlobalStyled = import_styled_components16.createGlobalStyle`
     body {
         margin: 0;
         padding: 0;
@@ -885,11 +847,6 @@ var GlobalStyled = import_styled_components18.createGlobalStyle`
     * {
         font-family: 'Roboto';
         box-sizing: border-box;
-    }
-
-    a {
-        text-decoration: none;
-        color: #111;
     }
 
     label {
@@ -928,18 +885,16 @@ var GlobalStyled = import_styled_components18.createGlobalStyle`
         color: ${themeVar("accent500")};
     }
 
-    h1,h2,h3 {
+    h1, h2, h3 {
         padding: 0;
         margin: 0;
     }
-    ${Typography};
 `;
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   $currentTheme,
   Avatar,
   AvatarThumb,
-  Badge,
   Button,
   Dropdown,
   GlobalStyled,

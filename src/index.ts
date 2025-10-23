@@ -1,6 +1,5 @@
 export * from './components/Avatar'
 export * from './components/AvatarThumb'
-export * from './components/Badge'
 export * from './components/Button'
 export * from './components/Dropdown'
 export * from './components/Input'
@@ -11,7 +10,9 @@ export * from './components/Range'
 export * from './components/Switch'
 export * from './components/TabBar'
 export * from './components/TextArea'
-export * from './components/NavPanel'
+export * from './components/NavPanel/NavPanel'
 
 export * from './theming'
 export { GlobalStyled } from './theming/global.styled'
+
+export * from './const'

@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-import { themeVar, onSmWidth } from '../theming'
+import { themeVar } from '../theming'
+import { onSmWidth } from '../const'
 
 type Item<T> = {
     value: T,
@@ -43,8 +44,8 @@ export const Dropdown = <T extends number | string>(
     }, [isOpen])
 
     return (
-        <DropDownContainer ref={ref}>
-            <DropDownHeader onClick={toggleList}>
+        <Container ref={ref}>
+            <Header onClick={toggleList}>
                 <div>
                     {selectedText && (
                         <div>{selectedText}</div>
@@ -54,11 +55,11 @@ export const Dropdown = <T extends number | string>(
                     )}
                 </div>
                 {headerIcon}
-            </DropDownHeader>
+            </Header>
             {isOpen && (
-                <DropDownWrapper>
-                    <DropDownListContainer>
-                        <DropDownList>
+                <Wrapper>
+                    <ListContainer>
+                        <List>
                             {options.map((item) => (
                                 <ListItem
                                     key={item.value}
@@ -72,22 +73,22 @@ export const Dropdown = <T extends number | string>(
                                     </div>
                                 </ListItem>
                             ))}
-                        </DropDownList>
-                    </DropDownListContainer>
-                </DropDownWrapper>
+                        </List>
+                    </ListContainer>
+                </Wrapper>
             )}
-        </DropDownContainer>
+        </Container>
     )
 }
 
-const DropDownContainer = styled.div`
+const Container = styled.div`
     width: 240px;
     ${onSmWidth} {
         width: 100%;
     }
 `
 
-const DropDownHeader = styled.div`
+const Header = styled.div`
     border-radius: 4px;
     border: 1px solid ${themeVar('default800')};
     padding: 14px;
@@ -106,13 +107,13 @@ const DropDownHeader = styled.div`
     }
 `
 
-const DropDownWrapper = styled.div`
+const Wrapper = styled.div`
     position: relative;
     z-index: 1;
 
 `
 
-const DropDownListContainer = styled.div`
+const ListContainer = styled.div`
     position: absolute;
     height: 0;
     border-radius: 4px;
@@ -121,7 +122,7 @@ const DropDownListContainer = styled.div`
     right:0;
 `
 
-const DropDownList = styled.ul`
+const List = styled.ul`
     padding: 0;
     margin: 0;
     margin-top: -4px;

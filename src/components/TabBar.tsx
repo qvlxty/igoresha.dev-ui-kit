@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components'
 import { themeVar } from '../theming'
-import { onSmWidth } from '../theming/model'
+import { onSmWidth } from '../const'
 
 
 type Props<T> = {

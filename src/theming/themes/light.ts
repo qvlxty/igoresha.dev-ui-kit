@@ -17,7 +17,6 @@ export const lightTheme = {
   default400: '#90a8bb',
   default300: '#718fa8',
 
-
   secondary500: '#29a0e6',
   secondary400: '#125780',
 

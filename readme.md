@@ -1,8 +1,8 @@
 # Igoresha.dev UI-kit
 
-![](./docs/logo.jpg)
+<img src="./assets/logo.jpg" alt="drawing" width="200" />
 
-UI Библиотека элементов. 
+React UI-kit, построенный на 💅 styled-component и ☄️ effector
 
 ## Motivation
 

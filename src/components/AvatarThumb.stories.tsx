@@ -1,4 +1,3 @@
-import { Loader } from './Loader';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { AvatarThumb } from './AvatarThumb';
 
@@ -10,7 +9,7 @@ const meta = {
     layout: 'centered',
   },
   tags: ['autodocs'],
-} satisfies Meta<typeof Loader>;
+} satisfies Meta<typeof AvatarThumb>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;

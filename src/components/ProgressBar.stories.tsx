@@ -6,7 +6,7 @@ import { ProgressBar } from './ProgressBar';
 
 
 const meta = {
-  title: 'components/ProgreeBar',
+  title: 'components/ProgressBar',
   component: ProgressBar,
   parameters: {
     layout: 'centered',

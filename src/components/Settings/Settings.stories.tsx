@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { AiFillCalendar, AiFillSetting } from 'react-icons/ai'
+import { AiFillCalendar, AiFillSetting, AiFillMoon } from 'react-icons/ai'
 
 import { Settings } from './Settings';
 import styled from 'styled-components';
@@ -12,9 +12,6 @@ import { Switch } from '../Switch';
 const meta = {
   title: 'layout/Settings',
   component: Settings,
-  parameters: {
-    layout: 'centered',
-  },
   tags: ['autodocs'],
 } satisfies Meta;
 
@@ -33,12 +30,12 @@ export const Element: Story = {
   render: function C(args) {
     const [s, setS] = React.useState<'basic' | 'advanced'>('basic')
     return (
-      <Container >
+      <Container>
         <Settings {...args}>
           <TabBar
             options={[
-              { value: 'basic' as const, title: 'General' },
-              { value: 'advanced' as const, title: 'Advanced' },
+              { value: 'basic', title: <>General</> },
+              { value: 'advanced', title: <>Advanced</> },
             ]}
             selected={s}
             onSet={setS}
@@ -46,15 +43,14 @@ export const Element: Story = {
           {s === 'basic' && (
             <>
               <SettingRow 
-                  icon={<AiFillCalendar />}
-                  title='Birthday'
-                  description='Date of your birthday'
+                  icon={<AiFillMoon />}
+                  title='Enable Dark Theme'
                   option={<Switch checked />}
               />
               <SettingRow 
                   icon={<AiFillCalendar />}
                   title='Birthday'
-                  description='Date of your birthday'
+                  description='Remind your birthday'
                   option={<Switch checked />}
               />
               <SettingRow 
@@ -92,6 +88,5 @@ export const Element: Story = {
   args: {
     title: "Settings",
     titleIcon: <AiFillSetting />,
-    
   }
 };

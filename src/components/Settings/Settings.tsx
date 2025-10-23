@@ -1,12 +1,11 @@
 import styled from "styled-components"
 import React, { PropsWithChildren } from "react"
-import { TabBar } from "../TabBar"
 
 
 type Props = {
     containerStyle?: React.CSSProperties,
     title: React.ReactNode,
-    titleIcon: React.ReactNode,
+    titleIcon?: React.ReactNode,
 }
 
 export const Settings = ({

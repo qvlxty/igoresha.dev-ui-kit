@@ -1,0 +1,65 @@
+import { lightTheme } from '../src/theming/themes/light.ts'
+import { darkTheme } from '../src/theming/themes/dark.ts'
+
+# Темы и цвета
+
+Юай кит идёт с предустановленным набором цветов, который используется в элементах интерфейса.
+
+## Использование переменных темы
+
+### Хук useTheme в styled-components
+
+Пример использования хука useTheme
+
+```tsx
+export const TaskItem: React.FC<Props> = (props) => {
+  const theme = useTheme()
+
+  return (
+    <div style={{ color: theme.theme.default500 }} />
+  )
+}
+```
+
+### Инъекция через themeVar в компонент
+
+Пример заголовка Dropdown
+
+```tsx
+const DropdownHeader = styled.div`
+    color: ${themeVar('default300')};   
+    &:hover {
+        border: 1px solid ${themeVar('default600')};
+    }
+`
+```
+
+## Доступные цвета по-умолчанию
+
+
+### Светлая тема
+{Object.keys(lightTheme).map((t) => (
+    <div 
+        style={{
+            backgroundColor: lightTheme[t], 
+            color: t === 'fontColor' ? '#fff' : undefined,
+            padding: '8px'
+        }}
+    >
+        {t}
+    </div>
+))}
+
+### Тёмная тема
+
+{Object.keys(darkTheme).map((t) => (
+    <div 
+        style={{
+            backgroundColor: darkTheme[t], 
+            color: t === 'fontColor' ? '#000' : '#fff',
+            padding: '8px'
+        }}
+    >
+        {t}
+    </div>
+))}

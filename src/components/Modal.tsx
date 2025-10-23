@@ -1,7 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
-import { TABLET_WIDTH, themeVar } from '../theming'
+import { themeVar } from '../theming'
 import { Loader } from './Loader'
+import { TABLET_WIDTH } from '../const'
 
 type Props = {
     visible: boolean,

@@ -1,18 +1,23 @@
-import { Meta, Controls, Canvas } from '@storybook/addon-docs/blocks';
-import Settings from './Settings.stories'
+import { Meta, Controls, Story } from '@storybook/addon-docs/blocks';
+import * as Settings from './Settings.stories'
 
 <Meta of={Settings} />
 
+# Пример Settings
 
-# Пример компонента Настроек
-
+<Story>
+  <Settings.Element />
+</Story>
 
 ```tsx
-function Settings(args) {
+function Settings(props) {
     const [state, setState] = React.useState<'basic' | 'advanced'>('basic')
     return (
-      <Container >
-        <Settings {...args}>
+      <Container>
+        <Settings
+         title='Settings'
+          titleIcon={<AiFillSetting />}
+        >
           <TabBar
             options={[
               { value: 'basic' as const, title: 'General' },
@@ -21,7 +26,7 @@ function Settings(args) {
             selected={s}
             onSet={setS}
           />
-          {s === 'basic' && (
+          {state === 'basic' && (
             <>
               <SettingRow 
                   icon={<AiFillCalendar />}
@@ -43,7 +48,7 @@ function Settings(args) {
               />
             </>
           )}
-          {s === 'advanced' && (
+          {state === 'advanced' && (
             <>
              <SettingRow 
                   icon={<AiFillCalendar />}
@@ -67,3 +72,4 @@ function Settings(args) {
       </Container>
     )
 ```
+

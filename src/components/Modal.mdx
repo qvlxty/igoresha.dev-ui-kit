@@ -1,10 +1,13 @@
-import { Meta, Controls, Canvas } from '@storybook/addon-docs/blocks';
+import { Meta, Controls, Canvas, Story } from '@storybook/addon-docs/blocks';
 import * as Modal from './Modal.stories'
 
 <Meta of={Modal} />
 
-# Пример компонента Модали
+# Пример Modal
 
+<Story>
+  <Modal.Element />
+</Story>
 
 ```tsx
 function ModalSandbox(args) {
@@ -20,5 +23,3 @@ function ModalSandbox(args) {
     )
   }
 ```
-
-<Canvas of={Modal.Element} layout='fullscreen' />

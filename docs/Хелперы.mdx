@@ -1,0 +1,28 @@
+# Хелперы
+
+Библиотека провайдит ряд констант, для обработки респонсив логики отрисовки
+
+```tsx
+export const MOBILE_WIDTH = 600
+export const TABLET_WIDTH = 900
+export const LARGE_WIDTH_PX = 1024
+```
+
+## Media-query shortcuts
+
+Доступны следующие шорткаты для описания медиа-кверей:
+
+- onSmWidth
+- onMdWidth
+- onLgWidth
+
+Примеры:
+
+```tsx
+const Badge = styled.div`
+   ${onSmWidth} {
+        padding: 10px 12px;
+        font-size: 14px;
+    }
+`
+```

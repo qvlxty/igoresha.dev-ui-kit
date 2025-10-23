@@ -19,6 +19,9 @@ export const darkTheme = {
   default400: '#a5a5c0',
   default300: '#b5b5d0',
 
+  secondary500: '#29a0e6',
+  secondary400: '#125780',
 
-  error: '#F53333',
+  error500: '#c9403e',
+  error400: '#631413',
 }

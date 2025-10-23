@@ -894,6 +894,7 @@ export {
   TabBar,
   TextArea,
   ThemeProvider,
+  availableThemes,
   loadThemeFx,
   onLgWidth,
   onMdWidth,

@@ -2,8 +2,8 @@ import * as react_jsx_runtime from 'react/jsx-runtime';
 import * as React$1 from 'react';
 import React__default from 'react';
 import * as styled_components_dist_types from 'styled-components/dist/types';
-import * as styled_components from 'styled-components';
 import * as effector from 'effector';
+import * as styled_components from 'styled-components';
 
 interface Props$8 {
     url?: string;
@@ -62,6 +62,7 @@ declare const lightTheme: {
 };
 
 type Theme = typeof lightTheme;
+declare const availableThemes: Record<ThemeItem, Theme>;
 
 type ThemedStyledProps = {
     theme: Theme;
@@ -164,4 +165,4 @@ declare const NavPanel: ({ links, LinkElement }: Props) => react_jsx_runtime.JSX
 
 declare const GlobalStyled: React$1.NamedExoticComponent<styled_components.ExecutionProps & ThemedStyledProps>;
 
-export { $currentTheme, Avatar, AvatarThumb, Badge, Button, Dropdown, GlobalStyled, Input, LARGE_WIDTH_PX, LinkButton, Loader, MOBILE_WIDTH, Modal, NavPanel, ProgressBar, Range, Switch, TABLET_WIDTH, THEME_KEY, TabBar, TextArea, type ThemeItem, ThemeProvider, type ThemedStyledProps, loadThemeFx, onLgWidth, onMdWidth, onSmWidth, themeVar, toggleTheme, useTheme };
+export { $currentTheme, Avatar, AvatarThumb, Badge, Button, Dropdown, GlobalStyled, Input, LARGE_WIDTH_PX, LinkButton, Loader, MOBILE_WIDTH, Modal, NavPanel, ProgressBar, Range, Switch, TABLET_WIDTH, THEME_KEY, TabBar, TextArea, type Theme, type ThemeItem, ThemeProvider, type ThemedStyledProps, availableThemes, loadThemeFx, onLgWidth, onMdWidth, onSmWidth, themeVar, toggleTheme, useTheme };

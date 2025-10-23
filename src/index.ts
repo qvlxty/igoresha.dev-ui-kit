@@ -14,4 +14,4 @@ export * from './components/TextArea'
 export * from './components/NavPanel'
 
 export * from './theming'
-export * from './theming/global.styled'
+export { GlobalStyled } from './theming/global.styled'

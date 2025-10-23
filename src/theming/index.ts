@@ -1,5 +1,4 @@
 export { ThemeProvider } from './ThemeProvider'
 export { useTheme, themeVar } from './helpers'
 export type { ThemedStyledProps } from './types'
-export * from './model/public'
-export * from './model/const'
+export * from './model'

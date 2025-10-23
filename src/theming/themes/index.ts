@@ -1,4 +1,4 @@
-import { ThemeItem } from '../model/types'
+import { ThemeItem } from '../model'
 import { darkTheme } from './dark'
 import { lightTheme } from './light'
 

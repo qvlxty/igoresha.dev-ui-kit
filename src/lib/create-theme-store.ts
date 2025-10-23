@@ -1,27 +1,25 @@
 import { createDomain, Domain, sample } from 'effector'
 
-export const createPersistedStore = <T>(
+export const createThemeStore = (
     {
         d = createDomain(),
         defaultValue,
         key,
-        serializer = JSON.stringify,
-        deserializer = JSON.parse
     } : {
         d?: Domain, 
-        defaultValue: T, 
+        defaultValue: 'light' | 'dark', 
         key: string,
-        serializer?: (v: T) => string
-        deserializer?: (key: string) => T
     }) => {
-    const $store = d.store<T>(defaultValue)
+    const $store = d.store(defaultValue)
 
-    const loadFx = d.effect<void, T, Error>()
-    const saveFx = d.effect<T, void, Error>()
+    const loadFx = d.effect<void, 'light' | 'dark', Error>()
+    const saveFx = d.effect<'light' | 'dark', void, Error>()
+    const toggleEvent = d.event()
 
     $store
         .on(loadFx.doneData, (_, d) => d)
         .on(saveFx.done,(_, {params}) => params)
+        .on(toggleEvent, (s) => s === 'light' ? 'dark' : 'light')
 
     sample({
         clock: $store.updates,
@@ -34,17 +32,18 @@ export const createPersistedStore = <T>(
         if (d === null) {
             return defaultValue
         }
-        return deserializer(d)
+        return JSON.parse(d)
     })
 
     saveFx.use((p) => {
-        localStorage.setItem(key, serializer(p))
+        localStorage.setItem(key, JSON.stringify(p))
     })
 
     return {
         loadFx,
         saveFx,
-        $store
+        $store,
+        toggleEvent
     }
 
 }

@@ -4,7 +4,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 
 
 const meta = {
-  title: 'Loader',
+  title: 'components/Loader',
   component: Loader,
   parameters: {
     layout: 'centered',

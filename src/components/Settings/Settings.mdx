@@ -1,38 +1,15 @@
-import { Loader } from '../Loader';
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import { AiFillCalendar, AiFillSetting } from 'react-icons/ai'
+import { Meta, Controls, Canvas } from '@storybook/addon-docs/blocks';
+import Settings from './Settings.stories'
 
-import { Settings } from './Settings';
-import styled from 'styled-components';
-import { themeVar } from '../../theming';
-import React from 'react';
-import { TabBar } from '../TabBar';
-import { SettingRow } from './SettingRow';
-import { Switch } from '../Switch';
+<Meta of={Settings} />
 
-const meta = {
-  title: 'Settings',
-  component: Settings,
-  parameters: {
-    layout: 'centered',
-  },
-  tags: ['autodocs'],
-} satisfies Meta;
 
-export default meta;
-type Story = StoryObj<typeof meta>;
+# Пример компонента Настроек
 
-const Container = styled.div`
-  width: 900px;
-  padding-top: 30px;
-  background-color: ${themeVar('backgroundColor')};
-`
 
-Container.displayName = 'Container'
-
-export const Element: Story = {
-  render: function C(args) {
-    const [s, setS] = React.useState<'basic' | 'advanced'>('basic')
+```tsx
+function Settings(args) {
+    const [state, setState] = React.useState<'basic' | 'advanced'>('basic')
     return (
       <Container >
         <Settings {...args}>
@@ -89,10 +66,4 @@ export const Element: Story = {
         </Settings>
       </Container>
     )
-  },
-  args: {
-    title: "Settings",
-    titleIcon: <AiFillSetting />,
-    
-  }
-};
+```

@@ -4,7 +4,7 @@ import { AvatarThumb } from './AvatarThumb';
 
 
 const meta = {
-  title: 'AvatarThumb',
+  title: 'components/AvatarThumb',
   component: AvatarThumb,
   parameters: {
     layout: 'centered',

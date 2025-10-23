@@ -6,7 +6,7 @@ import { AiOutlineCalendar } from 'react-icons/ai'
 import { Button } from './Button';
 
 const meta = {
-  title: 'Button',
+  title: 'components/Button',
   component: Button,
   parameters: {
     layout: 'centered',

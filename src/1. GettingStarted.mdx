@@ -1,0 +1,39 @@
+import { Markdown } from '@storybook/addon-docs/blocks';
+import Readme from '../readme.md?raw';
+
+<Markdown>{Readme}</Markdown>
+
+## Установка
+
+`yarn add yarn add https://github.com/qvlxty/igoresha.dev-ui-kit`
+
+
+## Подключение в проект
+
+1. Для подключение библиотеки, необходимо подключить глобальный ThemeProvider, для глобальных стилей требуется также 
+добавить компонент `<GlobalStyled />`
+
+```tsx
+import { GlobalStyled, ThemeProvider } from 'igoresha-dev-ui-kit'
+export const App = () => {
+    {...}
+    return (
+        <ThemeProvider>
+            <>
+                <GlobalStyled />
+                {...}
+            </>
+        </ThemeProvider>
+    )
+}
+```
+
+2. Подключить шрифт Roboto в index.html
+
+```html
+<head>
+    {...}
+    <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,600,700' rel='stylesheet' type='text/css'>
+</head>
+  
+```

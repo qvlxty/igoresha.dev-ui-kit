@@ -6,13 +6,13 @@ import { useArgs } from 'storybook/internal/preview-api';
 
 
 const meta = {
-  title: 'Switch',
+  title: 'components/Switch',
   component: Switch,
   parameters: {
     layout: 'centered',
   },
   tags: ['autodocs'],
-} satisfies Meta<typeof Loader>;
+} satisfies Meta<typeof Switch>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;

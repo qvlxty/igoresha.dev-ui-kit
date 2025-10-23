@@ -5,13 +5,13 @@ import { TextArea } from './TextArea';
 
 
 const meta = {
-  title: 'TextArea',
+  title: 'components/TextArea',
   component: TextArea,
   parameters: {
     layout: 'centered',
   },
   tags: ['autodocs'],
-} satisfies Meta<typeof Loader>;
+} satisfies Meta<typeof TextArea>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;

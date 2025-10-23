@@ -4,7 +4,7 @@ import { NavPanel } from './NavPanel';
 import { AiOutlineOrderedList, AiOutlineAccountBook } from 'react-icons/ai'
 
 const meta = {
-  title: 'NavPanel',
+  title: 'components/NavPanel',
   component: NavPanel,
   tags: ['autodocs'],
 } satisfies Meta<typeof NavPanel>;

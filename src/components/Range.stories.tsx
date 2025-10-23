@@ -5,7 +5,7 @@ import { Range } from './Range';
 
 
 const meta = {
-  title: 'Range',
+  title: 'components/Range',
   component: Range,
   parameters: {
     layout: 'centered',

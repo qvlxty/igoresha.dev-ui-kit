@@ -7,16 +7,22 @@ import { Button } from './Button';
 
 
 const meta = {
-  title: 'Modal',
+  title: 'components/Modal',
   component: Modal,
   parameters: {
     layout: 'centered',
+     docs: {
+      story: {
+        inline: false,
+        iframeHeight: 700,
+      },
+    },
   },
   args: {
     children: <h1>Hello</h1>
   },
   tags: ['autodocs'],
-} satisfies Meta<typeof Loader>;
+} satisfies Meta<typeof Modal>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;

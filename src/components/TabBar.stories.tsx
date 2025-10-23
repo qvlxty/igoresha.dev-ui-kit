@@ -8,13 +8,13 @@ import { useArgs } from 'storybook/internal/preview-api';
 
 
 const meta = {
-  title: 'TabBar',
+  title: 'components/TabBar',
   component: TabBar,
   parameters: {
     layout: 'centered',
   },
   tags: ['autodocs'],
-} satisfies Meta<typeof Loader>;
+} satisfies Meta<typeof TabBar>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -23,7 +23,7 @@ export const Element: Story = {
   render: function Component(args) {
     const [, setArgs] = useArgs()
 
-    const onChange = (value) => {
+    const onChange = (value: unknown) => {
       setArgs({ selected: value })
     }
 

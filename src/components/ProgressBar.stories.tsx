@@ -6,13 +6,13 @@ import { ProgressBar } from './ProgressBar';
 
 
 const meta = {
-  title: 'ProgreeBar',
+  title: 'components/ProgreeBar',
   component: ProgressBar,
   parameters: {
     layout: 'centered',
   },
   tags: ['autodocs'],
-} satisfies Meta<typeof Dropdown>;
+} satisfies Meta<typeof ProgressBar>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;

@@ -1,0 +1,24 @@
+import { Meta, Controls, Canvas } from '@storybook/addon-docs/blocks';
+import * as Modal from './Modal.stories'
+
+<Meta of={Modal} />
+
+# Пример компонента Модали
+
+
+```tsx
+function ModalSandbox(args) {
+    const [visible, setVisible] = React.useState(false)
+
+    return (
+      <>
+        <Button onClick={() => setVisible(true)} >Modal open</Button>
+        <Modal visible={visible}} onClose={() => setVisible(false)}>
+            <h1>Hello</h1>
+        </Modal>
+      </>
+    )
+  }
+```
+
+<Canvas of={Modal.Element} layout='fullscreen' />

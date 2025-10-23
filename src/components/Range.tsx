@@ -25,7 +25,7 @@ export const Range = styled.input.attrs({ type: 'range' })`
     width: 10px;
     background: ${themeVar('accent500')};
     cursor: pointer;
-    margin-top: -8px; /* Половина разницы между высотой бегунка и трека */
+    margin-top: -8px; 
   }
   overflow: hidden;
 `

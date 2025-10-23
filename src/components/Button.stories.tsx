@@ -44,3 +44,11 @@ export const HaveIcon: Story = {
     children: <><AiOutlineCalendar />Button</>
   },
 };
+
+export const Dashed: Story = {
+  args: {
+    $dashed: true,
+    $haveIcon: true,
+    children: <><AiOutlineCalendar />Button</>
+  },
+};

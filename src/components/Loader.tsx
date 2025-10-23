@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { themeVar } from '../theming'
 
-export const Loader = styled.div`
+const Loader = styled.div`
   border: 2px solid ${themeVar('default300')};
   border-top: 2px solid ${themeVar('default700')}; 
   border-radius: 50%;
@@ -13,3 +13,7 @@ export const Loader = styled.div`
     100% { transform: rotate(360deg); }
   }
 `
+
+Loader.displayName = 'Loader'
+
+export { Loader }

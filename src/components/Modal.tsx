@@ -8,22 +8,28 @@ type Props = {
     onClose: () => void,
     children?: React.ReactNode,
     loading?: boolean,
+    style?: React.CSSProperties
 }
 
-export const Modal: React.FC<Props> = ({ visible, onClose, children, loading = false }) => {
+export const Modal: React.FC<Props> = (
+    { visible, onClose, children, loading = false, style }
+) => {
     React.useEffect(() => {
         if (visible) {
             document.body.style.overflow = 'hidden'
-            return
+        } else {
+            document.body.style.overflow = 'auto'
         }
-        document.body.style.overflow = 'auto'
+        return () => {
+            document.body.style.overflow = 'auto'
+        }
     }, [visible])
 
     if (!visible) {
         return null
     }
     return (
-        <Overlay onClick={() => onClose()} >
+        <Overlay onClick={() => onClose()} style={style}>
             {loading && <Loader />}
             {!loading && (
                 <Container onClick={(e) => e.stopPropagation()}>

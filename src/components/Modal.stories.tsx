@@ -1,6 +1,8 @@
 import { Loader } from './Loader';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Modal } from './Modal';
+import { useArgs } from 'storybook/internal/preview-api';
+import { Button } from './Button';
 
 
 
@@ -11,7 +13,7 @@ const meta = {
     layout: 'centered',
   },
   args: {
-    children: <><h1>Hello</h1></>
+    children: <h1>Hello</h1>
   },
   tags: ['autodocs'],
 } satisfies Meta<typeof Loader>;
@@ -20,6 +22,20 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Element: Story = {
+  render: function Component(args) {
+    const [, setArgs] = useArgs()
+
+    const onChange = () => {
+      setArgs({ visible: !args.visible })
+    }
+
+    return (
+      <>
+        <Button onClick={() => setArgs({ visible: true })} >Modal open</Button>
+        <Modal {...args} onClose={onChange} />
+      </>
+    )
+  },
   args: {
     visible: true,
     loading: false

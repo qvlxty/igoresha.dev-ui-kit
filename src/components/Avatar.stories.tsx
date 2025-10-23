@@ -1,25 +1,22 @@
-import { Loader } from './Loader';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-
-import { TextArea } from './TextArea';
+import { Avatar } from './Avatar';
 
 
 const meta = {
-  title: 'TextArea',
-  component: TextArea,
+  title: 'Avatar',
+  component: Avatar,
   parameters: {
     layout: 'centered',
   },
   tags: ['autodocs'],
-} satisfies Meta<typeof Loader>;
+} satisfies Meta<typeof Avatar>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Element: Story = {
     args: {
-        rows: 20,
-        cols: 100,
-        placeholder: 'Some text'
+        url: './github-logo.jpg',
+        $size: 40
     }
 };

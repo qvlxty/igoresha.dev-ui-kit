@@ -1,26 +1,35 @@
-import { useTheme } from '../theming'
+import styled, { css } from 'styled-components';
+import { themeVar } from '../theming';
 
 interface Props {
-    avatarUrl?: string;
-    size?: number;
-    isOnline?: boolean
+    url?: string;
+    $size?: number;
+    $isOnline?: boolean
+    style?: React.CSSProperties
 }
 
 export const Avatar = ({
-    avatarUrl = 'default.png',
-    size = 20,
-    isOnline,
+    url,
+    $size = 20,
+    $isOnline,
+    style
 }: Props) => {
-    const theme = useTheme()
     return (
-        <img style={{
-            cursor: 'pointer',
-            width: `${size}px`,
-            height: `${size}px`,
-            borderRadius: '50%',
-            border: isOnline
-                ? `2px solid ${theme.accent600}`
-                : undefined
-        }} src={avatarUrl} />
+        <Image 
+            $size={$size} 
+            $isOnline={$isOnline} 
+            src={url} 
+            style={style}
+        />
     )
 }
+
+const Image = styled.img<Props>`
+    cursor: pointer;
+    border-radius: 50%;
+    width: ${({$size}) => $size}px;
+    height: ${({$size}) => $size}px;
+    ${({$isOnline}) => $isOnline && css`
+        border: 2px solid ${themeVar('accent600')};
+    `}
+`

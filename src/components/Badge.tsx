@@ -4,14 +4,17 @@ import { themeVar } from '../theming'
 
 type Props = {
     color?: 'accent' | 'default',
-    size?: number
+    size?: number,
+    style?: React.CSSProperties
 }
 
-export const Badge = ({ children, color = 'accent', size }: React.PropsWithChildren<Props>) => {
+export const Badge = (
+    { children, color = 'accent', size, style }: React.PropsWithChildren<Props>) => {
     return (
         <StatusWrapper 
             size={size} 
             color={color} 
+            style={style}
         >
             {children}
         </StatusWrapper>

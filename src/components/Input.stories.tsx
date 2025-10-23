@@ -5,9 +5,6 @@ import { Input } from './Input';
 const meta = {
   title: 'Input',
   component: Input,
-  parameters: {
-    layout: 'centered',
-  },
   tags: ['autodocs'],
 } satisfies Meta<typeof Input>;
 
@@ -17,5 +14,13 @@ type Story = StoryObj<typeof meta>;
 export const Element: Story = {
   args: {
     placeholder: 'Input Text',
+  },
+};
+
+export const InputWithError: Story = {
+  args: {
+    placeholder: 'Input Text',
+    errorText: 'Wrong input',
+    hasError: true
   },
 };

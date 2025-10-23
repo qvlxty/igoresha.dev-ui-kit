@@ -1,6 +1,7 @@
 import { Loader } from './Loader';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Switch } from './Switch';
+import { useArgs } from 'storybook/internal/preview-api';
 
 
 
@@ -17,4 +18,13 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Element: Story = {
+  render: function Component(args) {
+    const [, setArgs] = useArgs()
+
+    const onChange = () => {
+      setArgs({ checked: !args.checked })
+    }
+
+    return <Switch {...args} onChange={onChange} />
+  },
 };

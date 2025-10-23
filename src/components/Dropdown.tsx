@@ -16,7 +16,7 @@ type Props<T> = {
     onOptionChange: (optionValue: T) => void
 }
 
-export const Dropdown = <T,>(
+export const Dropdown = <T extends number | string>(
     { options, onOptionChange, selected, placeholder = 'Empty', headerIcon }: Props<T>
 ) => {
     const [isOpen, setIsOpen] = React.useState(false)
@@ -61,7 +61,7 @@ export const Dropdown = <T,>(
                         <DropDownList>
                             {options.map((item) => (
                                 <ListItem
-                                    key={item.value as any}
+                                    key={item.value}
                                     onClick={() => onOptionClicked(item)}
                                 >
                                     <div>

@@ -2,19 +2,20 @@ import React from 'react'
 import styled, { css } from 'styled-components'
 import { themeVar } from '../theming'
 
-type Props = Omit<React.InputHTMLAttributes<HTMLInputElement>,'onChange'> & {
+type Props = Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange'> & {
     onChange?: (text: string) => void,
     errorText?: string,
     hasError?: boolean,
+    style?: React.CSSProperties
 }
 
 export const Input = React.forwardRef<HTMLInputElement, Props>((
-    { 
-        onChange, 
-        errorText, 
-        hasError, 
+    {
+        onChange,
+        errorText,
+        hasError,
         ...props
-     }
+    }
     , ref) => {
     return (
         <>
@@ -24,9 +25,9 @@ export const Input = React.forwardRef<HTMLInputElement, Props>((
                 $hasError={hasError}
                 {...props}
             />
-            <ErrorText>
+            {errorText && (<ErrorText>
                 {errorText}
-            </ErrorText>
+            </ErrorText>)}
         </>
     )
 })
@@ -59,5 +60,5 @@ const InputWrapper = styled.input<InputWrapperProps>`
 const ErrorText = styled.div`
     color: ${themeVar('error500')};
     font-size: 14px;
-    margin-top: 0;
+    margin-top: 4px;
 `

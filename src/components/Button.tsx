@@ -6,12 +6,13 @@ type ButtonProps = {
     $primary?: boolean
     $secondary?: boolean
     $danger?: boolean
+    $dashed?: boolean
 }
 
 const ButtonCss = css<ButtonProps & ThemedStyledProps>`
     padding: 8px 16px;
     border-radius: 6px;
-    border: 1px dashed ${themeVar('default500')};
+    border: 1px ${({$dashed}) => $dashed ? 'dashed' : 'solid' } ${themeVar('default500')};
     background: ${themeVar('default800')};
     color: ${themeVar('default400')};
     display: flex;
@@ -57,11 +58,17 @@ const ButtonCss = css<ButtonProps & ThemedStyledProps>`
     `}
 `
 
-export const Button = styled.button<ButtonProps & ThemedStyledProps>`
+
+const Button = styled.button<ButtonProps & ThemedStyledProps>`
     ${ButtonCss}
 `
 
-export const LinkButton = styled.a<ButtonProps & ThemedStyledProps>`
+const LinkButton = styled.a<ButtonProps & ThemedStyledProps>`
     ${ButtonCss}
     text-decoration: none;
 `
+
+Button.displayName = 'Button'
+LinkButton.displayName = 'LinkButton'
+
+export { Button, LinkButton }

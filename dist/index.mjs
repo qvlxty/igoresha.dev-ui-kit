@@ -1,3 +1,6 @@
+// src/components/Avatar.tsx
+import styled, { css } from "styled-components";
+
 // src/theming/ThemeProvider.tsx
 import {
   ThemeProvider as Provider
@@ -104,10 +107,6 @@ import { jsx } from "react/jsx-runtime";
 // src/theming/helpers.ts
 import React from "react";
 import { ThemeContext } from "styled-components";
-var useTheme = () => {
-  const theme2 = React.useContext(ThemeContext);
-  return theme2;
-};
 function themeVar(varName) {
   return function s({ theme: theme2 }) {
     return theme2[varName];
@@ -117,19 +116,30 @@ function themeVar(varName) {
 // src/components/Avatar.tsx
 import { jsx as jsx2 } from "react/jsx-runtime";
 var Avatar = ({
-  avatarUrl = "default.png",
-  size = 20,
-  isOnline
+  url,
+  $size = 20,
+  $isOnline,
+  style
 }) => {
-  const theme2 = useTheme();
-  return /* @__PURE__ */ jsx2("img", { style: {
-    cursor: "pointer",
-    width: `${size}px`,
-    height: `${size}px`,
-    borderRadius: "50%",
-    border: isOnline ? `2px solid ${theme2.accent600}` : void 0
-  }, src: avatarUrl });
+  return /* @__PURE__ */ jsx2(
+    Image,
+    {
+      $size,
+      $isOnline,
+      src: url,
+      style
+    }
+  );
 };
+var Image = styled.img`
+    cursor: pointer;
+    border-radius: 50%;
+    width: ${({ $size }) => $size}px;
+    height: ${({ $size }) => $size}px;
+    ${({ $isOnline }) => $isOnline && css`
+        border: 2px solid ${themeVar("accent600")};
+    `}
+`;
 
 // src/lib/gen-color-string.ts
 var stringToColor = (str, startHash = 0) => {
@@ -146,34 +156,35 @@ var stringToColor = (str, startHash = 0) => {
 };
 
 // src/components/AvatarThumb.tsx
-import styled from "styled-components";
+import styled2 from "styled-components";
 import { jsx as jsx3 } from "react/jsx-runtime";
-var AvatarThumb = ({ nickname, style }) => {
-  return /* @__PURE__ */ jsx3(Wrap, { style: { ...style, backgroundColor: stringToColor(nickname) }, children: nickname[0].toUpperCase() });
-};
-var Wrap = styled.div`
+var AvatarThumb = ({ nickname, style }) => /* @__PURE__ */ jsx3(Wrap, { style: { ...style, backgroundColor: stringToColor(nickname) }, children: nickname[0].toUpperCase() });
+var Wrap = styled2.div`
     width: 32px;
     height: 32px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
+    color: ${themeVar("backgroundColor")};
+
 `;
 
 // src/components/Badge.tsx
-import styled2, { css } from "styled-components";
+import styled3, { css as css2 } from "styled-components";
 import { jsx as jsx4 } from "react/jsx-runtime";
-var Badge = ({ children, color = "accent", size }) => {
+var Badge = ({ children, color = "accent", size, style }) => {
   return /* @__PURE__ */ jsx4(
     StatusWrapper,
     {
       size,
       color,
+      style,
       children
     }
   );
 };
-var StatusWrapper = styled2.div`
+var StatusWrapper = styled3.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -186,24 +197,24 @@ var StatusWrapper = styled2.div`
   padding-left: 15px;
   padding-right: 15px;
   
-  ${({ size }) => size && css`
+  ${({ size }) => size && css2`
       font-size: ${size}px;
   `}
 `;
 
 // src/components/Button.tsx
-import styled3, { css as css2 } from "styled-components";
-var ButtonCss = css2`
+import styled4, { css as css3 } from "styled-components";
+var ButtonCss = css3`
     padding: 8px 16px;
     border-radius: 6px;
-    border: 1px dashed ${themeVar("default500")};
+    border: 1px ${({ $dashed }) => $dashed ? "dashed" : "solid"} ${themeVar("default500")};
     background: ${themeVar("default800")};
     color: ${themeVar("default400")};
     display: flex;
     align-items: center;
     font-size: 16px;
     cursor: pointer;
-    ${({ $haveIcon }) => $haveIcon && css2`
+    ${({ $haveIcon }) => $haveIcon && css3`
         svg {
             margin-right: 8px;
         }
@@ -213,7 +224,7 @@ var ButtonCss = css2`
         background: ${themeVar("default500")};
         transition: 0.2s;
     }
-    ${({ $primary }) => $primary && css2`
+    ${({ $primary }) => $primary && css3`
         background: ${themeVar("accent500")};
         color: #fff;
         border: none;
@@ -222,7 +233,7 @@ var ButtonCss = css2`
             background: ${themeVar("accent400")};
         }
     `}
-    ${({ $secondary }) => $secondary && css2`
+    ${({ $secondary }) => $secondary && css3`
         background: ${themeVar("secondary500")};
         color: #fff;
         border: none;
@@ -231,7 +242,7 @@ var ButtonCss = css2`
             color: #fff;
         }
     `}
-    ${({ $danger }) => $danger && css2`
+    ${({ $danger }) => $danger && css3`
         background: ${themeVar("error500")};
         color: #fff;
         border: none;
@@ -241,17 +252,17 @@ var ButtonCss = css2`
         }
     `}
 `;
-var Button = styled3.button`
+var Button = styled4.button`
     ${ButtonCss}
 `;
-var LinkButton = styled3.a`
+var LinkButton = styled4.a`
     ${ButtonCss}
     text-decoration: none;
 `;
 
 // src/components/Dropdown.tsx
 import React2 from "react";
-import styled4 from "styled-components";
+import styled5 from "styled-components";
 import { jsx as jsx5, jsxs } from "react/jsx-runtime";
 var Dropdown = ({ options, onOptionChange, selected, placeholder = "Empty", headerIcon }) => {
   const [isOpen, setIsOpen] = React2.useState(false);
@@ -296,13 +307,13 @@ var Dropdown = ({ options, onOptionChange, selected, placeholder = "Empty", head
     )) }) }) })
   ] });
 };
-var DropDownContainer = styled4.div`
+var DropDownContainer = styled5.div`
     width: 240px;
     ${onSmWidth} {
         width: 100%;
     }
 `;
-var DropDownHeader = styled4.div`
+var DropDownHeader = styled5.div`
     border-radius: 4px;
     border: 1px solid ${themeVar("default800")};
     padding: 14px;
@@ -320,12 +331,12 @@ var DropDownHeader = styled4.div`
         border: 1px solid ${themeVar("default600")};
     }
 `;
-var DropDownWrapper = styled4.div`
+var DropDownWrapper = styled5.div`
     position: relative;
     z-index: 1;
 
 `;
-var DropDownListContainer = styled4.div`
+var DropDownListContainer = styled5.div`
     position: absolute;
     height: 0;
     border-radius: 4px;
@@ -333,7 +344,7 @@ var DropDownListContainer = styled4.div`
     width: 240px;
     right:0;
 `;
-var DropDownList = styled4.ul`
+var DropDownList = styled5.ul`
     padding: 0;
     margin: 0;
     margin-top: -4px;
@@ -349,7 +360,7 @@ var DropDownList = styled4.ul`
     max-height: 80vh;
     overflow-y: auto;
 `;
-var ListItem = styled4.li`
+var ListItem = styled5.li`
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -370,7 +381,7 @@ var ListItem = styled4.li`
 
 // src/components/Input.tsx
 import React3 from "react";
-import styled5, { css as css3 } from "styled-components";
+import styled6, { css as css4 } from "styled-components";
 import { Fragment, jsx as jsx6, jsxs as jsxs2 } from "react/jsx-runtime";
 var Input = React3.forwardRef(({
   onChange,
@@ -388,10 +399,10 @@ var Input = React3.forwardRef(({
         ...props
       }
     ),
-    /* @__PURE__ */ jsx6(ErrorText, { children: errorText })
+    errorText && /* @__PURE__ */ jsx6(ErrorText, { children: errorText })
   ] });
 });
-var InputWrapper = styled5.input`
+var InputWrapper = styled6.input`
     flex-direction: row;
     font-size: 16px;
     padding: 10px;
@@ -403,7 +414,7 @@ var InputWrapper = styled5.input`
         outline: none;
         border: 1px solid ${themeVar("default600")};
     }
-    ${({ $hasError }) => $hasError && css3`
+    ${({ $hasError }) => $hasError && css4`
         border-color: ${themeVar("error500")};
     `}
     &::placeholder {
@@ -411,15 +422,15 @@ var InputWrapper = styled5.input`
         font-weight: 300;
     }
 `;
-var ErrorText = styled5.div`
+var ErrorText = styled6.div`
     color: ${themeVar("error500")};
     font-size: 14px;
-    margin-top: 0;
+    margin-top: 4px;
 `;
 
 // src/components/Loader.tsx
-import styled6 from "styled-components";
-var Loader = styled6.div`
+import styled7 from "styled-components";
+var Loader = styled7.div`
   border: 2px solid ${themeVar("default300")};
   border-top: 2px solid ${themeVar("default700")}; 
   border-radius: 50%;
@@ -434,9 +445,9 @@ var Loader = styled6.div`
 
 // src/components/Modal.tsx
 import React4 from "react";
-import styled7 from "styled-components";
+import styled8 from "styled-components";
 import { jsx as jsx7, jsxs as jsxs3 } from "react/jsx-runtime";
-var Modal = ({ visible, onClose, children, loading = false }) => {
+var Modal = ({ visible, onClose, children, loading = false, style }) => {
   React4.useEffect(() => {
     if (visible) {
       document.body.style.overflow = "hidden";
@@ -447,12 +458,12 @@ var Modal = ({ visible, onClose, children, loading = false }) => {
   if (!visible) {
     return null;
   }
-  return /* @__PURE__ */ jsxs3(Overlay, { onClick: () => onClose(), children: [
+  return /* @__PURE__ */ jsxs3(Overlay, { onClick: () => onClose(), style, children: [
     loading && /* @__PURE__ */ jsx7(Loader, {}),
     !loading && /* @__PURE__ */ jsx7(Container, { onClick: (e) => e.stopPropagation(), children })
   ] });
 };
-var Container = styled7.div`
+var Container = styled8.div`
     background-color: ${themeVar("backgroundColor")};
     width: 85vw;
     padding: 30px;
@@ -463,7 +474,7 @@ var Container = styled7.div`
     overflow-y: auto;
     box-shadow: 0, 0, 8px, #111;
 `;
-var Overlay = styled7.div`
+var Overlay = styled8.div`
     z-index: 20;
     width: 100vw;
     height: 100vh;
@@ -480,13 +491,10 @@ var Overlay = styled7.div`
 `;
 
 // src/components/ProgressBar.tsx
-import styled8 from "styled-components";
+import styled9 from "styled-components";
 import { jsx as jsx8 } from "react/jsx-runtime";
-var ProgressBar = ({ completed }) => {
-  const completedClamped = Math.min(Math.max(completed, 15), 100);
-  return /* @__PURE__ */ jsx8(Container2, { children: /* @__PURE__ */ jsx8(Filter, { completed: completedClamped }) });
-};
-var Container2 = styled8.div`
+var ProgressBar = ({ completed, style }) => /* @__PURE__ */ jsx8(Container2, { style, children: /* @__PURE__ */ jsx8(Filter, { completed }) });
+var Container2 = styled9.div`
     border-radius: 50px;
     background-color: ${themeVar("default400")};
     text-align: center;
@@ -494,16 +502,18 @@ var Container2 = styled8.div`
     flex-grow: 1;
     height: 40px;
 `;
-var Filter = styled8.div`
+var Filter = styled9.div`
     height: 40px;
     width: ${({ completed }) => completed}%;
+    max-width: 100%;
+    min-width: 15%;
     border-radius: inherit;
     background-color: ${themeVar("default700")};
 `;
 
 // src/components/Range.tsx
-import styled9 from "styled-components";
-var Range = styled9.input.attrs({ type: "range" })`
+import styled10 from "styled-components";
+var Range = styled10.input.attrs({ type: "range" })`
   &[type='range'] {
     outline: none;
     -webkit-appearance: none;
@@ -527,30 +537,31 @@ var Range = styled9.input.attrs({ type: "range" })`
     width: 10px;
     background: ${themeVar("accent500")};
     cursor: pointer;
-    margin-top: -8px; /* Половина разницы между высотой бегунка и трека */
+    margin-top: -8px; 
   }
   overflow: hidden;
 `;
 
 // src/components/Switch.tsx
-import styled10 from "styled-components";
+import styled11 from "styled-components";
 import { jsx as jsx9, jsxs as jsxs4 } from "react/jsx-runtime";
 var Switch = ({ checked, onChange, disabled }) => /* @__PURE__ */ jsx9(Container3, { children: /* @__PURE__ */ jsxs4(Label, { className: "switch", children: [
   /* @__PURE__ */ jsx9(Input2, { type: "checkbox", checked, onChange, disabled }),
   /* @__PURE__ */ jsx9("span", { className: "slider round" })
 ] }) });
-var Label = styled10.label`
+var Label = styled11.label`
     position: relative;
-    display: inline-block;
+    display: block;
     width: 40px;
-    height: 20px;
+    height: 18px;
+    margin-left: 0;
 `;
-var Input2 = styled10.input`
+var Input2 = styled11.input`
     opacity: 0;
     width: 0;
     height: 0;
 `;
-var Container3 = styled10.div`
+var Container3 = styled11.div`
 & {
   .slider {
     position: absolute;
@@ -559,7 +570,7 @@ var Container3 = styled10.div`
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: ${themeVar("default600")};
+    background-color: ${themeVar("default500")};
     -webkit-transition: .4s;
     transition: .4s;
   }
@@ -567,21 +578,25 @@ var Container3 = styled10.div`
   .slider:before {
     position: absolute;
     content: "";
-    height: 13px;
-    width: 13px;
+    height: 12px;
+    width: 12px;
     left: 4px;
-    bottom: 4px;
+    bottom: 3px;
     background-color: white;
     -webkit-transition: .4s;
     transition: .4s;
   }
 
+  
   input:checked + .slider {
     background-color: ${themeVar("accent500")};
   }
-
+  
   input:focus + .slider {
     box-shadow: 0 0 1px ${themeVar("accent500")};
+  }
+  input:disabled + .slider { 
+    background-color: ${themeVar("default600")};
   }
 
   input:checked + .slider:before {
@@ -601,7 +616,7 @@ var Container3 = styled10.div`
 `;
 
 // src/components/TabBar.tsx
-import styled11, { css as css5 } from "styled-components";
+import styled12, { css as css6 } from "styled-components";
 import { jsx as jsx10 } from "react/jsx-runtime";
 var TabBar = ({ options, selected, onSet }) => {
   return /* @__PURE__ */ jsx10(Container4, { children: options.map((item, index) => /* @__PURE__ */ jsx10(
@@ -614,7 +629,7 @@ var TabBar = ({ options, selected, onSet }) => {
     index
   )) });
 };
-var Item = styled11.div`
+var Item = styled12.div`
     font-size: 16px;
     white-space: nowrap;
     padding: 16px 18px;
@@ -625,7 +640,7 @@ var Item = styled11.div`
     align-items: center;
     justify-content: center;
     color: ${themeVar("default400")};
-    ${({ $active }) => $active && css5`
+    ${({ $active }) => $active && css6`
         color: ${themeVar("accent500")};
     `}
     &:hover {
@@ -638,7 +653,7 @@ var Item = styled11.div`
         font-size: 14px;
     }
 `;
-var Container4 = styled11.div`
+var Container4 = styled12.div`
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -650,38 +665,48 @@ var Container4 = styled11.div`
 `;
 
 // src/components/TextArea.tsx
-import styled12 from "styled-components";
+import styled13, { css as css7 } from "styled-components";
 import React5 from "react";
-import { jsx as jsx11 } from "react/jsx-runtime";
-var TextArea = React5.forwardRef(
-  ({
-    onChange,
-    errorText,
-    hasError,
-    ...props
-  }, ref) => /* @__PURE__ */ jsx11(
+import { Fragment as Fragment2, jsx as jsx11, jsxs as jsxs5 } from "react/jsx-runtime";
+var TextArea = React5.forwardRef(({
+  onChange,
+  $errorText,
+  $hasError,
+  ...props
+}, ref) => /* @__PURE__ */ jsxs5(Fragment2, { children: [
+  /* @__PURE__ */ jsx11(
     Wrapper,
     {
       ref,
+      $hasError,
       onChange: (e) => onChange?.(e.target.value),
       ...props
     }
-  )
-);
-var Wrapper = styled12.textarea`
-  font-size: 16px;
-  font-family: 'roboto';
-  padding: 10px;
-  border-radius: 4px;
-  background: ${themeVar("backgroundColor")};
-  border: 1px solid ${themeVar("default500")};
-  color: ${themeVar("fontColor")};
-  width: 100%;
+  ),
+  $errorText && /* @__PURE__ */ jsx11(ErrorText2, { children: $errorText })
+] }));
+var Wrapper = styled13.textarea`
+    font-size: 16px;
+    font-family: 'roboto';
+    padding: 10px;
+    border-radius: 4px;
+    background: ${themeVar("contentBg")};
+    color: ${themeVar("fontColor")};
+    width: 100%;
+    border: 1px solid ${themeVar("default800")};
 
-  &:focus {
+    &:focus {
         outline: none;
         box-shadow: 0px 0px 2px #${themeVar("accent600")};
     }
+    ${({ $hasError }) => $hasError && css7`
+        border-color: ${themeVar("error500")};
+    `}
+`;
+var ErrorText2 = styled13.div`
+    color: ${themeVar("error500")};
+    font-size: 14px;
+    margin-top: 4px;
 `;
 export {
   Avatar,

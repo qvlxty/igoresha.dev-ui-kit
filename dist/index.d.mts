@@ -5,11 +5,12 @@ import * as styled_components_dist_types from 'styled-components/dist/types';
 import * as styled_components from 'styled-components';
 
 interface Props$7 {
-    avatarUrl?: string;
-    size?: number;
-    isOnline?: boolean;
+    url?: string;
+    $size?: number;
+    $isOnline?: boolean;
+    style?: React.CSSProperties;
 }
-declare const Avatar: ({ avatarUrl, size, isOnline, }: Props$7) => react_jsx_runtime.JSX.Element;
+declare const Avatar: ({ url, $size, $isOnline, style }: Props$7) => react_jsx_runtime.JSX.Element;
 
 type Props$6 = {
     nickname: string;
@@ -20,8 +21,9 @@ declare const AvatarThumb: ({ nickname, style }: Props$6) => react_jsx_runtime.J
 type Props$5 = {
     color?: 'accent' | 'default';
     size?: number;
+    style?: React__default.CSSProperties;
 };
-declare const Badge: ({ children, color, size }: React__default.PropsWithChildren<Props$5>) => react_jsx_runtime.JSX.Element;
+declare const Badge: ({ children, color, size, style }: React__default.PropsWithChildren<Props$5>) => react_jsx_runtime.JSX.Element;
 
 declare const lightTheme: {
     backgroundColor: string;
@@ -59,6 +61,7 @@ type ButtonProps = {
     $primary?: boolean;
     $secondary?: boolean;
     $danger?: boolean;
+    $dashed?: boolean;
 };
 declare const Button: styled_components_dist_types.IStyledComponentBase<"web", styled_components_dist_types.Substitute<React$1.DetailedHTMLProps<React$1.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>, ButtonProps & ThemedStyledProps>> & string;
 declare const LinkButton: styled_components_dist_types.IStyledComponentBase<"web", styled_components_dist_types.Substitute<React$1.DetailedHTMLProps<React$1.AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement>, ButtonProps & ThemedStyledProps>> & string;
@@ -75,12 +78,13 @@ type Props$4<T> = {
     headerIcon?: React__default.ReactNode;
     onOptionChange: (optionValue: T) => void;
 };
-declare const Dropdown: <T>({ options, onOptionChange, selected, placeholder, headerIcon }: Props$4<T>) => react_jsx_runtime.JSX.Element;
+declare const Dropdown: <T extends number | string>({ options, onOptionChange, selected, placeholder, headerIcon }: Props$4<T>) => react_jsx_runtime.JSX.Element;
 
 declare const Input: React__default.ForwardRefExoticComponent<Omit<React__default.InputHTMLAttributes<HTMLInputElement>, "onChange"> & {
     onChange?: (text: string) => void;
     errorText?: string;
     hasError?: boolean;
+    style?: React__default.CSSProperties;
 } & React__default.RefAttributes<HTMLInputElement>>;
 
 declare const Loader: styled_components_dist_types.IStyledComponentBase<"web", styled_components.FastOmit<React$1.DetailedHTMLProps<React$1.HTMLAttributes<HTMLDivElement>, HTMLDivElement>, never>> & string;
@@ -90,19 +94,21 @@ type Props$3 = {
     onClose: () => void;
     children?: React__default.ReactNode;
     loading?: boolean;
+    style?: React__default.CSSProperties;
 };
 declare const Modal: React__default.FC<Props$3>;
 
 type Props$2 = {
     completed: number;
+    style?: React.CSSProperties;
 };
-declare const ProgressBar: ({ completed }: Props$2) => react_jsx_runtime.JSX.Element;
+declare const ProgressBar: ({ completed, style }: Props$2) => react_jsx_runtime.JSX.Element;
 
 declare const Range: styled_components_dist_types.IStyledComponentBase<"web", styled_components.FastOmit<styled_components.FastOmit<styled_components_dist_types.Substitute<React$1.DetailedHTMLProps<React$1.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>, React$1.DetailedHTMLProps<React$1.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>>, never>, never>> & string;
 
 type Props$1 = {
     checked: boolean;
-    onChange: (state: any) => void;
+    onChange: () => void;
     disabled?: boolean;
 };
 declare const Switch: ({ checked, onChange, disabled }: Props$1) => react_jsx_runtime.JSX.Element;
@@ -119,8 +125,8 @@ declare const TabBar: <T>({ options, selected, onSet }: Props<T>) => react_jsx_r
 
 declare const TextArea: React__default.ForwardRefExoticComponent<Omit<React__default.TextareaHTMLAttributes<HTMLTextAreaElement>, "onChange"> & {
     onChange?: (text: string) => void;
-    errorText?: string;
-    hasError?: boolean;
+    $errorText?: string;
+    $hasError?: boolean;
 } & React__default.RefAttributes<HTMLTextAreaElement>>;
 
 export { Avatar, AvatarThumb, Badge, Button, Dropdown, Input, LinkButton, Loader, Modal, ProgressBar, Range, Switch, TabBar, TextArea };

@@ -763,6 +763,7 @@ var Wrapper3 = styled13.div`
         border-radius: 50%;
         padding: 8px;
         cursor: pointer;
+        background: ${themeVar("default800")};
         & * {
             color: ${themeVar("default500")};
         }
@@ -810,11 +811,6 @@ var GlobalStyled = createGlobalStyle`
         margin: 0;
         color: ${themeVar("fontColor")};
         padding: 0;
-    }
-
-    @font-face {
-        font-family: Roboto mono;
-        src: url('/fonts/RobotoMono-Regular.ttf');
     }
 
 

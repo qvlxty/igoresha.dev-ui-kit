@@ -91,6 +91,7 @@ const Wrapper = styled.div`
         border-radius: 50%;
         padding: 8px;
         cursor: pointer;
+        background: ${themeVar('default800')};
         & * {
             color: ${themeVar('default500')};
         }

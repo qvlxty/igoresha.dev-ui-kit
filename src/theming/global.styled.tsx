@@ -31,11 +31,6 @@ export const GlobalStyled = createGlobalStyle`
         padding: 0;
     }
 
-    @font-face {
-        font-family: Roboto mono;
-        src: url('/fonts/RobotoMono-Regular.ttf');
-    }
-
 
     @keyframes fadeout
     { 

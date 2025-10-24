@@ -825,6 +825,7 @@ var Wrapper3 = import_styled_components15.default.div`
         border-radius: 50%;
         padding: 8px;
         cursor: pointer;
+        background: ${themeVar("default800")};
         & * {
             color: ${themeVar("default500")};
         }
@@ -872,11 +873,6 @@ var GlobalStyled = import_styled_components16.createGlobalStyle`
         margin: 0;
         color: ${themeVar("fontColor")};
         padding: 0;
-    }
-
-    @font-face {
-        font-family: Roboto mono;
-        src: url('/fonts/RobotoMono-Regular.ttf');
     }
 
 

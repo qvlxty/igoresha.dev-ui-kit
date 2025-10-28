@@ -45,6 +45,8 @@ __export(index_exports, {
   NavPanel: () => NavPanel,
   ProgressBar: () => ProgressBar,
   Range: () => Range,
+  SettingRow: () => SettingRow,
+  Settings: () => Settings,
   Switch: () => Switch,
   TABLET_WIDTH: () => TABLET_WIDTH,
   THEME_KEY: () => THEME_KEY,
@@ -844,9 +846,94 @@ var Separator = import_styled_components15.default.div`
     flex-grow: 1;
 `;
 
+// src/components/Settings/Settings.tsx
+var import_styled_components16 = __toESM(require("styled-components"));
+var import_jsx_runtime12 = require("react/jsx-runtime");
+var Settings = ({
+  children,
+  containerStyle,
+  title,
+  titleIcon
+}) => {
+  return /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)(
+    Container7,
+    {
+      style: containerStyle,
+      children: [
+        /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)(Header2, { children: [
+          titleIcon,
+          /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("h1", { children: title })
+        ] }),
+        children
+      ]
+    }
+  );
+};
+var Container7 = import_styled_components16.default.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding-left: 24px;
+  padding-right: 24px;
+  padding-bottom: 86px;
+  box-sizing: border-box;
+  gap: 12px;
+`;
+var Header2 = import_styled_components16.default.div`
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    gap: 12px;
+    svg {
+        width: 24px;
+        height: 24px;
+    }
+`;
+
+// src/components/Settings/SettingRow.tsx
+var import_styled_components17 = __toESM(require("styled-components"));
+var import_jsx_runtime13 = require("react/jsx-runtime");
+var SettingRow = ({ title, icon, option, description }) => {
+  return /* @__PURE__ */ (0, import_jsx_runtime13.jsxs)(Container8, { children: [
+    /* @__PURE__ */ (0, import_jsx_runtime13.jsxs)(Title, { children: [
+      icon,
+      title,
+      description && /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(Description, { children: description })
+    ] }),
+    option
+  ] });
+};
+var Container8 = import_styled_components17.default.div`
+    display: flex;
+    flex-direction: row;
+    padding: 12px;
+    width: 100%;
+    box-sizing: border-box;
+    gap: 10px;
+    align-items: center;
+    border-top: 1px solid ${themeVar("default700")};
+`;
+var Title = import_styled_components17.default.div`
+    font-size: 16px;
+    flex: 1;
+    svg {
+        margin-right: 8px;
+        margin-bottom: -2px;
+    }    
+`;
+var Description = import_styled_components17.default.div`
+    font-size: 14px;
+    background-color: ${themeVar("default400")}09;
+    margin-top: 6px;
+    max-width: 360px;
+    padding: 8px;
+    border-radius: 12px;
+
+`;
+
 // src/theming/global.styled.tsx
-var import_styled_components16 = require("styled-components");
-var GlobalStyled = import_styled_components16.createGlobalStyle`
+var import_styled_components18 = require("styled-components");
+var GlobalStyled = import_styled_components18.createGlobalStyle`
     body {
         margin: 0;
         padding: 0;
@@ -914,6 +1001,8 @@ var GlobalStyled = import_styled_components16.createGlobalStyle`
   NavPanel,
   ProgressBar,
   Range,
+  SettingRow,
+  Settings,
   Switch,
   TABLET_WIDTH,
   THEME_KEY,

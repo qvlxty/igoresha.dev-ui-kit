@@ -11,6 +11,8 @@ export * from './components/Switch'
 export * from './components/TabBar'
 export * from './components/TextArea'
 export * from './components/NavPanel/NavPanel'
+export * from './components/Settings/Settings'
+export * from './components/Settings/SettingRow'
 
 export * from './theming'
 export { GlobalStyled } from './theming/global.styled'

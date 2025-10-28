@@ -782,6 +782,91 @@ var Separator = styled13.div`
     flex-grow: 1;
 `;
 
+// src/components/Settings/Settings.tsx
+import styled14 from "styled-components";
+import { jsx as jsx12, jsxs as jsxs7 } from "react/jsx-runtime";
+var Settings = ({
+  children,
+  containerStyle,
+  title,
+  titleIcon
+}) => {
+  return /* @__PURE__ */ jsxs7(
+    Container7,
+    {
+      style: containerStyle,
+      children: [
+        /* @__PURE__ */ jsxs7(Header2, { children: [
+          titleIcon,
+          /* @__PURE__ */ jsx12("h1", { children: title })
+        ] }),
+        children
+      ]
+    }
+  );
+};
+var Container7 = styled14.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding-left: 24px;
+  padding-right: 24px;
+  padding-bottom: 86px;
+  box-sizing: border-box;
+  gap: 12px;
+`;
+var Header2 = styled14.div`
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    gap: 12px;
+    svg {
+        width: 24px;
+        height: 24px;
+    }
+`;
+
+// src/components/Settings/SettingRow.tsx
+import styled15 from "styled-components";
+import { jsx as jsx13, jsxs as jsxs8 } from "react/jsx-runtime";
+var SettingRow = ({ title, icon, option, description }) => {
+  return /* @__PURE__ */ jsxs8(Container8, { children: [
+    /* @__PURE__ */ jsxs8(Title, { children: [
+      icon,
+      title,
+      description && /* @__PURE__ */ jsx13(Description, { children: description })
+    ] }),
+    option
+  ] });
+};
+var Container8 = styled15.div`
+    display: flex;
+    flex-direction: row;
+    padding: 12px;
+    width: 100%;
+    box-sizing: border-box;
+    gap: 10px;
+    align-items: center;
+    border-top: 1px solid ${themeVar("default700")};
+`;
+var Title = styled15.div`
+    font-size: 16px;
+    flex: 1;
+    svg {
+        margin-right: 8px;
+        margin-bottom: -2px;
+    }    
+`;
+var Description = styled15.div`
+    font-size: 14px;
+    background-color: ${themeVar("default400")}09;
+    margin-top: 6px;
+    max-width: 360px;
+    padding: 8px;
+    border-radius: 12px;
+
+`;
+
 // src/theming/global.styled.tsx
 import { createGlobalStyle } from "styled-components";
 var GlobalStyled = createGlobalStyle`
@@ -851,6 +936,8 @@ export {
   NavPanel,
   ProgressBar,
   Range,
+  SettingRow,
+  Settings,
   Switch,
   TABLET_WIDTH,
   THEME_KEY,

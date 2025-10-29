@@ -23,7 +23,7 @@ const Container = styled.div`
 
 
 const Filter = styled.div<Props>`
-    height: 40px;
+    height: 100%;
     width: ${({ completed }) => completed}%;
     max-width: 100%;
     min-width: 15%;

@@ -557,7 +557,7 @@ var Container3 = import_styled_components10.default.div`
     height: 40px;
 `;
 var Filter = import_styled_components10.default.div`
-    height: 40px;
+    height: 100%;
     width: ${({ completed }) => completed}%;
     max-width: 100%;
     min-width: 15%;

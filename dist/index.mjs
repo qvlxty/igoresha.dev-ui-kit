@@ -493,7 +493,7 @@ var Container3 = styled8.div`
     height: 40px;
 `;
 var Filter = styled8.div`
-    height: 40px;
+    height: 100%;
     width: ${({ completed }) => completed}%;
     max-width: 100%;
     min-width: 15%;

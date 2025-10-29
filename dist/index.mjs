@@ -820,10 +820,6 @@ var Header2 = styled14.div`
     align-items: center;
     flex-direction: row;
     gap: 12px;
-    svg {
-        width: 24px;
-        height: 24px;
-    }
 `;
 
 // src/components/Settings/SettingRow.tsx

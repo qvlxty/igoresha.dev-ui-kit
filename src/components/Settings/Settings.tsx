@@ -44,8 +44,4 @@ const Header = styled.div`
     align-items: center;
     flex-direction: row;
     gap: 12px;
-    svg {
-        width: 24px;
-        height: 24px;
-    }
 `

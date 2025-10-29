@@ -884,10 +884,6 @@ var Header2 = import_styled_components16.default.div`
     align-items: center;
     flex-direction: row;
     gap: 12px;
-    svg {
-        width: 24px;
-        height: 24px;
-    }
 `;
 
 // src/components/Settings/SettingRow.tsx

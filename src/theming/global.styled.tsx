@@ -46,6 +46,7 @@ export const GlobalStyled = createGlobalStyle`
 
     a {
         color: ${themeVar('accent500')};
+        text-decoration: none;
     }
 
     h1, h2, h3 {

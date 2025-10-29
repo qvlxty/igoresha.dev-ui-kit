@@ -171,8 +171,9 @@ type Props = {
     title: string;
     description?: string;
     option: React__default.ReactElement;
+    containerStyle?: React__default.CSSProperties;
 };
-declare const SettingRow: ({ title, icon, option, description }: Props) => react_jsx_runtime.JSX.Element;
+declare const SettingRow: ({ title, icon, option, description, containerStyle }: Props) => react_jsx_runtime.JSX.Element;
 
 declare const GlobalStyled: React$1.NamedExoticComponent<styled_components.ExecutionProps & ThemedStyledProps>;
 

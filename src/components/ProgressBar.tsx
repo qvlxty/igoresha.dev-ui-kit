@@ -8,7 +8,7 @@ type Props = {
 
 export const ProgressBar = ({ completed, style }: Props) => (
   <Container style={style}>
-    <Filter completed={completed} />
+    {completed > 0 && (<Filter completed={completed} />)}
   </Container>
 )
 

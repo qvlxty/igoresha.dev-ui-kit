@@ -16,6 +16,11 @@ const meta = {
       },
     },
   },
+  argTypes: {
+    children: {
+      control: false
+    }
+  },
   args: {
     children: <h1>Hello</h1>
   },

@@ -6,11 +6,12 @@ type Props = {
     icon?: React.ReactNode
     title: string,
     description?: string
-    option: React.ReactElement
+    option: React.ReactElement,
+    containerStyle?: React.CSSProperties
 }
-export const SettingRow = ({ title, icon, option, description }: Props) => {
+export const SettingRow = ({ title, icon, option, description, containerStyle }: Props) => {
     return (
-        <Container>
+        <Container style={containerStyle}>
             <Title>
                 {icon}
                 {title}
@@ -34,6 +35,9 @@ const Container = styled.div`
     gap: 10px;
     align-items: center;
     border-top: 1px solid ${themeVar('default700')};
+    &:first-child {
+        border-top: 1px solid #00000000;
+    }
 `
 
 const Title = styled.div`

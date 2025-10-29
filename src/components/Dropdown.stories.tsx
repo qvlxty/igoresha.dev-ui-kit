@@ -17,6 +17,14 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Primary: Story = {
+  argTypes: {
+    options: {
+      control: false
+    },
+    headerIcon: {
+      control: false
+    }
+  },
   args: {
     placeholder: 'Dropdown',
     selected: 0,

@@ -547,7 +547,7 @@ var Overlay = import_styled_components9.default.div`
 // src/components/ProgressBar.tsx
 var import_styled_components10 = __toESM(require("styled-components"));
 var import_jsx_runtime7 = require("react/jsx-runtime");
-var ProgressBar = ({ completed, style }) => /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(Container3, { style, children: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(Filter, { completed }) });
+var ProgressBar = ({ completed, style }) => /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(Container3, { style, children: completed > 0 && /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(Filter, { completed }) });
 var Container3 = import_styled_components10.default.div`
     border-radius: 50px;
     background-color: ${themeVar("default400")};
@@ -742,7 +742,7 @@ var TextArea = import_react5.default.forwardRef(({
 var Wrapper2 = import_styled_components14.default.textarea`
     font-size: 16px;
     font-family: 'roboto';
-    padding: 10px;
+    padding: 16px;
     border-radius: 4px;
     background: ${themeVar("contentBg")};
     color: ${themeVar("fontColor")};
@@ -893,8 +893,8 @@ var Header2 = import_styled_components16.default.div`
 // src/components/Settings/SettingRow.tsx
 var import_styled_components17 = __toESM(require("styled-components"));
 var import_jsx_runtime13 = require("react/jsx-runtime");
-var SettingRow = ({ title, icon, option, description }) => {
-  return /* @__PURE__ */ (0, import_jsx_runtime13.jsxs)(Container8, { children: [
+var SettingRow = ({ title, icon, option, description, containerStyle }) => {
+  return /* @__PURE__ */ (0, import_jsx_runtime13.jsxs)(Container8, { style: containerStyle, children: [
     /* @__PURE__ */ (0, import_jsx_runtime13.jsxs)(Title, { children: [
       icon,
       title,
@@ -912,6 +912,9 @@ var Container8 = import_styled_components17.default.div`
     gap: 10px;
     align-items: center;
     border-top: 1px solid ${themeVar("default700")};
+    &:first-child {
+        border-top: 1px solid #00000000;
+    }
 `;
 var Title = import_styled_components17.default.div`
     font-size: 16px;
@@ -977,6 +980,7 @@ var GlobalStyled = import_styled_components18.createGlobalStyle`
 
     a {
         color: ${themeVar("accent500")};
+        text-decoration: none;
     }
 
     h1, h2, h3 {

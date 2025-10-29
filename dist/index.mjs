@@ -483,7 +483,7 @@ var Overlay = styled7.div`
 // src/components/ProgressBar.tsx
 import styled8 from "styled-components";
 import { jsx as jsx7 } from "react/jsx-runtime";
-var ProgressBar = ({ completed, style }) => /* @__PURE__ */ jsx7(Container3, { style, children: /* @__PURE__ */ jsx7(Filter, { completed }) });
+var ProgressBar = ({ completed, style }) => /* @__PURE__ */ jsx7(Container3, { style, children: completed > 0 && /* @__PURE__ */ jsx7(Filter, { completed }) });
 var Container3 = styled8.div`
     border-radius: 50px;
     background-color: ${themeVar("default400")};
@@ -678,7 +678,7 @@ var TextArea = React5.forwardRef(({
 var Wrapper2 = styled12.textarea`
     font-size: 16px;
     font-family: 'roboto';
-    padding: 10px;
+    padding: 16px;
     border-radius: 4px;
     background: ${themeVar("contentBg")};
     color: ${themeVar("fontColor")};
@@ -829,8 +829,8 @@ var Header2 = styled14.div`
 // src/components/Settings/SettingRow.tsx
 import styled15 from "styled-components";
 import { jsx as jsx13, jsxs as jsxs8 } from "react/jsx-runtime";
-var SettingRow = ({ title, icon, option, description }) => {
-  return /* @__PURE__ */ jsxs8(Container8, { children: [
+var SettingRow = ({ title, icon, option, description, containerStyle }) => {
+  return /* @__PURE__ */ jsxs8(Container8, { style: containerStyle, children: [
     /* @__PURE__ */ jsxs8(Title, { children: [
       icon,
       title,
@@ -848,6 +848,9 @@ var Container8 = styled15.div`
     gap: 10px;
     align-items: center;
     border-top: 1px solid ${themeVar("default700")};
+    &:first-child {
+        border-top: 1px solid #00000000;
+    }
 `;
 var Title = styled15.div`
     font-size: 16px;
@@ -913,6 +916,7 @@ var GlobalStyled = createGlobalStyle`
 
     a {
         color: ${themeVar("accent500")};
+        text-decoration: none;
     }
 
     h1, h2, h3 {

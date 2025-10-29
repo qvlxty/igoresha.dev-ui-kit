@@ -34,6 +34,63 @@ const DropdownHeader = styled.div`
 `
 ```
 
+## Смена темы и загрузка
+
+Кит провайдит функцию-ивент для смены темы: toggleTheme. 
+Тема автоматически сохраняется в localStorage по ключу `THEME` на каждый вызов 
+
+```tsx
+import { toggleTheme } from 'igoresha-dev-ui-kit'
+
+{...}
+    <Switch
+        checked={theme === 'light'}
+        onChange={toggleTheme}
+    />
+```
+
+
+Чтобы загрузить тему используйте в проекте вызов эффекта loadThemeFx:
+
+```tsx
+const App = () => {
+    React.useEffect(() => {
+        loadThemeFx()
+    },[])
+    return ...
+}
+
+```
+
+## Переопределение темы (Установка кастомной)
+
+Для переопределения цветов, вы можете использовать проп overrideTheme у провайдера:
+
+```tsx
+import { availableThemes, GlobalStyled, ThemeProvider } from 'igoresha-dev-ui-kit'
+export const App = () => {
+  return (
+    <ThemeProvider overrideTheme={{
+      ...availableThemes,
+      light: {
+        ...availableThemes.light,
+        'accent300': '#9fa',
+        'accent400': '#9ea',
+        'accent500': '#9fa',
+        'accent600': '#9fa',
+        'accent700': '#9fa',
+      },
+    }}>
+        <>
+            <GlobalStyled />
+            <AppRouter />
+        </>
+    </ThemeProvider>
+  )
+}
+
+```
+
 ## Доступные цвета по-умолчанию
 
 

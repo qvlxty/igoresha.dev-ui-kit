@@ -13,6 +13,11 @@ const meta = {
   title: 'layout/Settings',
   component: Settings,
   tags: ['autodocs'],
+  argTypes: {
+    titleIcon: {
+      control: false
+    }
+  },
 } satisfies Meta;
 
 export default meta;
@@ -41,7 +46,7 @@ export const Element: Story = {
             onSet={setS}
           />
           {s === 'basic' && (
-            <>
+            <div>
               <SettingRow 
                   icon={<AiFillMoon />}
                   title='Enable Dark Theme'
@@ -59,7 +64,7 @@ export const Element: Story = {
                   description='Date of your birthday'
                   option={<Switch checked />}
               />
-            </>
+            </div>
           )}
           {s === 'advanced' && (
             <>

@@ -11,6 +11,27 @@ const meta = {
   parameters: {
     layout: 'centered',
   },
+  argTypes: {
+    $danger: {
+      control: 'boolean'
+    },
+    $dashed: {
+      control: 'boolean'
+    },
+    $haveIcon: {
+      control: 'boolean',
+      description: 'Добавляет отступ для SVG иконки в children'
+    },
+    $primary: {
+      control: 'boolean'
+    },
+    $secondary: {
+      control: 'boolean'
+    },
+    children: {
+      control: false
+    }
+  },
   args: { onClick: fn() },
 } satisfies Meta<typeof Button>;
 

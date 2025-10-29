@@ -13,6 +13,14 @@ const meta = {
   parameters: {
     layout: 'centered',
   },
+  argTypes: {
+    options: {
+      control: false,
+    },
+    selected: {
+      control: false,
+    },
+  },
   tags: ['autodocs'],
 } satisfies Meta<typeof TabBar>;
 

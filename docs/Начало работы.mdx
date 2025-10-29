@@ -37,3 +37,31 @@ export const App = () => {
 </head>
   
 ```
+
+3. Кит провайдит эффект на загрузку и доступ к теме:
+
+Чтобы загрузить тему используйте в проекте вызов эффекта loadThemeFx:
+
+```tsx
+const App = () => {
+    React.useEffect(() => {
+        loadThemeFx()
+    },[])
+    return ...
+}
+
+```
+
+Или на этапе загрузки приложения
+
+```ts
+
+loadAppFx.use(async () => {
+    await Promise.all([
+        loadDalFx(),
+        ...
+        ...
+        ...
+    ])
+})
+```

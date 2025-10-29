@@ -32,7 +32,7 @@ export const TextArea = React.forwardRef<HTMLTextAreaElement, Props>((
 const Wrapper = styled.textarea<Omit<Props, 'onChange'>>`
     font-size: 16px;
     font-family: 'roboto';
-    padding: 10px;
+    padding: 16px;
     border-radius: 4px;
     background: ${themeVar('contentBg')};
     color: ${themeVar('fontColor')};

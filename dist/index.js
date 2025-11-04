@@ -212,17 +212,19 @@ var Image = import_styled_components3.default.img`
 `;
 
 // src/lib/gen-color-string.ts
-var stringToColor = (str, startHash = 0) => {
-  let hash = 0;
-  str.split("").forEach((char) => {
-    hash = char.charCodeAt(0) + ((startHash << 5) - startHash);
-  });
-  let colour = "#";
-  for (let i = 0; i < 3; i++) {
-    const value = hash >> i * 8 & 255;
-    colour += value.toString(16).padStart(2, "0");
+function hashCode(str) {
+  var hash = 0;
+  for (var i = 0; i < str.length; i++) {
+    hash = str.charCodeAt(i) + ((hash << 5) - hash);
   }
-  return colour;
+  return hash;
+}
+function intToRGB(i) {
+  var c = (i & 16777215).toString(16).toUpperCase();
+  return "00000".substring(0, 6 - c.length) + c;
+}
+var stringToColor = (str) => {
+  return `#${intToRGB(hashCode(str))}`;
 };
 
 // src/components/AvatarThumb.tsx

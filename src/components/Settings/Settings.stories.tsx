@@ -92,6 +92,6 @@ export const Element: Story = {
   },
   args: {
     title: "Settings",
-    titleIcon: <AiFillSetting />,
+    titleIcon: <AiFillSetting size={30} />,
   }
 };

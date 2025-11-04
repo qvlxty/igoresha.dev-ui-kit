@@ -1,0 +1,45 @@
+import { Meta, Controls, Story } from '@storybook/addon-docs/blocks';
+import * as ContextMenu from './ContextMenu.stories'
+
+
+<Meta of={ContextMenu} />
+
+# Пример работы фабрики контекстного меню
+
+Контекстное меню создается фабрикой createContextMenu. Фабрика инкапсулирует в себя некоторую effector бизнес-логику для работы компонента меню, а также его позиционирования.
+
+Есть также поддержка стрелочных клавиш / space / enter
+
+<Story>
+    <ContextMenu.ExampleComponent />
+</Story>
+
+
+
+```tsx
+import React from "react";
+import { createContextMenu } from "./create-context-menu";
+import { AiFillCalendar, AiFillSetting, AiFillMoon } from 'react-icons/ai'
+
+export const {
+    ContextMenu,
+    useContextMenu
+} = createContextMenu()
+
+
+export const ExampleComponent = () => {
+    const ref = React.useRef<HTMLDivElement>(null)
+    useContextMenu(ref)
+    return (
+        <>
+            <div ref={ref}>Нажмите сюда правой кнопкой мыши</div>
+            <ContextMenu items={[
+                    { icon: <AiFillCalendar />, name: 'Calendar', action: () => alert('first') },
+                    { icon: <AiFillSetting />, name: 'Settings', action: () => alert('second') },
+                    { icon: <AiFillMoon />, name: 'Theme', action: () => alert('third') },
+            ]} />
+        </>
+    )
+}
+```
+

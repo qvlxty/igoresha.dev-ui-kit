@@ -29,11 +29,11 @@ export const Elemenet: Story = {
   args: {
     LinkElement: TestLink,
     links: [
-        { to: '/root', icon: <AiOutlineOrderedList /> },
+        { to: '/root', icon: <AiOutlineOrderedList size={24} /> },
         'Separator',
-        { onClick: () => alert('Hello'), icon: <AiOutlineAccountBook /> },
+        { onClick: () => alert('Hello'), icon: <AiOutlineAccountBook size={24} /> },
         'Separator',
-        { to: '/root', icon: <AiOutlineAccountBook /> },
+        { to: '/root', icon: <AiOutlineAccountBook size={24} /> },
     ]
   },
 };

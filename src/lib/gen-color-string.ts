@@ -1,12 +1,19 @@
-export const stringToColor = (str: string, startHash = 0) => {
-    let hash = 0;
-    str.split('').forEach(char => {
-        hash = char.charCodeAt(0) + ((startHash << 5) - startHash)
-    })
-    let colour = '#'
-    for (let i = 0; i < 3; i++) {
-        const value = (hash >> (i * 8)) & 0xff
-        colour += value.toString(16).padStart(2, '0')
+function hashCode(str: string) { 
+    var hash = 0;
+    for (var i = 0; i < str.length; i++) {
+       hash = str.charCodeAt(i) + ((hash << 5) - hash);
     }
-    return colour
+    return hash
+} 
+
+function intToRGB(i: number ){
+    var c = (i & 0x00FFFFFF)
+        .toString(16)
+        .toUpperCase()
+
+    return "00000".substring(0, 6 - c.length) + c;
+}
+
+export const stringToColor = (str: string) => {
+    return `#${intToRGB(hashCode(str))}`
 }

@@ -129,8 +129,7 @@ const Motion = styled.div`
     `
 
 const MenuWrapper = styled.div`
-    backdrop-filter: blur(12px);
-    border: 3px solid ${themeVar('default700')};
+    border: 2px solid ${themeVar('default700')};
     background-color: ${themeVar('default800')};
     color: white;
     position: relative;
@@ -162,7 +161,7 @@ const MenuItem = styled.button<{ $active: number }>`
     width: 100%;
     cursor: pointer;
     ${({ $active }) => $active && css`
-        background-color: white;
-        color: black;
+        background-color: ${themeVar('default700')};
+        color: ${themeVar('default300')};
     `}
 `

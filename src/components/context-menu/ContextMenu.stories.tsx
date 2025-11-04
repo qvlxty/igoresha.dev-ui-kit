@@ -15,7 +15,7 @@ export const ExampleComponent = () => {
     useContextMenu(ref)
     return (
         <>
-            <Button ref={ref} style={{color: 'black'}}>Нажмите сюда правой кнопкой мыши</Button>
+            <Button ref={ref}>Нажмите сюда правой кнопкой мыши</Button>
             <ContextMenu items={[
                 { icon: <AiFillCalendar />, name: 'Calendar', action: () => alert('first') },
                 { icon: <AiFillSetting />, name: 'Settings', action: () => alert('second') },

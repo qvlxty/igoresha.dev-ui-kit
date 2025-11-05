@@ -23,20 +23,24 @@ import { AiFillCalendar, AiFillSetting, AiFillMoon } from 'react-icons/ai'
 
 export const {
     ContextMenu,
-    useContextMenu
-} = createContextMenu()
-
+    openMenu
+} = createContextMenu<string>()
 
 export const ExampleComponent = () => {
-    const ref = React.useRef<HTMLDivElement>(null)
-    useContextMenu(ref)
     return (
         <>
-            <div ref={ref}>Нажмите сюда правой кнопкой мыши</div>
+            <Button onContextMenu={(e) => {
+                e.preventDefault()
+                openMenu({ e, payload: 'firstButton' })
+            }}>Нажмите сюда правой кнопкой мыши</Button>
+            <Button $danger onContextMenu={(e) => {
+                e.preventDefault()
+                openMenu({ e, payload: 'secondButton' })
+            }}>Нажмите сюда правой кнопкой мыши</Button>
             <ContextMenu items={[
-                    { icon: <AiFillCalendar />, name: 'Calendar', action: () => alert('first') },
-                    { icon: <AiFillSetting />, name: 'Settings', action: () => alert('second') },
-                    { icon: <AiFillMoon />, name: 'Theme', action: () => alert('third') },
+                { icon: <AiFillCalendar />, name: 'Calendar', action: (p) => alert(p) },
+                { icon: <AiFillSetting />, name: 'Settings', action: () => alert('second') },
+                { icon: <AiFillMoon />, name: 'Theme', action: () => alert('third') },
             ]} />
         </>
     )

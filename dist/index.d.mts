@@ -175,14 +175,17 @@ type Props$1 = {
 };
 declare const SettingRow: ({ title, icon, option, description, containerStyle }: Props$1) => react_jsx_runtime.JSX.Element;
 
-declare const createContextMenu: () => {
-    ContextMenu: React__default.FunctionComponent<Props>;
-    useContextMenu: (ref: React__default.RefObject<HTMLElement | null>, arrDeps?: React__default.DependencyList) => React__default.RefObject<HTMLElement | null>;
+declare const createContextMenu: <T = unknown>() => {
+    ContextMenu: React__default.FunctionComponent<Props<T>>;
+    openMenu: effector.EventCallable<{
+        e: React__default.MouseEvent;
+        payload?: T;
+    }>;
 };
-type Props = {
+type Props<T> = {
     items: {
         icon: React__default.ReactNode;
-        action: () => void;
+        action: (v: T) => void;
         name: string;
     }[];
 };

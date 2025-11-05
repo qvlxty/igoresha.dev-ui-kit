@@ -934,7 +934,7 @@ var Description = import_styled_components17.default.div`
 `;
 
 // src/components/context-menu/create-context-menu.tsx
-var import_react8 = __toESM(require("react"));
+var import_react7 = __toESM(require("react"));
 var import_effector_react2 = require("effector-react");
 var import_effector2 = require("effector");
 var import_styled_components18 = __toESM(require("styled-components"));
@@ -977,26 +977,10 @@ var useArrowKeys = (len, cb, closeMenu) => {
   return [idx, setIdx];
 };
 
-// src/components/context-menu/context-menu/useContextMenuBase.ts
-var import_react7 = __toESM(require("react"));
-var useContextMenuBase = (ref, arrDeps = [], openMenu) => {
-  const handleOpenContextMenu = import_react7.default.useCallback((e) => {
-    e.preventDefault();
-    openMenu(e);
-  }, arrDeps);
-  import_react7.default.useEffect(() => {
-    ref.current?.addEventListener("contextmenu", handleOpenContextMenu);
-    return () => {
-      ref.current?.removeEventListener("contextmenu", handleOpenContextMenu);
-    };
-  }, arrDeps);
-  return ref;
-};
-
 // src/components/context-menu/create-context-menu.tsx
 var import_jsx_runtime14 = require("react/jsx-runtime");
 var createContextMenu = () => {
-  const $visible = (0, import_effector2.createStore)(false);
+  const $payload = (0, import_effector2.createStore)(null);
   const $top = (0, import_effector2.createStore)(0);
   const $left = (0, import_effector2.createStore)(0);
   const $height = (0, import_effector2.createStore)(0);
@@ -1004,20 +988,26 @@ var createContextMenu = () => {
   const openMenuFx = (0, import_effector2.createEffect)();
   const openMenu = (0, import_effector2.createEvent)();
   const closeMenu = (0, import_effector2.createEvent)();
-  $visible.on(openMenuFx.done, () => true).reset(closeMenu);
+  $payload.on(openMenuFx.doneData, (_, d) => {
+    if (typeof d.payload === "undefined") {
+      return true;
+    }
+    return d.payload;
+  }).reset(closeMenu);
   $top.on(openMenuFx.doneData, (_, s) => s.top);
   $left.on(openMenuFx.doneData, (_, s) => s.left);
   $height.on(setHeight, (_, s) => s);
   (0, import_effector2.sample)({
     clock: openMenu,
     source: $height,
-    fn: (a, b) => ({
-      e: b,
+    fn: (a, { e, payload }) => ({
+      e,
+      payload,
       height: a
     }),
     target: openMenuFx
   });
-  openMenuFx.use(({ e, height }) => {
+  openMenuFx.use(({ e, height, payload }) => {
     let left = 0;
     let top = 0;
     if (window.innerHeight / 2 < e.clientY) {
@@ -1030,26 +1020,26 @@ var createContextMenu = () => {
     } else {
       left = e.clientX;
     }
-    return { left, top };
+    return { left, top, payload };
   });
   const ContextMenu = ({ items }) => {
-    const [left, top, visible] = (0, import_effector_react2.useUnit)([$left, $top, $visible]);
-    const clearContextMenu = import_react8.default.useCallback(() => {
+    const [left, top, payload] = (0, import_effector_react2.useUnit)([$left, $top, $payload]);
+    const clearContextMenu = import_react7.default.useCallback(() => {
       closeMenu();
     }, []);
-    import_react8.default.useEffect(() => {
+    import_react7.default.useEffect(() => {
       setHeight(items.length * MENU_ITEM_HEIGHT_PX);
     }, [items]);
-    import_react8.default.useEffect(() => {
+    import_react7.default.useEffect(() => {
       document.addEventListener("click", clearContextMenu);
       return () => {
         document.removeEventListener("click", clearContextMenu);
       };
     }, []);
     const [selectedIdx, setSelectedIdx] = useArrowKeys(items.length, (id) => {
-      items[id].action();
+      items[id].action(payload);
     }, closeMenu);
-    if (!visible) {
+    if (payload === null) {
       return null;
     }
     return /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(
@@ -1063,7 +1053,7 @@ var createContextMenu = () => {
             {
               onMouseEnter: () => setSelectedIdx(index),
               $active: index === selectedIdx,
-              onClick: item.action,
+              onClick: () => item.action(payload),
               children: [
                 /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(IconWrapper, { children: item.icon }),
                 /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("div", { children: item.name })
@@ -1077,7 +1067,7 @@ var createContextMenu = () => {
   };
   return {
     ContextMenu,
-    useContextMenu: (ref, arrDeps = []) => useContextMenuBase(ref, arrDeps, openMenu)
+    openMenu
   };
 };
 var MENU_ITEM_HEIGHT_PX = 10;

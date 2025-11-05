@@ -6,18 +6,27 @@ import { Button } from '../Button';
 
 export const {
     ContextMenu,
-    useContextMenu
-} = createContextMenu()
+    openMenu
+} = createContextMenu<string>()
 
 
 export const ExampleComponent = () => {
-    const ref = React.useRef<HTMLButtonElement>(null)
-    useContextMenu(ref)
     return (
         <>
-            <Button ref={ref}>Нажмите сюда правой кнопкой мыши</Button>
+            <p>
+                <Button onContextMenu={(e) => {
+                    e.preventDefault()
+                    openMenu({ e, payload: 'firstButton' })
+                }}>Нажмите сюда правой кнопкой мыши</Button>
+            </p>
+            <p>
+                <Button $danger onContextMenu={(e) => {
+                    e.preventDefault()
+                    openMenu({ e, payload: 'secondButton' })
+                }}>Нажмите сюда правой кнопкой мыши</Button>
+            </p>
             <ContextMenu items={[
-                { icon: <AiFillCalendar />, name: 'Calendar', action: () => alert('first') },
+                { icon: <AiFillCalendar />, name: 'Calendar', action: (p) => alert(p) },
                 { icon: <AiFillSetting />, name: 'Settings', action: () => alert('second') },
                 { icon: <AiFillMoon />, name: 'Theme', action: () => alert('third') },
             ]} />

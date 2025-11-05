@@ -4,24 +4,32 @@ import { createEffect, createEvent, createStore, sample } from "effector"
 import styled, { css } from "styled-components"
 
 import { useArrowKeys } from "./context-menu/useArrowKeys"
-import { useContextMenuBase } from "./context-menu/useContextMenuBase"
 import { themeVar } from "../../theming"
 
-export const createContextMenu = () => {
-    const $visible = createStore(false)
+export const createContextMenu = <T = unknown,>() => {
+    const $payload = createStore<T | null>(null)
     const $top = createStore(0)
     const $left = createStore(0)
     const $height = createStore(0)
     const setHeight = createEvent<number>()
 
     const openMenuFx = createEffect<{
-        e: PointerEvent,
-        height: number
-    }, { left: number, top: number }, Error>()
-    const openMenu = createEvent<PointerEvent>()
+        e: React.MouseEvent,
+        height: number,
+        payload?: T
+    }, { left: number, top: number, payload?: T }, Error>()
+    const openMenu = createEvent<{
+        e: React.MouseEvent,
+        payload?: T
+    }>()
     const closeMenu = createEvent()
 
-    $visible.on(openMenuFx.done, () => true).reset(closeMenu)
+    $payload.on(openMenuFx.doneData, (_,d) => {
+        if (typeof d.payload === 'undefined') {
+            return true as unknown as T
+        }
+        return d.payload
+    }).reset(closeMenu)
     $top.on(openMenuFx.doneData, (_, s) => s.top)
     $left.on(openMenuFx.doneData, (_, s) => s.left)
     $height.on(setHeight, (_, s) => s)
@@ -29,14 +37,15 @@ export const createContextMenu = () => {
     sample({
         clock: openMenu,
         source: $height,
-        fn: (a,b) => ({
-            e: b,
+        fn: (a,{e, payload}) => ({
+            e,
+            payload,
             height: a
         }),
         target: openMenuFx 
     })
 
-    openMenuFx.use(({ e, height }) => {
+    openMenuFx.use(({ e, height, payload }) => {
         let left = 0
         let top = 0
         if (window.innerHeight / 2 < e.clientY) {
@@ -49,11 +58,11 @@ export const createContextMenu = () => {
         } else {
             left = e.clientX
         }
-        return { left, top }
+        return { left, top, payload }
     })
 
-    const ContextMenu: React.FunctionComponent<Props> = ({ items }) => {
-        const [left, top, visible] = useUnit([$left, $top, $visible])
+    const ContextMenu: React.FunctionComponent<Props<T>> = ({ items }) => {
+        const [left, top, payload] = useUnit([$left, $top, $payload])
         const clearContextMenu = React.useCallback(() => {
             closeMenu()
         }, [])
@@ -70,10 +79,10 @@ export const createContextMenu = () => {
         }, [])
 
         const [selectedIdx, setSelectedIdx] = useArrowKeys(items.length, (id) => {
-            items[id].action()
+            items[id].action(payload!)
         }, closeMenu)
 
-        if (!visible) {
+        if (payload === null) {
             return null
         }
         return (
@@ -88,7 +97,7 @@ export const createContextMenu = () => {
                                 onMouseEnter={() => setSelectedIdx(index)}
                                 $active={index === selectedIdx}
                                 key={index}
-                                onClick={item.action}
+                                onClick={() => item.action(payload)}
                             >
                                 <IconWrapper>{item.icon}</IconWrapper>
                                 <div>{item.name}</div>
@@ -102,17 +111,14 @@ export const createContextMenu = () => {
 
     return {
         ContextMenu,
-        useContextMenu: (
-            ref: React.RefObject<HTMLElement | null>,
-            arrDeps: React.DependencyList = []
-        ) => useContextMenuBase(ref, arrDeps, openMenu)
+        openMenu,
     }
 }
 
 const MENU_ITEM_HEIGHT_PX = 10
 
-type Props = {
-    items: { icon: React.ReactNode, action: () => void, name: string }[]
+type Props<T> = {
+    items: { icon: React.ReactNode, action: (v: T) => void, name: string }[]
 }
 
 

@@ -147,7 +147,7 @@ const IconWrapper = styled.div`
     padding-right: 8px;
 `
 
-const MenuItem = styled.button<{ $active: number }>`
+const MenuItem = styled.button<{ $active: boolean }>`
     padding: 6px;
     display: flex;
     height: ${MENU_ITEM_HEIGHT_PX};

@@ -10,7 +10,7 @@ export const Range = styled.input.attrs({ type: 'range' })`
     background-color: ${themeVar('default800')};
     box-sizing: border-box;
     width: 100%;
-    height: 8px;
+    height: 12px;
     border-radius: 4px;
     cursor: pointer;
   }
@@ -23,7 +23,7 @@ export const Range = styled.input.attrs({ type: 'range' })`
     appearance: none;
     height: 120px;
     width: 10px;
-    background: ${themeVar('accent500')};
+    background: ${themeVar('accent700')};
     cursor: pointer;
     margin-top: -8px; 
   }

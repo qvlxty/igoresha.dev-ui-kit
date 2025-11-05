@@ -514,7 +514,7 @@ var Range = styled9.input.attrs({ type: "range" })`
     background-color: ${themeVar("default800")};
     box-sizing: border-box;
     width: 100%;
-    height: 8px;
+    height: 12px;
     border-radius: 4px;
     cursor: pointer;
   }
@@ -527,7 +527,7 @@ var Range = styled9.input.attrs({ type: "range" })`
     appearance: none;
     height: 120px;
     width: 10px;
-    background: ${themeVar("accent500")};
+    background: ${themeVar("accent700")};
     cursor: pointer;
     margin-top: -8px; 
   }
@@ -868,6 +868,201 @@ var Description = styled15.div`
 
 `;
 
+// src/components/context-menu/create-context-menu.tsx
+import React8 from "react";
+import { useUnit as useUnit2 } from "effector-react";
+import { createEffect, createEvent, createStore, sample as sample2 } from "effector";
+import styled16, { css as css7 } from "styled-components";
+
+// src/components/context-menu/context-menu/useArrowKeys.ts
+import React6 from "react";
+var useArrowKeys = (len, cb, closeMenu) => {
+  const [idx, setIdx] = React6.useState(null);
+  React6.useEffect(() => {
+    const handleKeyDown = (e) => {
+      ["ArrowDown", "ArrowUp", "Enter", "Space"].includes(e.key) && setIdx((idx2) => {
+        e.preventDefault();
+        if (idx2 === null) {
+          if (e.key === "ArrowDown") {
+            return 0;
+          }
+          if (e.key === "ArrowUp") {
+            return len - 1;
+          }
+          return null;
+        }
+        if (e.key === "ArrowDown") {
+          return idx2 + 1 < len ? idx2 + 1 : 0;
+        }
+        if (e.key === "ArrowUp") {
+          return idx2 > 0 ? idx2 - 1 : len - 1;
+        }
+        if (e.key === "Enter" || e.key === "Space") {
+          cb(idx2);
+          closeMenu();
+        }
+        return idx2;
+      });
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [len]);
+  return [idx, setIdx];
+};
+
+// src/components/context-menu/context-menu/useContextMenuBase.ts
+import React7 from "react";
+var useContextMenuBase = (ref, arrDeps = [], openMenu) => {
+  const handleOpenContextMenu = React7.useCallback((e) => {
+    e.preventDefault();
+    openMenu(e);
+  }, arrDeps);
+  React7.useEffect(() => {
+    ref.current?.addEventListener("contextmenu", handleOpenContextMenu);
+    return () => {
+      ref.current?.removeEventListener("contextmenu", handleOpenContextMenu);
+    };
+  }, arrDeps);
+  return ref;
+};
+
+// src/components/context-menu/create-context-menu.tsx
+import { jsx as jsx14, jsxs as jsxs9 } from "react/jsx-runtime";
+var createContextMenu = () => {
+  const $visible = createStore(false);
+  const $top = createStore(0);
+  const $left = createStore(0);
+  const $height = createStore(0);
+  const setHeight = createEvent();
+  const openMenuFx = createEffect();
+  const openMenu = createEvent();
+  const closeMenu = createEvent();
+  $visible.on(openMenuFx.done, () => true).reset(closeMenu);
+  $top.on(openMenuFx.doneData, (_, s) => s.top);
+  $left.on(openMenuFx.doneData, (_, s) => s.left);
+  $height.on(setHeight, (_, s) => s);
+  sample2({
+    clock: openMenu,
+    source: $height,
+    fn: (a, b) => ({
+      e: b,
+      height: a
+    }),
+    target: openMenuFx
+  });
+  openMenuFx.use(({ e, height }) => {
+    let left = 0;
+    let top = 0;
+    if (window.innerHeight / 2 < e.clientY) {
+      top = e.clientY - height;
+    } else {
+      top = e.clientY;
+    }
+    if (window.innerWidth / 2 < e.clientX) {
+      left = e.clientX - height;
+    } else {
+      left = e.clientX;
+    }
+    return { left, top };
+  });
+  const ContextMenu = ({ items }) => {
+    const [left, top, visible] = useUnit2([$left, $top, $visible]);
+    const clearContextMenu = React8.useCallback(() => {
+      closeMenu();
+    }, []);
+    React8.useEffect(() => {
+      setHeight(items.length * MENU_ITEM_HEIGHT_PX);
+    }, [items]);
+    React8.useEffect(() => {
+      document.addEventListener("click", clearContextMenu);
+      return () => {
+        document.removeEventListener("click", clearContextMenu);
+      };
+    }, []);
+    const [selectedIdx, setSelectedIdx] = useArrowKeys(items.length, (id) => {
+      items[id].action();
+    }, closeMenu);
+    if (!visible) {
+      return null;
+    }
+    return /* @__PURE__ */ jsx14(
+      Motion,
+      {
+        onContextMenuCapture: (e) => e.preventDefault(),
+        style: { left, top },
+        children: /* @__PURE__ */ jsx14(MenuWrapper, { children: items.map((item, index) => {
+          return /* @__PURE__ */ jsxs9(
+            MenuItem,
+            {
+              onMouseEnter: () => setSelectedIdx(index),
+              $active: index === selectedIdx,
+              onClick: item.action,
+              children: [
+                /* @__PURE__ */ jsx14(IconWrapper, { children: item.icon }),
+                /* @__PURE__ */ jsx14("div", { children: item.name })
+              ]
+            },
+            index
+          );
+        }) })
+      }
+    );
+  };
+  return {
+    ContextMenu,
+    useContextMenu: (ref, arrDeps = []) => useContextMenuBase(ref, arrDeps, openMenu)
+  };
+};
+var MENU_ITEM_HEIGHT_PX = 10;
+var Motion = styled16.div`
+    position: fixed;
+    width: 0;
+    height: 0;
+    left:0;
+    z-index: 990;
+    overflow: visible;
+    &::-webkit-scrollbar {
+        width: 0px;
+    }
+    `;
+var MenuWrapper = styled16.div`
+    border: 2px solid ${themeVar("default700")};
+    background-color: ${themeVar("default800")};
+    color: white;
+    position: relative;
+    border-radius: 6px;
+    max-width: 220px;
+    width: 220px;
+    padding: 4px;
+`;
+var IconWrapper = styled16.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-left: 8px;
+    padding-right: 8px;
+`;
+var MenuItem = styled16.button`
+    padding: 6px;
+    display: flex;
+    height: ${MENU_ITEM_HEIGHT_PX};
+    flex-direction: row;
+    align-items: center;
+    font-size: 13px;
+    color: ${themeVar("fontColor")};
+    background: none;
+    outline: none;
+    border: 0;
+    width: 100%;
+    cursor: pointer;
+    ${({ $active }) => $active && css7`
+        background-color: ${themeVar("default700")};
+        color: ${themeVar("default300")};
+    `}
+`;
+
 // src/theming/global.styled.tsx
 import { createGlobalStyle } from "styled-components";
 var GlobalStyled = createGlobalStyle`
@@ -947,6 +1142,7 @@ export {
   TextArea,
   ThemeProvider,
   availableThemes,
+  createContextMenu,
   loadThemeFx,
   onLgWidth,
   onMdWidth,

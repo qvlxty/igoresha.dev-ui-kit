@@ -5,19 +5,19 @@ import React__default, { PropsWithChildren } from 'react';
 import * as styled_components from 'styled-components';
 import * as effector from 'effector';
 
-interface Props$a {
+interface Props$b {
     url?: string;
     $size?: number;
     $isOnline?: boolean;
     style?: React.CSSProperties;
 }
-declare const Avatar: ({ url, $size, $isOnline, style }: Props$a) => react_jsx_runtime.JSX.Element;
+declare const Avatar: ({ url, $size, $isOnline, style }: Props$b) => react_jsx_runtime.JSX.Element;
 
-type Props$9 = {
+type Props$a = {
     nickname: string;
     style?: React.CSSProperties;
 };
-declare const AvatarThumb: ({ nickname, style }: Props$9) => react_jsx_runtime.JSX.Element;
+declare const AvatarThumb: ({ nickname, style }: Props$a) => react_jsx_runtime.JSX.Element;
 
 declare const lightTheme: {
     backgroundColor: string;
@@ -46,10 +46,10 @@ declare const availableThemes: {
     light: Theme;
 };
 
-type Props$8 = {
+type Props$9 = {
     overrideTheme?: typeof availableThemes;
 };
-declare const ThemeProvider: ({ children, overrideTheme }: React__default.PropsWithChildren<Props$8>) => react_jsx_runtime.JSX.Element;
+declare const ThemeProvider: ({ children, overrideTheme }: React__default.PropsWithChildren<Props$9>) => react_jsx_runtime.JSX.Element;
 
 type ThemedStyledProps = {
     theme: Theme;
@@ -83,14 +83,14 @@ type Item<T> = {
     text: string;
     icon?: React__default.ReactNode;
 };
-type Props$7<T> = {
+type Props$8<T> = {
     options: Item<T>[];
     placeholder?: string;
     selected?: T;
     headerIcon?: React__default.ReactNode;
     onOptionChange: (optionValue: T) => void;
 };
-declare const Dropdown: <T extends number | string>({ options, onOptionChange, selected, placeholder, headerIcon }: Props$7<T>) => react_jsx_runtime.JSX.Element;
+declare const Dropdown: <T extends number | string>({ options, onOptionChange, selected, placeholder, headerIcon }: Props$8<T>) => react_jsx_runtime.JSX.Element;
 
 declare const Input: React__default.ForwardRefExoticComponent<Omit<React__default.InputHTMLAttributes<HTMLInputElement>, "onChange"> & {
     onChange?: (text: string) => void;
@@ -101,31 +101,31 @@ declare const Input: React__default.ForwardRefExoticComponent<Omit<React__defaul
 
 declare const Loader: styled_components_dist_types.IStyledComponentBase<"web", styled_components.FastOmit<React$1.DetailedHTMLProps<React$1.HTMLAttributes<HTMLDivElement>, HTMLDivElement>, never>> & string;
 
-type Props$6 = {
+type Props$7 = {
     visible: boolean;
     onClose: () => void;
     children?: React__default.ReactNode;
     loading?: boolean;
     style?: React__default.CSSProperties;
 };
-declare const Modal: React__default.FC<Props$6>;
+declare const Modal: React__default.FC<Props$7>;
 
-type Props$5 = {
+type Props$6 = {
     completed: number;
     style?: React.CSSProperties;
 };
-declare const ProgressBar: ({ completed, style }: Props$5) => react_jsx_runtime.JSX.Element;
+declare const ProgressBar: ({ completed, style }: Props$6) => react_jsx_runtime.JSX.Element;
 
 declare const Range: styled_components_dist_types.IStyledComponentBase<"web", styled_components.FastOmit<styled_components.FastOmit<styled_components_dist_types.Substitute<React$1.DetailedHTMLProps<React$1.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>, React$1.DetailedHTMLProps<React$1.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>>, never>, never>> & string;
 
-type Props$4 = {
+type Props$5 = {
     checked?: boolean;
     onChange?: () => void;
     disabled?: boolean;
 };
-declare const Switch: ({ checked, onChange, disabled }: Props$4) => react_jsx_runtime.JSX.Element;
+declare const Switch: ({ checked, onChange, disabled }: Props$5) => react_jsx_runtime.JSX.Element;
 
-type Props$3<T> = {
+type Props$4<T> = {
     options: {
         value: T;
         title?: React.ReactNode;
@@ -133,7 +133,7 @@ type Props$3<T> = {
     selected: T;
     onSet?: (v: T) => void;
 };
-declare const TabBar: <T>({ options, selected, onSet }: Props$3<T>) => react_jsx_runtime.JSX.Element;
+declare const TabBar: <T>({ options, selected, onSet }: Props$4<T>) => react_jsx_runtime.JSX.Element;
 
 declare const TextArea: React__default.ForwardRefExoticComponent<Omit<React__default.TextareaHTMLAttributes<HTMLTextAreaElement>, "onChange"> & {
     onChange?: (text: string) => void;
@@ -148,7 +148,7 @@ type NavPanelItem = 'Separator' | {
     onClick: () => void;
     icon: React__default.ReactNode;
 };
-type Props$2 = {
+type Props$3 = {
     links: NavPanelItem[];
     LinkElement: React__default.FC<{
         className: string;
@@ -157,23 +157,35 @@ type Props$2 = {
         children: React__default.ReactNode;
     }>;
 };
-declare const NavPanel: ({ links, LinkElement }: Props$2) => react_jsx_runtime.JSX.Element;
+declare const NavPanel: ({ links, LinkElement }: Props$3) => react_jsx_runtime.JSX.Element;
 
-type Props$1 = {
+type Props$2 = {
     containerStyle?: React__default.CSSProperties;
     title: React__default.ReactNode;
     titleIcon?: React__default.ReactNode;
 };
-declare const Settings: ({ children, containerStyle, title, titleIcon, }: PropsWithChildren<Props$1>) => react_jsx_runtime.JSX.Element;
+declare const Settings: ({ children, containerStyle, title, titleIcon, }: PropsWithChildren<Props$2>) => react_jsx_runtime.JSX.Element;
 
-type Props = {
+type Props$1 = {
     icon?: React__default.ReactNode;
     title: string;
     description?: string;
     option: React__default.ReactElement;
     containerStyle?: React__default.CSSProperties;
 };
-declare const SettingRow: ({ title, icon, option, description, containerStyle }: Props) => react_jsx_runtime.JSX.Element;
+declare const SettingRow: ({ title, icon, option, description, containerStyle }: Props$1) => react_jsx_runtime.JSX.Element;
+
+declare const createContextMenu: () => {
+    ContextMenu: React__default.FunctionComponent<Props>;
+    useContextMenu: (ref: React__default.RefObject<HTMLElement | null>, arrDeps?: React__default.DependencyList) => React__default.RefObject<HTMLElement | null>;
+};
+type Props = {
+    items: {
+        icon: React__default.ReactNode;
+        action: () => void;
+        name: string;
+    }[];
+};
 
 declare const GlobalStyled: React$1.NamedExoticComponent<styled_components.ExecutionProps & ThemedStyledProps>;
 
@@ -184,4 +196,4 @@ declare const onSmWidth = "@media only screen and (max-width: 600px)";
 declare const onMdWidth = "@media only screen and (max-width: 900px)";
 declare const onLgWidth = "@media only screen and (max-width: 1024px)";
 
-export { $currentTheme, Avatar, AvatarThumb, Button, Dropdown, GlobalStyled, Input, LARGE_WIDTH_PX, LinkButton, Loader, MOBILE_WIDTH, Modal, NavPanel, ProgressBar, Range, SettingRow, Settings, Switch, TABLET_WIDTH, THEME_KEY, TabBar, TextArea, type Theme, type ThemeItem, ThemeProvider, type ThemedStyledProps, availableThemes, loadThemeFx, onLgWidth, onMdWidth, onSmWidth, themeVar, toggleTheme, useTheme };
+export { $currentTheme, Avatar, AvatarThumb, Button, Dropdown, GlobalStyled, Input, LARGE_WIDTH_PX, LinkButton, Loader, MOBILE_WIDTH, Modal, NavPanel, ProgressBar, Range, SettingRow, Settings, Switch, TABLET_WIDTH, THEME_KEY, TabBar, TextArea, type Theme, type ThemeItem, ThemeProvider, type ThemedStyledProps, availableThemes, createContextMenu, loadThemeFx, onLgWidth, onMdWidth, onSmWidth, themeVar, toggleTheme, useTheme };

@@ -54,6 +54,7 @@ __export(index_exports, {
   TextArea: () => TextArea,
   ThemeProvider: () => ThemeProvider,
   availableThemes: () => availableThemes,
+  createContextMenu: () => createContextMenu,
   loadThemeFx: () => loadThemeFx,
   onLgWidth: () => onLgWidth,
   onMdWidth: () => onMdWidth,
@@ -578,7 +579,7 @@ var Range = import_styled_components11.default.input.attrs({ type: "range" })`
     background-color: ${themeVar("default800")};
     box-sizing: border-box;
     width: 100%;
-    height: 8px;
+    height: 12px;
     border-radius: 4px;
     cursor: pointer;
   }
@@ -591,7 +592,7 @@ var Range = import_styled_components11.default.input.attrs({ type: "range" })`
     appearance: none;
     height: 120px;
     width: 10px;
-    background: ${themeVar("accent500")};
+    background: ${themeVar("accent700")};
     cursor: pointer;
     margin-top: -8px; 
   }
@@ -932,9 +933,204 @@ var Description = import_styled_components17.default.div`
 
 `;
 
+// src/components/context-menu/create-context-menu.tsx
+var import_react8 = __toESM(require("react"));
+var import_effector_react2 = require("effector-react");
+var import_effector2 = require("effector");
+var import_styled_components18 = __toESM(require("styled-components"));
+
+// src/components/context-menu/context-menu/useArrowKeys.ts
+var import_react6 = __toESM(require("react"));
+var useArrowKeys = (len, cb, closeMenu) => {
+  const [idx, setIdx] = import_react6.default.useState(null);
+  import_react6.default.useEffect(() => {
+    const handleKeyDown = (e) => {
+      ["ArrowDown", "ArrowUp", "Enter", "Space"].includes(e.key) && setIdx((idx2) => {
+        e.preventDefault();
+        if (idx2 === null) {
+          if (e.key === "ArrowDown") {
+            return 0;
+          }
+          if (e.key === "ArrowUp") {
+            return len - 1;
+          }
+          return null;
+        }
+        if (e.key === "ArrowDown") {
+          return idx2 + 1 < len ? idx2 + 1 : 0;
+        }
+        if (e.key === "ArrowUp") {
+          return idx2 > 0 ? idx2 - 1 : len - 1;
+        }
+        if (e.key === "Enter" || e.key === "Space") {
+          cb(idx2);
+          closeMenu();
+        }
+        return idx2;
+      });
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [len]);
+  return [idx, setIdx];
+};
+
+// src/components/context-menu/context-menu/useContextMenuBase.ts
+var import_react7 = __toESM(require("react"));
+var useContextMenuBase = (ref, arrDeps = [], openMenu) => {
+  const handleOpenContextMenu = import_react7.default.useCallback((e) => {
+    e.preventDefault();
+    openMenu(e);
+  }, arrDeps);
+  import_react7.default.useEffect(() => {
+    ref.current?.addEventListener("contextmenu", handleOpenContextMenu);
+    return () => {
+      ref.current?.removeEventListener("contextmenu", handleOpenContextMenu);
+    };
+  }, arrDeps);
+  return ref;
+};
+
+// src/components/context-menu/create-context-menu.tsx
+var import_jsx_runtime14 = require("react/jsx-runtime");
+var createContextMenu = () => {
+  const $visible = (0, import_effector2.createStore)(false);
+  const $top = (0, import_effector2.createStore)(0);
+  const $left = (0, import_effector2.createStore)(0);
+  const $height = (0, import_effector2.createStore)(0);
+  const setHeight = (0, import_effector2.createEvent)();
+  const openMenuFx = (0, import_effector2.createEffect)();
+  const openMenu = (0, import_effector2.createEvent)();
+  const closeMenu = (0, import_effector2.createEvent)();
+  $visible.on(openMenuFx.done, () => true).reset(closeMenu);
+  $top.on(openMenuFx.doneData, (_, s) => s.top);
+  $left.on(openMenuFx.doneData, (_, s) => s.left);
+  $height.on(setHeight, (_, s) => s);
+  (0, import_effector2.sample)({
+    clock: openMenu,
+    source: $height,
+    fn: (a, b) => ({
+      e: b,
+      height: a
+    }),
+    target: openMenuFx
+  });
+  openMenuFx.use(({ e, height }) => {
+    let left = 0;
+    let top = 0;
+    if (window.innerHeight / 2 < e.clientY) {
+      top = e.clientY - height;
+    } else {
+      top = e.clientY;
+    }
+    if (window.innerWidth / 2 < e.clientX) {
+      left = e.clientX - height;
+    } else {
+      left = e.clientX;
+    }
+    return { left, top };
+  });
+  const ContextMenu = ({ items }) => {
+    const [left, top, visible] = (0, import_effector_react2.useUnit)([$left, $top, $visible]);
+    const clearContextMenu = import_react8.default.useCallback(() => {
+      closeMenu();
+    }, []);
+    import_react8.default.useEffect(() => {
+      setHeight(items.length * MENU_ITEM_HEIGHT_PX);
+    }, [items]);
+    import_react8.default.useEffect(() => {
+      document.addEventListener("click", clearContextMenu);
+      return () => {
+        document.removeEventListener("click", clearContextMenu);
+      };
+    }, []);
+    const [selectedIdx, setSelectedIdx] = useArrowKeys(items.length, (id) => {
+      items[id].action();
+    }, closeMenu);
+    if (!visible) {
+      return null;
+    }
+    return /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(
+      Motion,
+      {
+        onContextMenuCapture: (e) => e.preventDefault(),
+        style: { left, top },
+        children: /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(MenuWrapper, { children: items.map((item, index) => {
+          return /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)(
+            MenuItem,
+            {
+              onMouseEnter: () => setSelectedIdx(index),
+              $active: index === selectedIdx,
+              onClick: item.action,
+              children: [
+                /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(IconWrapper, { children: item.icon }),
+                /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("div", { children: item.name })
+              ]
+            },
+            index
+          );
+        }) })
+      }
+    );
+  };
+  return {
+    ContextMenu,
+    useContextMenu: (ref, arrDeps = []) => useContextMenuBase(ref, arrDeps, openMenu)
+  };
+};
+var MENU_ITEM_HEIGHT_PX = 10;
+var Motion = import_styled_components18.default.div`
+    position: fixed;
+    width: 0;
+    height: 0;
+    left:0;
+    z-index: 990;
+    overflow: visible;
+    &::-webkit-scrollbar {
+        width: 0px;
+    }
+    `;
+var MenuWrapper = import_styled_components18.default.div`
+    border: 2px solid ${themeVar("default700")};
+    background-color: ${themeVar("default800")};
+    color: white;
+    position: relative;
+    border-radius: 6px;
+    max-width: 220px;
+    width: 220px;
+    padding: 4px;
+`;
+var IconWrapper = import_styled_components18.default.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-left: 8px;
+    padding-right: 8px;
+`;
+var MenuItem = import_styled_components18.default.button`
+    padding: 6px;
+    display: flex;
+    height: ${MENU_ITEM_HEIGHT_PX};
+    flex-direction: row;
+    align-items: center;
+    font-size: 13px;
+    color: ${themeVar("fontColor")};
+    background: none;
+    outline: none;
+    border: 0;
+    width: 100%;
+    cursor: pointer;
+    ${({ $active }) => $active && import_styled_components18.css`
+        background-color: ${themeVar("default700")};
+        color: ${themeVar("default300")};
+    `}
+`;
+
 // src/theming/global.styled.tsx
-var import_styled_components18 = require("styled-components");
-var GlobalStyled = import_styled_components18.createGlobalStyle`
+var import_styled_components19 = require("styled-components");
+var GlobalStyled = import_styled_components19.createGlobalStyle`
     body {
         margin: 0;
         padding: 0;
@@ -1012,6 +1208,7 @@ var GlobalStyled = import_styled_components18.createGlobalStyle`
   TextArea,
   ThemeProvider,
   availableThemes,
+  createContextMenu,
   loadThemeFx,
   onLgWidth,
   onMdWidth,

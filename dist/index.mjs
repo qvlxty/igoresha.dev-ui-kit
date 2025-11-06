@@ -876,10 +876,13 @@ import styled16, { css as css7 } from "styled-components";
 
 // src/components/context-menu/context-menu/useArrowKeys.ts
 import React6 from "react";
-var useArrowKeys = (len, cb, closeMenu) => {
+var useArrowKeys = (visible, len, cb, closeMenu) => {
   const [idx, setIdx] = React6.useState(null);
   React6.useEffect(() => {
     const handleKeyDown = (e) => {
+      if (!visible) {
+        return;
+      }
       ["ArrowDown", "ArrowUp", "Enter", "Space"].includes(e.key) && setIdx((idx2) => {
         e.preventDefault();
         if (idx2 === null) {
@@ -908,7 +911,7 @@ var useArrowKeys = (len, cb, closeMenu) => {
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [len]);
+  }, [len, visible]);
   return [idx, setIdx];
 };
 
@@ -971,9 +974,12 @@ var createContextMenu = () => {
         document.removeEventListener("click", clearContextMenu);
       };
     }, []);
-    const [selectedIdx, setSelectedIdx] = useArrowKeys(items.length, (id) => {
-      items[id].action(payload);
-    }, closeMenu);
+    const [selectedIdx, setSelectedIdx] = useArrowKeys(
+      payload !== null,
+      items.length,
+      (id) => items[id].action(payload),
+      closeMenu
+    );
     if (payload === null) {
       return null;
     }

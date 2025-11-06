@@ -941,10 +941,13 @@ var import_styled_components18 = __toESM(require("styled-components"));
 
 // src/components/context-menu/context-menu/useArrowKeys.ts
 var import_react6 = __toESM(require("react"));
-var useArrowKeys = (len, cb, closeMenu) => {
+var useArrowKeys = (visible, len, cb, closeMenu) => {
   const [idx, setIdx] = import_react6.default.useState(null);
   import_react6.default.useEffect(() => {
     const handleKeyDown = (e) => {
+      if (!visible) {
+        return;
+      }
       ["ArrowDown", "ArrowUp", "Enter", "Space"].includes(e.key) && setIdx((idx2) => {
         e.preventDefault();
         if (idx2 === null) {
@@ -973,7 +976,7 @@ var useArrowKeys = (len, cb, closeMenu) => {
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [len]);
+  }, [len, visible]);
   return [idx, setIdx];
 };
 
@@ -1036,9 +1039,12 @@ var createContextMenu = () => {
         document.removeEventListener("click", clearContextMenu);
       };
     }, []);
-    const [selectedIdx, setSelectedIdx] = useArrowKeys(items.length, (id) => {
-      items[id].action(payload);
-    }, closeMenu);
+    const [selectedIdx, setSelectedIdx] = useArrowKeys(
+      payload !== null,
+      items.length,
+      (id) => items[id].action(payload),
+      closeMenu
+    );
     if (payload === null) {
       return null;
     }

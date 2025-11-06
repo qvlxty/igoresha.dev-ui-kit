@@ -78,9 +78,12 @@ export const createContextMenu = <T = unknown,>() => {
             }
         }, [])
 
-        const [selectedIdx, setSelectedIdx] = useArrowKeys(items.length, (id) => {
-            items[id].action(payload!)
-        }, closeMenu)
+        const [selectedIdx, setSelectedIdx] = useArrowKeys(
+            payload !== null,
+            items.length, 
+            (id) => items[id].action(payload!),
+            closeMenu
+        )
 
         if (payload === null) {
             return null

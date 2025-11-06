@@ -1,9 +1,17 @@
 import React from 'react'
 
-export const useArrowKeys = (len: number, cb: (idx: number) => void, closeMenu: () => void): [number | null, (id:number) => void] => {
+export const useArrowKeys = (
+  visible: boolean,
+  len: number, 
+  cb: (idx: number) => void, 
+  closeMenu: () => void
+): [number | null, (id:number) => void] => {
     const [idx,setIdx] = React.useState<number | null>(null)
     React.useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
+          if (!visible) {
+            return
+          }
           ['ArrowDown','ArrowUp','Enter','Space'].includes(e.key) && setIdx((idx) => {
             e.preventDefault()
             if (idx === null) {
@@ -36,7 +44,7 @@ export const useArrowKeys = (len: number, cb: (idx: number) => void, closeMenu: 
         return () => {
           document.removeEventListener('keydown', handleKeyDown)
         }
-      }, [len])
+      }, [len, visible])
    
 
     return [idx, setIdx]

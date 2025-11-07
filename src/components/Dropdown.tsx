@@ -17,7 +17,7 @@ type Props<T> = {
     onOptionChange: (optionValue: T) => void
 }
 
-export const Dropdown = <T extends number | string>(
+export const Dropdown = <T extends number | string | null>(
     { options, onOptionChange, selected, placeholder = 'Empty', headerIcon }: Props<T>
 ) => {
     const [isOpen, setIsOpen] = React.useState(false)

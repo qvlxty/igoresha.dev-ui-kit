@@ -90,7 +90,7 @@ type Props$8<T> = {
     headerIcon?: React__default.ReactNode;
     onOptionChange: (optionValue: T) => void;
 };
-declare const Dropdown: <T extends number | string>({ options, onOptionChange, selected, placeholder, headerIcon }: Props$8<T>) => react_jsx_runtime.JSX.Element;
+declare const Dropdown: <T extends number | string | null>({ options, onOptionChange, selected, placeholder, headerIcon }: Props$8<T>) => react_jsx_runtime.JSX.Element;
 
 declare const Input: React__default.ForwardRefExoticComponent<Omit<React__default.InputHTMLAttributes<HTMLInputElement>, "onChange"> & {
     onChange?: (text: string) => void;

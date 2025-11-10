@@ -744,7 +744,6 @@ var TextArea = import_react5.default.forwardRef(({
 ] }));
 var Wrapper2 = import_styled_components14.default.textarea`
     font-size: 16px;
-    font-family: 'roboto';
     padding: 16px;
     border-radius: 4px;
     background: ${themeVar("contentBg")};
@@ -1130,14 +1129,12 @@ var GlobalStyled = import_styled_components19.createGlobalStyle`
     body {
         margin: 0;
         padding: 0;
-        font-family: Roboto;
         color: ${themeVar("fontColor")};
         background-color: ${themeVar("backgroundColor")};
     }
 
     body,
     * {
-        font-family: 'Roboto';
         box-sizing: border-box;
     }
 

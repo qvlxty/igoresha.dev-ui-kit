@@ -6,14 +6,12 @@ export const GlobalStyled = createGlobalStyle`
     body {
         margin: 0;
         padding: 0;
-        font-family: Roboto;
         color: ${themeVar('fontColor')};
         background-color: ${themeVar('backgroundColor')};
     }
 
     body,
     * {
-        font-family: 'Roboto';
         box-sizing: border-box;
     }
 

@@ -996,7 +996,7 @@ var useArrowKeys = (visible, len, cb, closeMenu) => {
 var import_jsx_runtime14 = require("react/jsx-runtime");
 var WIDTH_PX = 220;
 var MENU_ITEM_HEIGHT_PX = 26;
-var HEIGHT_PADDINGS = 10;
+var HEIGHT_PADDINGS = 12;
 var createContextMenu = () => {
   const $payload = (0, import_effector2.createStore)(null);
   const $top = (0, import_effector2.createStore)(0);
@@ -1045,9 +1045,12 @@ var createContextMenu = () => {
     const clearContextMenu = import_react7.default.useCallback(() => {
       closeMenu();
     }, []);
+    const itemsToRender = import_react7.default.useMemo(() => {
+      return items.filter((v) => v.filter ? v.filter(payload) : true);
+    }, [items, payload]);
     import_react7.default.useEffect(() => {
-      setHeight(items.length * MENU_ITEM_HEIGHT_PX);
-    }, [items]);
+      setHeight(itemsToRender.length * MENU_ITEM_HEIGHT_PX);
+    }, [itemsToRender]);
     import_react7.default.useEffect(() => {
       document.addEventListener("click", clearContextMenu);
       return () => {
@@ -1056,8 +1059,8 @@ var createContextMenu = () => {
     }, []);
     const [selectedIdx, setSelectedIdx] = useArrowKeys(
       payload !== null,
-      items.length,
-      (id) => items[id].action(payload),
+      itemsToRender.length,
+      (id) => itemsToRender[id].action(payload),
       closeMenu
     );
     if (payload === null) {
@@ -1070,7 +1073,7 @@ var createContextMenu = () => {
         style: { left, top },
         children: [
           title && /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(TitleWrapper, { children: title }),
-          /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(MenuWrapper, { children: items.filter((v) => v.filter ? v.filter(payload) : true).map((item, index) => {
+          /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(MenuWrapper, { children: itemsToRender.map((item, index) => {
             return /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)(
               MenuItem,
               {

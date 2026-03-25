@@ -29,6 +29,13 @@ export const ExampleComponent = () => {
                 { icon: <AiFillCalendar />, name: 'Calendar', action: (p) => alert(p) },
                 { icon: <AiFillSetting />, name: 'Settings', action: () => alert('second') },
                 { icon: <AiFillMoon />, name: 'Theme', action: () => alert('third') },
+                { icon: <AiFillMoon />, name: 'Theme', action: () => alert('third') },
+                { icon: <AiFillMoon />, name: 'Theme2', filter: () => false, action: () => alert('third') },
+                { icon: <AiFillMoon />, name: 'Theme3', action: () => alert('third') },
+                { icon: <AiFillMoon />, name: 'Theme4', action: () => alert('third') },
+                { icon: <AiFillMoon />, name: 'Theme5', filter: () => true, action: () => alert('third') },
+                { icon: <AiFillMoon />, name: 'Theme6', action: () => alert('third') },
+                { icon: <AiFillMoon />, name: 'Theme7', action: () => alert('third') },
             ]} />
         </>
     )

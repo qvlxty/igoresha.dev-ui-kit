@@ -931,7 +931,7 @@ var useArrowKeys = (visible, len, cb, closeMenu) => {
 import { jsx as jsx14, jsxs as jsxs10 } from "react/jsx-runtime";
 var WIDTH_PX = 220;
 var MENU_ITEM_HEIGHT_PX = 26;
-var HEIGHT_PADDINGS = 10;
+var HEIGHT_PADDINGS = 12;
 var createContextMenu = () => {
   const $payload = createStore(null);
   const $top = createStore(0);
@@ -980,9 +980,12 @@ var createContextMenu = () => {
     const clearContextMenu = React7.useCallback(() => {
       closeMenu();
     }, []);
+    const itemsToRender = React7.useMemo(() => {
+      return items.filter((v) => v.filter ? v.filter(payload) : true);
+    }, [items, payload]);
     React7.useEffect(() => {
-      setHeight(items.length * MENU_ITEM_HEIGHT_PX);
-    }, [items]);
+      setHeight(itemsToRender.length * MENU_ITEM_HEIGHT_PX);
+    }, [itemsToRender]);
     React7.useEffect(() => {
       document.addEventListener("click", clearContextMenu);
       return () => {
@@ -991,8 +994,8 @@ var createContextMenu = () => {
     }, []);
     const [selectedIdx, setSelectedIdx] = useArrowKeys(
       payload !== null,
-      items.length,
-      (id) => items[id].action(payload),
+      itemsToRender.length,
+      (id) => itemsToRender[id].action(payload),
       closeMenu
     );
     if (payload === null) {
@@ -1005,7 +1008,7 @@ var createContextMenu = () => {
         style: { left, top },
         children: [
           title && /* @__PURE__ */ jsx14(TitleWrapper, { children: title }),
-          /* @__PURE__ */ jsx14(MenuWrapper, { children: items.filter((v) => v.filter ? v.filter(payload) : true).map((item, index) => {
+          /* @__PURE__ */ jsx14(MenuWrapper, { children: itemsToRender.map((item, index) => {
             return /* @__PURE__ */ jsxs10(
               MenuItem,
               {

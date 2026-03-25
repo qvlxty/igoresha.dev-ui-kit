@@ -8,7 +8,7 @@ import { themeVar } from "../../theming"
 
 const WIDTH_PX = 220
 const MENU_ITEM_HEIGHT_PX = 26
-const HEIGHT_PADDINGS = 10
+const HEIGHT_PADDINGS = 12
 
 export const createContextMenu = <T = unknown,>() => {
     const $payload = createStore<T | null>(null)
@@ -71,9 +71,13 @@ export const createContextMenu = <T = unknown,>() => {
             closeMenu()
         }, [])
 
+        const itemsToRender = React.useMemo(() => {
+            return items.filter((v) => v.filter ? v.filter(payload!) : true)
+        },[items, payload])
+
         React.useEffect(() => {
-            setHeight(items.length * MENU_ITEM_HEIGHT_PX)
-        }, [items])
+            setHeight(itemsToRender.length * MENU_ITEM_HEIGHT_PX)
+        }, [itemsToRender])
 
         React.useEffect(() => {
             document.addEventListener('click', clearContextMenu)
@@ -84,8 +88,8 @@ export const createContextMenu = <T = unknown,>() => {
 
         const [selectedIdx, setSelectedIdx] = useArrowKeys(
             payload !== null,
-            items.length, 
-            (id) => items[id].action(payload!),
+            itemsToRender.length, 
+            (id) => itemsToRender[id].action(payload!),
             closeMenu
         )
 
@@ -99,7 +103,7 @@ export const createContextMenu = <T = unknown,>() => {
             >
                 {title && <TitleWrapper>{title}</TitleWrapper>}
                 <MenuWrapper>
-                    {items.filter((v) => v.filter ? v.filter(payload) : true).map((item, index) => {
+                    {itemsToRender.map((item, index) => {
                         return (
                             <MenuItem
                                 onMouseEnter={() => setSelectedIdx(index)}

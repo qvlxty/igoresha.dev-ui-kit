@@ -34,7 +34,7 @@ type ItemProps = {
 const Item = styled.div<ItemProps>`
     font-size: 16px;
     white-space: nowrap;
-    padding: 16px 18px;
+    padding: 12px 16px;
     border-radius: 8px;
     font-size: 18px;
     gap: 12px;

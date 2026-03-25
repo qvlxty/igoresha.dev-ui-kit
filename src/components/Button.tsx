@@ -10,7 +10,7 @@ type ButtonProps = {
 }
 
 const ButtonCss = css<ButtonProps & ThemedStyledProps>`
-    padding: 8px 16px;
+    padding: 7px 14px;
     border-radius: 6px;
     border: 1px ${({$dashed}) => $dashed ? 'dashed' : 'solid' } ${themeVar('default500')};
     background: ${themeVar('default800')};

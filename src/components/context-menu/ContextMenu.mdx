@@ -48,6 +48,7 @@ export const ExampleComponent = () => {
                 { icon: <AiFillCalendar />, name: 'Calendar', action: (p) => alert(p) },
                 { icon: <AiFillSetting />, name: 'Settings', action: () => alert('second') },
                 { icon: <AiFillMoon />, name: 'Theme', action: () => alert('third') },
+                { icon: <AiFillMoon />, name: 'Optional', filter:(p) => p === 'secondButton', action: () => alert('third') },
             ]} />
         </>
     )

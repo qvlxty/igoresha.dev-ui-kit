@@ -194,7 +194,7 @@ var Wrap = styled2.div`
 // src/components/Button.tsx
 import styled3, { css as css2 } from "styled-components";
 var ButtonCss = css2`
-    padding: 8px 16px;
+    padding: 7px 14px;
     border-radius: 6px;
     border: 1px ${({ $dashed }) => $dashed ? "dashed" : "solid"} ${themeVar("default500")};
     background: ${themeVar("default800")};
@@ -637,7 +637,7 @@ var TabBar = ({ options, selected, onSet }) => {
 var Item = styled11.div`
     font-size: 16px;
     white-space: nowrap;
-    padding: 16px 18px;
+    padding: 12px 16px;
     border-radius: 8px;
     font-size: 18px;
     gap: 12px;
@@ -929,6 +929,9 @@ var useArrowKeys = (visible, len, cb, closeMenu) => {
 
 // src/components/context-menu/create-context-menu.tsx
 import { jsx as jsx14, jsxs as jsxs10 } from "react/jsx-runtime";
+var WIDTH_PX = 220;
+var MENU_ITEM_HEIGHT_PX = 26;
+var HEIGHT_PADDINGS = 10;
 var createContextMenu = () => {
   const $payload = createStore(null);
   const $top = createStore(0);
@@ -961,18 +964,18 @@ var createContextMenu = () => {
     let left = 0;
     let top = 0;
     if (window.innerHeight / 2 < e.clientY) {
-      top = e.clientY - height;
+      top = e.clientY - height - HEIGHT_PADDINGS;
     } else {
       top = e.clientY;
     }
     if (window.innerWidth / 2 < e.clientX) {
-      left = e.clientX - height;
+      left = e.clientX - WIDTH_PX;
     } else {
       left = e.clientX;
     }
     return { left, top, payload };
   });
-  const ContextMenu = ({ items }) => {
+  const ContextMenu = ({ items, title }) => {
     const [left, top, payload] = useUnit2([$left, $top, $payload]);
     const clearContextMenu = React7.useCallback(() => {
       closeMenu();
@@ -995,26 +998,29 @@ var createContextMenu = () => {
     if (payload === null) {
       return null;
     }
-    return /* @__PURE__ */ jsx14(
+    return /* @__PURE__ */ jsxs10(
       Motion,
       {
         onContextMenuCapture: (e) => e.preventDefault(),
         style: { left, top },
-        children: /* @__PURE__ */ jsx14(MenuWrapper, { children: items.map((item, index) => {
-          return /* @__PURE__ */ jsxs10(
-            MenuItem,
-            {
-              onMouseEnter: () => setSelectedIdx(index),
-              $active: index === selectedIdx,
-              onClick: () => item.action(payload),
-              children: [
-                /* @__PURE__ */ jsx14(IconWrapper, { children: item.icon }),
-                /* @__PURE__ */ jsx14("div", { children: item.name })
-              ]
-            },
-            index
-          );
-        }) })
+        children: [
+          title && /* @__PURE__ */ jsx14(TitleWrapper, { children: title }),
+          /* @__PURE__ */ jsx14(MenuWrapper, { children: items.filter((v) => v.filter ? v.filter(payload) : true).map((item, index) => {
+            return /* @__PURE__ */ jsxs10(
+              MenuItem,
+              {
+                onMouseEnter: () => setSelectedIdx(index),
+                $active: index === selectedIdx,
+                onClick: () => item.action(payload),
+                children: [
+                  /* @__PURE__ */ jsx14(IconWrapper, { children: item.icon }),
+                  /* @__PURE__ */ jsx14("div", { children: item.name })
+                ]
+              },
+              index
+            );
+          }) })
+        ]
       }
     );
   };
@@ -1025,7 +1031,6 @@ var createContextMenu = () => {
     closeMenu
   };
 };
-var MENU_ITEM_HEIGHT_PX = 10;
 var Motion = styled16.div`
     position: fixed;
     width: 0;
@@ -1043,8 +1048,8 @@ var MenuWrapper = styled16.div`
     color: white;
     position: relative;
     border-radius: 6px;
-    max-width: 220px;
-    width: 220px;
+    max-width: ${WIDTH_PX}px;
+    width: ${WIDTH_PX}px;
     padding: 4px;
 `;
 var IconWrapper = styled16.div`
@@ -1053,6 +1058,9 @@ var IconWrapper = styled16.div`
     justify-content: center;
     padding-left: 8px;
     padding-right: 8px;
+`;
+var TitleWrapper = styled16.div`
+    padding: 6px;
 `;
 var MenuItem = styled16.button`
     padding: 6px;
@@ -1064,6 +1072,7 @@ var MenuItem = styled16.button`
     color: ${themeVar("fontColor")};
     background: none;
     outline: none;
+    height: ${MENU_ITEM_HEIGHT_PX}px;
     border: 0;
     width: 100%;
     cursor: pointer;

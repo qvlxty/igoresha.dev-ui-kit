@@ -259,7 +259,7 @@ var Wrap = import_styled_components4.default.div`
 // src/components/Button.tsx
 var import_styled_components5 = __toESM(require("styled-components"));
 var ButtonCss = import_styled_components5.css`
-    padding: 8px 16px;
+    padding: 7px 14px;
     border-radius: 6px;
     border: 1px ${({ $dashed }) => $dashed ? "dashed" : "solid"} ${themeVar("default500")};
     background: ${themeVar("default800")};
@@ -702,7 +702,7 @@ var TabBar = ({ options, selected, onSet }) => {
 var Item = import_styled_components13.default.div`
     font-size: 16px;
     white-space: nowrap;
-    padding: 16px 18px;
+    padding: 12px 16px;
     border-radius: 8px;
     font-size: 18px;
     gap: 12px;
@@ -994,6 +994,9 @@ var useArrowKeys = (visible, len, cb, closeMenu) => {
 
 // src/components/context-menu/create-context-menu.tsx
 var import_jsx_runtime14 = require("react/jsx-runtime");
+var WIDTH_PX = 220;
+var MENU_ITEM_HEIGHT_PX = 26;
+var HEIGHT_PADDINGS = 10;
 var createContextMenu = () => {
   const $payload = (0, import_effector2.createStore)(null);
   const $top = (0, import_effector2.createStore)(0);
@@ -1026,18 +1029,18 @@ var createContextMenu = () => {
     let left = 0;
     let top = 0;
     if (window.innerHeight / 2 < e.clientY) {
-      top = e.clientY - height;
+      top = e.clientY - height - HEIGHT_PADDINGS;
     } else {
       top = e.clientY;
     }
     if (window.innerWidth / 2 < e.clientX) {
-      left = e.clientX - height;
+      left = e.clientX - WIDTH_PX;
     } else {
       left = e.clientX;
     }
     return { left, top, payload };
   });
-  const ContextMenu = ({ items }) => {
+  const ContextMenu = ({ items, title }) => {
     const [left, top, payload] = (0, import_effector_react2.useUnit)([$left, $top, $payload]);
     const clearContextMenu = import_react7.default.useCallback(() => {
       closeMenu();
@@ -1060,26 +1063,29 @@ var createContextMenu = () => {
     if (payload === null) {
       return null;
     }
-    return /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)(
       Motion,
       {
         onContextMenuCapture: (e) => e.preventDefault(),
         style: { left, top },
-        children: /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(MenuWrapper, { children: items.map((item, index) => {
-          return /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)(
-            MenuItem,
-            {
-              onMouseEnter: () => setSelectedIdx(index),
-              $active: index === selectedIdx,
-              onClick: () => item.action(payload),
-              children: [
-                /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(IconWrapper, { children: item.icon }),
-                /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("div", { children: item.name })
-              ]
-            },
-            index
-          );
-        }) })
+        children: [
+          title && /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(TitleWrapper, { children: title }),
+          /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(MenuWrapper, { children: items.filter((v) => v.filter ? v.filter(payload) : true).map((item, index) => {
+            return /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)(
+              MenuItem,
+              {
+                onMouseEnter: () => setSelectedIdx(index),
+                $active: index === selectedIdx,
+                onClick: () => item.action(payload),
+                children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(IconWrapper, { children: item.icon }),
+                  /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("div", { children: item.name })
+                ]
+              },
+              index
+            );
+          }) })
+        ]
       }
     );
   };
@@ -1090,7 +1096,6 @@ var createContextMenu = () => {
     closeMenu
   };
 };
-var MENU_ITEM_HEIGHT_PX = 10;
 var Motion = import_styled_components18.default.div`
     position: fixed;
     width: 0;
@@ -1108,8 +1113,8 @@ var MenuWrapper = import_styled_components18.default.div`
     color: white;
     position: relative;
     border-radius: 6px;
-    max-width: 220px;
-    width: 220px;
+    max-width: ${WIDTH_PX}px;
+    width: ${WIDTH_PX}px;
     padding: 4px;
 `;
 var IconWrapper = import_styled_components18.default.div`
@@ -1118,6 +1123,9 @@ var IconWrapper = import_styled_components18.default.div`
     justify-content: center;
     padding-left: 8px;
     padding-right: 8px;
+`;
+var TitleWrapper = import_styled_components18.default.div`
+    padding: 6px;
 `;
 var MenuItem = import_styled_components18.default.button`
     padding: 6px;
@@ -1129,6 +1137,7 @@ var MenuItem = import_styled_components18.default.button`
     color: ${themeVar("fontColor")};
     background: none;
     outline: none;
+    height: ${MENU_ITEM_HEIGHT_PX}px;
     border: 0;
     width: 100%;
     cursor: pointer;

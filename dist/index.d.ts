@@ -187,10 +187,12 @@ declare const createContextMenu: <T = unknown>() => {
 };
 type Props<T> = {
     items: {
-        icon: React__default.ReactNode;
+        icon?: React__default.ReactNode;
         action: (v: T) => void;
         name: string;
+        filter?: (v: T) => boolean;
     }[];
+    title?: React__default.ReactNode;
 };
 
 declare const GlobalStyled: React$1.NamedExoticComponent<styled_components.ExecutionProps & ThemedStyledProps>;

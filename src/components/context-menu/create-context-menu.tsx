@@ -6,6 +6,10 @@ import styled, { css } from "styled-components"
 import { useArrowKeys } from "./context-menu/useArrowKeys"
 import { themeVar } from "../../theming"
 
+const WIDTH_PX = 220
+const MENU_ITEM_HEIGHT_PX = 26
+const HEIGHT_PADDINGS = 10
+
 export const createContextMenu = <T = unknown,>() => {
     const $payload = createStore<T | null>(null)
     const $top = createStore(0)
@@ -49,19 +53,19 @@ export const createContextMenu = <T = unknown,>() => {
         let left = 0
         let top = 0
         if (window.innerHeight / 2 < e.clientY) {
-            top = e.clientY - height
+            top = e.clientY - height - HEIGHT_PADDINGS
         } else {
             top = e.clientY
         }
         if (window.innerWidth / 2 < e.clientX) {
-            left = e.clientX - height
+            left = e.clientX - WIDTH_PX
         } else {
             left = e.clientX
         }
         return { left, top, payload }
     })
 
-    const ContextMenu: React.FunctionComponent<Props<T>> = ({ items }) => {
+    const ContextMenu: React.FunctionComponent<Props<T>> = ({ items, title }) => {
         const [left, top, payload] = useUnit([$left, $top, $payload])
         const clearContextMenu = React.useCallback(() => {
             closeMenu()
@@ -93,8 +97,9 @@ export const createContextMenu = <T = unknown,>() => {
                 onContextMenuCapture={(e) => e.preventDefault()}
                 style={{ left, top }}
             >
+                {title && <TitleWrapper>{title}</TitleWrapper>}
                 <MenuWrapper>
-                    {items.map((item, index) => {
+                    {items.filter((v) => v.filter ? v.filter(payload) : true).map((item, index) => {
                         return (
                             <MenuItem
                                 onMouseEnter={() => setSelectedIdx(index)}
@@ -120,10 +125,10 @@ export const createContextMenu = <T = unknown,>() => {
     }
 }
 
-const MENU_ITEM_HEIGHT_PX = 10
 
 type Props<T> = {
-    items: { icon: React.ReactNode, action: (v: T) => void, name: string }[]
+    items: { icon?: React.ReactNode, action: (v: T) => void, name: string, filter?: (v: T) => boolean }[],
+    title?: React.ReactNode
 }
 
 
@@ -145,8 +150,8 @@ const MenuWrapper = styled.div`
     color: white;
     position: relative;
     border-radius: 6px;
-    max-width: 220px;
-    width: 220px;
+    max-width: ${WIDTH_PX}px;
+    width: ${WIDTH_PX}px;
     padding: 4px;
 `
 
@@ -156,6 +161,10 @@ const IconWrapper = styled.div`
     justify-content: center;
     padding-left: 8px;
     padding-right: 8px;
+`
+
+const TitleWrapper = styled.div`
+    padding: 6px;
 `
 
 const MenuItem = styled.button<{ $active: boolean }>`
@@ -168,6 +177,7 @@ const MenuItem = styled.button<{ $active: boolean }>`
     color: ${themeVar('fontColor')};
     background: none;
     outline: none;
+    height: ${MENU_ITEM_HEIGHT_PX}px;
     border: 0;
     width: 100%;
     cursor: pointer;

@@ -165,9 +165,22 @@ var stringToColor = (str) => {
 
 // src/components/AvatarThumb.tsx
 import styled2 from "styled-components";
-import { jsx as jsx3 } from "react/jsx-runtime";
-var AvatarThumb = ({ nickname, style }) => /* @__PURE__ */ jsx3(Wrap, { style: { ...style, backgroundColor: stringToColor(nickname || "0") }, children: nickname.length > 0 && nickname[0].toUpperCase() });
+import { jsx as jsx3, jsxs } from "react/jsx-runtime";
+var AvatarThumb = ({ nickname, style, isOnline }) => /* @__PURE__ */ jsxs(Wrap, { style: { ...style, backgroundColor: stringToColor(nickname || "0") }, children: [
+  isOnline && /* @__PURE__ */ jsx3(Dot, {}),
+  nickname.length > 0 && nickname[0].toUpperCase()
+] });
+var Dot = styled2.div`
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: #07b868;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+`;
 var Wrap = styled2.div`
+    position: relative;
     width: 32px;
     height: 32px;
     border-radius: 50%;
@@ -251,7 +264,7 @@ var onMdWidth = `@media only screen and (max-width: ${TABLET_WIDTH}px)`;
 var onLgWidth = `@media only screen and (max-width: ${LARGE_WIDTH_PX}px)`;
 
 // src/components/Dropdown.tsx
-import { jsx as jsx4, jsxs } from "react/jsx-runtime";
+import { jsx as jsx4, jsxs as jsxs2 } from "react/jsx-runtime";
 var Dropdown = ({ options, onOptionChange, selected, placeholder = "Empty", headerIcon }) => {
   const [isOpen, setIsOpen] = React2.useState(false);
   const toggleList = () => setIsOpen(!isOpen);
@@ -274,15 +287,15 @@ var Dropdown = ({ options, onOptionChange, selected, placeholder = "Empty", head
       document.removeEventListener("click", handleClickOutside);
     };
   }, [isOpen]);
-  return /* @__PURE__ */ jsxs(Container, { ref, children: [
-    /* @__PURE__ */ jsxs(Header, { onClick: toggleList, children: [
-      /* @__PURE__ */ jsxs("div", { children: [
+  return /* @__PURE__ */ jsxs2(Container, { ref, children: [
+    /* @__PURE__ */ jsxs2(Header, { onClick: toggleList, children: [
+      /* @__PURE__ */ jsxs2("div", { children: [
         selectedText && /* @__PURE__ */ jsx4("div", { children: selectedText }),
         !selectedText && /* @__PURE__ */ jsx4("div", { children: placeholder })
       ] }),
       headerIcon
     ] }),
-    isOpen && /* @__PURE__ */ jsx4(Wrapper, { children: /* @__PURE__ */ jsx4(ListContainer, { children: /* @__PURE__ */ jsx4(List, { children: options.map((item) => /* @__PURE__ */ jsxs(
+    isOpen && /* @__PURE__ */ jsx4(Wrapper, { children: /* @__PURE__ */ jsx4(ListContainer, { children: /* @__PURE__ */ jsx4(List, { children: options.map((item) => /* @__PURE__ */ jsxs2(
       ListItem,
       {
         onClick: () => onOptionClicked(item),
@@ -370,14 +383,14 @@ var ListItem = styled4.li`
 // src/components/Input.tsx
 import React3 from "react";
 import styled5, { css as css3 } from "styled-components";
-import { Fragment, jsx as jsx5, jsxs as jsxs2 } from "react/jsx-runtime";
+import { Fragment, jsx as jsx5, jsxs as jsxs3 } from "react/jsx-runtime";
 var Input = React3.forwardRef(({
   onChange,
   errorText,
   hasError,
   ...props
 }, ref) => {
-  return /* @__PURE__ */ jsxs2(Fragment, { children: [
+  return /* @__PURE__ */ jsxs3(Fragment, { children: [
     /* @__PURE__ */ jsx5(
       InputWrapper,
       {
@@ -435,7 +448,7 @@ Loader.displayName = "Loader";
 // src/components/Modal.tsx
 import React4 from "react";
 import styled7 from "styled-components";
-import { jsx as jsx6, jsxs as jsxs3 } from "react/jsx-runtime";
+import { jsx as jsx6, jsxs as jsxs4 } from "react/jsx-runtime";
 var Modal = ({ visible, onClose, children, loading = false, style }) => {
   React4.useEffect(() => {
     if (visible) {
@@ -450,7 +463,7 @@ var Modal = ({ visible, onClose, children, loading = false, style }) => {
   if (!visible) {
     return null;
   }
-  return /* @__PURE__ */ jsxs3(Overlay, { onClick: () => onClose(), style, children: [
+  return /* @__PURE__ */ jsxs4(Overlay, { onClick: () => onClose(), style, children: [
     loading && /* @__PURE__ */ jsx6(Loader, {}),
     !loading && /* @__PURE__ */ jsx6(Container2, { onClick: (e) => e.stopPropagation(), children })
   ] });
@@ -536,8 +549,8 @@ var Range = styled9.input.attrs({ type: "range" })`
 
 // src/components/Switch.tsx
 import styled10 from "styled-components";
-import { jsx as jsx8, jsxs as jsxs4 } from "react/jsx-runtime";
-var Switch = ({ checked, onChange, disabled }) => /* @__PURE__ */ jsx8(Container4, { children: /* @__PURE__ */ jsxs4(Label, { className: "switch", children: [
+import { jsx as jsx8, jsxs as jsxs5 } from "react/jsx-runtime";
+var Switch = ({ checked, onChange, disabled }) => /* @__PURE__ */ jsx8(Container4, { children: /* @__PURE__ */ jsxs5(Label, { className: "switch", children: [
   /* @__PURE__ */ jsx8(Input2, { type: "checkbox", checked, onChange, disabled }),
   /* @__PURE__ */ jsx8("span", { className: "slider round" })
 ] }) });
@@ -659,13 +672,13 @@ var Container5 = styled11.div`
 // src/components/TextArea.tsx
 import styled12, { css as css5 } from "styled-components";
 import React5 from "react";
-import { Fragment as Fragment2, jsx as jsx10, jsxs as jsxs5 } from "react/jsx-runtime";
+import { Fragment as Fragment2, jsx as jsx10, jsxs as jsxs6 } from "react/jsx-runtime";
 var TextArea = React5.forwardRef(({
   onChange,
   $errorText,
   $hasError,
   ...props
-}, ref) => /* @__PURE__ */ jsxs5(Fragment2, { children: [
+}, ref) => /* @__PURE__ */ jsxs6(Fragment2, { children: [
   /* @__PURE__ */ jsx10(
     Wrapper2,
     {
@@ -702,14 +715,14 @@ var ErrorText2 = styled12.div`
 
 // src/components/NavPanel/NavPanel.tsx
 import styled13 from "styled-components";
-import { Fragment as Fragment3, jsx as jsx11, jsxs as jsxs6 } from "react/jsx-runtime";
+import { Fragment as Fragment3, jsx as jsx11, jsxs as jsxs7 } from "react/jsx-runtime";
 var NavPanel = ({
   links,
   LinkElement
 }) => {
-  return /* @__PURE__ */ jsx11(Container6, { children: /* @__PURE__ */ jsx11(Wrapper3, { children: links.map((v, idx) => /* @__PURE__ */ jsxs6(Fragment3, { children: [
+  return /* @__PURE__ */ jsx11(Container6, { children: /* @__PURE__ */ jsx11(Wrapper3, { children: links.map((v, idx) => /* @__PURE__ */ jsxs7(Fragment3, { children: [
     v === "Separator" && /* @__PURE__ */ jsx11(Separator, {}, idx),
-    v !== "Separator" && /* @__PURE__ */ jsxs6(Fragment3, { children: [
+    v !== "Separator" && /* @__PURE__ */ jsxs7(Fragment3, { children: [
       "to" in v && /* @__PURE__ */ jsx11(
         LinkElement,
         {
@@ -785,19 +798,19 @@ var Separator = styled13.div`
 
 // src/components/Settings/Settings.tsx
 import styled14 from "styled-components";
-import { jsx as jsx12, jsxs as jsxs7 } from "react/jsx-runtime";
+import { jsx as jsx12, jsxs as jsxs8 } from "react/jsx-runtime";
 var Settings = ({
   children,
   containerStyle,
   title,
   titleIcon
 }) => {
-  return /* @__PURE__ */ jsxs7(
+  return /* @__PURE__ */ jsxs8(
     Container7,
     {
       style: containerStyle,
       children: [
-        /* @__PURE__ */ jsxs7(Header2, { children: [
+        /* @__PURE__ */ jsxs8(Header2, { children: [
           titleIcon,
           /* @__PURE__ */ jsx12("h1", { children: title })
         ] }),
@@ -825,10 +838,10 @@ var Header2 = styled14.div`
 
 // src/components/Settings/SettingRow.tsx
 import styled15 from "styled-components";
-import { jsx as jsx13, jsxs as jsxs8 } from "react/jsx-runtime";
+import { jsx as jsx13, jsxs as jsxs9 } from "react/jsx-runtime";
 var SettingRow = ({ title, icon, option, description, containerStyle }) => {
-  return /* @__PURE__ */ jsxs8(Container8, { style: containerStyle, children: [
-    /* @__PURE__ */ jsxs8(Title, { children: [
+  return /* @__PURE__ */ jsxs9(Container8, { style: containerStyle, children: [
+    /* @__PURE__ */ jsxs9(Title, { children: [
       icon,
       title,
       description && /* @__PURE__ */ jsx13(Description, { children: description })
@@ -915,7 +928,7 @@ var useArrowKeys = (visible, len, cb, closeMenu) => {
 };
 
 // src/components/context-menu/create-context-menu.tsx
-import { jsx as jsx14, jsxs as jsxs9 } from "react/jsx-runtime";
+import { jsx as jsx14, jsxs as jsxs10 } from "react/jsx-runtime";
 var createContextMenu = () => {
   const $payload = createStore(null);
   const $top = createStore(0);
@@ -988,7 +1001,7 @@ var createContextMenu = () => {
         onContextMenuCapture: (e) => e.preventDefault(),
         style: { left, top },
         children: /* @__PURE__ */ jsx14(MenuWrapper, { children: items.map((item, index) => {
-          return /* @__PURE__ */ jsxs9(
+          return /* @__PURE__ */ jsxs10(
             MenuItem,
             {
               onMouseEnter: () => setSelectedIdx(index),
@@ -1007,7 +1020,9 @@ var createContextMenu = () => {
   };
   return {
     ContextMenu,
-    openMenu
+    openMenu,
+    $payload,
+    closeMenu
   };
 };
 var MENU_ITEM_HEIGHT_PX = 10;

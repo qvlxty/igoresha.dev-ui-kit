@@ -115,6 +115,8 @@ export const createContextMenu = <T = unknown,>() => {
     return {
         ContextMenu,
         openMenu,
+        $payload,
+        closeMenu
     }
 }
 

@@ -7,6 +7,12 @@ import * as ContextMenu from './ContextMenu.stories'
 # Пример работы фабрики контекстного меню
 
 Контекстное меню создается фабрикой createContextMenu. Фабрика инкапсулирует в себя некоторую effector бизнес-логику для работы компонента меню, а также его позиционирования.
+Функция провайдит следующие элементы:
+
+- ContextMenu - компонент 
+- $payload - `Store<T>` стор переданного пейлоада 
+- openMenu - `Event<T>` ивент открытия контекстного меню
+- closeMenu - `Event<void>` ивент форсированного закрытия контекстного меню
 
 Есть также поддержка стрелочных клавиш / space / enter
 
@@ -23,7 +29,8 @@ import { AiFillCalendar, AiFillSetting, AiFillMoon } from 'react-icons/ai'
 
 export const {
     ContextMenu,
-    openMenu
+    openMenu,
+    $payload
 } = createContextMenu<string>()
 
 export const ExampleComponent = () => {
@@ -46,4 +53,3 @@ export const ExampleComponent = () => {
     )
 }
 ```
-

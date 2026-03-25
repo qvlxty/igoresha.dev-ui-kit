@@ -16,8 +16,9 @@ declare const Avatar: ({ url, $size, $isOnline, style }: Props$b) => react_jsx_r
 type Props$a = {
     nickname: string;
     style?: React.CSSProperties;
+    isOnline?: boolean;
 };
-declare const AvatarThumb: ({ nickname, style }: Props$a) => react_jsx_runtime.JSX.Element;
+declare const AvatarThumb: ({ nickname, style, isOnline }: Props$a) => react_jsx_runtime.JSX.Element;
 
 declare const lightTheme: {
     backgroundColor: string;
@@ -181,6 +182,8 @@ declare const createContextMenu: <T = unknown>() => {
         e: React__default.MouseEvent;
         payload?: T;
     }>;
+    $payload: effector.StoreWritable<T | null>;
+    closeMenu: effector.EventCallable<void>;
 };
 type Props<T> = {
     items: {

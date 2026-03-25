@@ -16,6 +16,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Element: Story = {
     args: {
-        nickname: 'Admin'
+        nickname: 'Admin',
+        isOnline: false
     }
 };

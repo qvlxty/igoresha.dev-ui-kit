@@ -231,8 +231,21 @@ var stringToColor = (str) => {
 // src/components/AvatarThumb.tsx
 var import_styled_components4 = __toESM(require("styled-components"));
 var import_jsx_runtime3 = require("react/jsx-runtime");
-var AvatarThumb = ({ nickname, style }) => /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Wrap, { style: { ...style, backgroundColor: stringToColor(nickname || "0") }, children: nickname.length > 0 && nickname[0].toUpperCase() });
+var AvatarThumb = ({ nickname, style, isOnline }) => /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)(Wrap, { style: { ...style, backgroundColor: stringToColor(nickname || "0") }, children: [
+  isOnline && /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Dot, {}),
+  nickname.length > 0 && nickname[0].toUpperCase()
+] });
+var Dot = import_styled_components4.default.div`
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: #07b868;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+`;
 var Wrap = import_styled_components4.default.div`
+    position: relative;
     width: 32px;
     height: 32px;
     border-radius: 50%;
@@ -1072,7 +1085,9 @@ var createContextMenu = () => {
   };
   return {
     ContextMenu,
-    openMenu
+    openMenu,
+    $payload,
+    closeMenu
   };
 };
 var MENU_ITEM_HEIGHT_PX = 10;

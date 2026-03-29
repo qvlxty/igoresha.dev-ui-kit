@@ -584,32 +584,32 @@ var Filter = import_styled_components10.default.div`
 // src/components/Range.tsx
 var import_styled_components11 = __toESM(require("styled-components"));
 var Range = import_styled_components11.default.input.attrs({ type: "range" })`
-  &[type='range'] {
+   &[type='range'] {
     outline: none;
     -webkit-appearance: none;
     appearance: none;
-    border: 1px solid ${themeVar("default700")};
-    background-color: ${themeVar("default800")};
-    box-sizing: border-box;
+    background: transparent;
     width: 100%;
-    height: 12px;
-    border-radius: 4px;
+    height: 10px; 
     cursor: pointer;
   }
+
   &[type='range']::-webkit-slider-runnable-track {
-    width: 100%;
-    height: 16px;
+    height: 2px; /* тонкая линия */
+    background: ${themeVar("default600")};
+    border-radius: 2px;
   }
+
   &[type='range']::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-    height: 120px;
+    border-radius: 4px;
+    height: 10px;
     width: 10px;
-    background: ${themeVar("accent700")};
+    background: ${themeVar("default500")};
     cursor: pointer;
-    margin-top: -8px; 
+    margin-top: -4px; 
   }
-  overflow: hidden;
 `;
 
 // src/components/Switch.tsx

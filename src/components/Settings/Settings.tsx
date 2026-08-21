@@ -1,5 +1,8 @@
 import styled from "styled-components"
 import React, { PropsWithChildren } from "react"
+import { SPACING_PX } from "../../const"
+
+const SETTINGS_BOTTOM_PADDING_PX = 86
 
 
 type Props = {
@@ -32,16 +35,16 @@ const Container = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  padding-left: 24px;
-  padding-right: 24px;
-  padding-bottom: 86px;
+  padding-left: ${SPACING_PX.xl}px;
+  padding-right: ${SPACING_PX.xl}px;
+  padding-bottom: ${SETTINGS_BOTTOM_PADDING_PX}px;
   box-sizing: border-box;
-  gap: 12px;
+  gap: ${SPACING_PX.sm}px;
 `
 
 const Header = styled.div`
     display: flex;
     align-items: center;
     flex-direction: row;
-    gap: 12px;
+    gap: ${SPACING_PX.sm}px;
 `

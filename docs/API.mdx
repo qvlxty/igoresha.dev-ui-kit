@@ -1,7 +1,37 @@
+# API
 
+Библиотека провайдит ряд констант, для обработки респонсив логики отрисовки
+
+```tsx
 export const MOBILE_WIDTH = 600
 export const TABLET_WIDTH = 900
 export const LARGE_WIDTH_PX = 1024
+```
+
+## Media-query shortcuts
+
+Доступны следующие шорткаты для описания медиа-кверей:
+
+- onSmWidth
+- onMdWidth
+- onLgWidth
+
+Примеры:
+
+```tsx
+const Badge = styled.div`
+   ${onSmWidth} {
+        padding: 10px 12px;
+        font-size: 14px;
+    }
+`
+```
+
+## Константы
+
+Библиотека провайдит ряд констант, которые используются в элементах кита
+
+```ts
 
 export const CONTROL_HEIGHT_PX = {
   small: 32,
@@ -43,6 +73,5 @@ export const FOCUS_RING = {
   offsetPx: 2,
 } as const
 
-export const onSmWidth = `@media only screen and (max-width: ${MOBILE_WIDTH}px)`
-export const onMdWidth = `@media only screen and (max-width: ${TABLET_WIDTH}px)`
-export const onLgWidth = `@media only screen and (max-width: ${LARGE_WIDTH_PX}px)`
+```
+

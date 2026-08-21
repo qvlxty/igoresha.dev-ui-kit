@@ -26,7 +26,7 @@ type Story = StoryObj<typeof meta>;
 const Container = styled.div`
   width: 900px;
   padding-top: 30px;
-  background-color: ${themeVar('backgroundColor')};
+  background-color: ${themeVar('surfacePage')};
 `
 
 Container.displayName = 'Container'

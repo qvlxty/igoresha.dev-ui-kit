@@ -4,6 +4,8 @@ import { fn } from 'storybook/test';
 import { AiOutlineCalendar } from 'react-icons/ai'
 
 import { Button } from './Button';
+import styled from 'styled-components';
+import { themeVar } from '../theming';
 
 const meta = {
   title: 'components/Button',
@@ -12,21 +14,16 @@ const meta = {
     layout: 'centered',
   },
   argTypes: {
-    $danger: {
-      control: 'boolean'
-    },
     $dashed: {
       control: 'boolean'
     },
-    $haveIcon: {
-      control: 'boolean',
-      description: 'Добавляет отступ для SVG иконки в children'
+    $variant: {
+      control: 'select',
+      options: ['default', 'primary', 'secondary', 'danger']
     },
-    $primary: {
-      control: 'boolean'
-    },
-    $secondary: {
-      control: 'boolean'
+    $size: {
+      control: 'select',
+      options: ['small', 'medium', 'large']
     },
     children: {
       control: false
@@ -40,28 +37,27 @@ type Story = StoryObj<typeof meta>;
 
 export const Primary: Story = {
   args: {
-    $primary: true,
+    $variant: 'primary',
     children: 'Button'
   },
 };
 
 export const Secondary: Story = {
   args: {
-    $secondary: true,
+    $variant: 'secondary',
     children: 'Button'
   },
 };
 
 export const Danger: Story = {
   args: {
-    $danger: true,
+    $variant: 'danger',
     children: 'Button'
   },
 };
 
 export const HaveIcon: Story = {
   args: {
-    $haveIcon: true,
     children: <><AiOutlineCalendar />Button</>
   },
 };
@@ -69,7 +65,41 @@ export const HaveIcon: Story = {
 export const Dashed: Story = {
   args: {
     $dashed: true,
-    $haveIcon: true,
     children: <><AiOutlineCalendar />Button</>
   },
+};
+
+export const Disabled: Story = {
+  args: {
+    $variant: 'primary',
+    disabled: true,
+    children: 'Disabled'
+  },
+};
+
+const StateGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(4, minmax(120px, auto));
+  gap: 16px;
+  align-items: center;
+  padding: 24px;
+  color: ${themeVar('textPrimary')};
+  background: ${themeVar('surfacePage')};
+`;
+
+export const AllStates: Story = {
+  render: () => (
+    <StateGrid>
+      {(['default', 'primary', 'secondary', 'danger'] as const).map((variant) => (
+        <Button key={variant} $variant={variant}>{variant}</Button>
+      ))}
+      {(['default', 'primary', 'secondary', 'danger'] as const).map((variant) => (
+        <Button key={`${variant}-disabled`} $variant={variant} disabled>{variant}</Button>
+      ))}
+      <Button $size="small">Small</Button>
+      <Button $size="medium">Medium</Button>
+      <Button $size="large">Large</Button>
+      <Button $iconOnly aria-label="Calendar"><AiOutlineCalendar /></Button>
+    </StateGrid>
+  )
 };

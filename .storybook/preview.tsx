@@ -18,7 +18,10 @@ const preview: Preview = {
   ],
   parameters: {
     docs: {
-    }
+    },
+    a11y: {
+      test: 'todo',
+    },
   },
   tags: ['autodocs']
 };

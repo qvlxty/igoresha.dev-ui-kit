@@ -1,8 +1,8 @@
 import * as react_jsx_runtime from 'react/jsx-runtime';
+import * as styled_components from 'styled-components';
 import * as styled_components_dist_types from 'styled-components/dist/types';
 import * as React$1 from 'react';
 import React__default, { PropsWithChildren } from 'react';
-import * as styled_components from 'styled-components';
 import * as effector from 'effector';
 
 interface Props$b {
@@ -21,24 +21,40 @@ type Props$a = {
 declare const AvatarThumb: ({ nickname, style, isOnline }: Props$a) => react_jsx_runtime.JSX.Element;
 
 declare const lightTheme: {
-    backgroundColor: string;
-    contentBg: string;
-    fontColor: string;
-    accent700: string;
-    accent600: string;
-    accent500: string;
-    accent400: string;
-    accent300: string;
-    default800: string;
-    default700: string;
-    default600: string;
-    default500: string;
-    default400: string;
-    default300: string;
-    secondary500: string;
-    secondary400: string;
-    error500: string;
-    error400: string;
+    surfacePage: string;
+    surfaceBase: string;
+    surfaceElevated: string;
+    surfaceHover: string;
+    surfaceSelected: string;
+    textPrimary: string;
+    textSecondary: string;
+    textMuted: string;
+    textDisabled: string;
+    textOnAccent: string;
+    borderSubtle: string;
+    borderDefault: string;
+    borderStrong: string;
+    borderDisabled: string;
+    focusRing: string;
+    actionPrimary: string;
+    actionPrimaryHover: string;
+    actionPrimaryActive: string;
+    actionPrimaryText: string;
+    actionSecondary: string;
+    actionSecondaryHover: string;
+    actionSecondaryActive: string;
+    actionSecondaryText: string;
+    actionDanger: string;
+    actionDangerHover: string;
+    actionDangerActive: string;
+    actionDangerText: string;
+    actionDisabled: string;
+    success: string;
+    warning: string;
+    scrollbarThumb: string;
+    scrollbarThumbHover: string;
+    shadowColor: string;
+    overlayBackdrop: string;
 };
 
 type Theme = typeof lightTheme;
@@ -69,29 +85,36 @@ declare const $currentTheme: effector.StoreWritable<"light" | "dark">;
 declare const loadThemeFx: effector.Effect<void, "light" | "dark", Error>;
 declare const toggleTheme: effector.EventCallable<void>;
 
+type ButtonVariant = 'default' | 'primary' | 'secondary' | 'danger';
+type ButtonSize = 'small' | 'medium' | 'large';
 type ButtonProps = {
-    $haveIcon?: boolean;
-    $primary?: boolean;
-    $secondary?: boolean;
-    $danger?: boolean;
     $dashed?: boolean;
+    $variant?: ButtonVariant;
+    $size?: ButtonSize;
+    $fullWidth?: boolean;
+    $iconOnly?: boolean;
 };
-declare const Button: styled_components_dist_types.IStyledComponentBase<"web", styled_components_dist_types.Substitute<React$1.DetailedHTMLProps<React$1.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>, ButtonProps & ThemedStyledProps>> & string;
+declare const Button: styled_components_dist_types.IStyledComponentBase<"web", styled_components_dist_types.Substitute<styled_components.FastOmit<styled_components_dist_types.Substitute<React$1.DetailedHTMLProps<React$1.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>, React$1.DetailedHTMLProps<React$1.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>>, never>, ButtonProps & ThemedStyledProps>> & string;
 declare const LinkButton: styled_components_dist_types.IStyledComponentBase<"web", styled_components_dist_types.Substitute<React$1.DetailedHTMLProps<React$1.AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement>, ButtonProps & ThemedStyledProps>> & string;
 
-type Item<T> = {
+type DropdownItem<T> = {
     value: T;
     text: string;
     icon?: React__default.ReactNode;
+    disabled?: boolean;
 };
 type Props$8<T> = {
-    options: Item<T>[];
+    options: DropdownItem<T>[];
     placeholder?: string;
     selected?: T;
     headerIcon?: React__default.ReactNode;
     onOptionChange: (optionValue: T) => void;
+    disabled?: boolean;
+    maxMenuHeight?: number;
+    width?: number | string;
+    'aria-label'?: string;
 };
-declare const Dropdown: <T extends number | string | null>({ options, onOptionChange, selected, placeholder, headerIcon }: Props$8<T>) => react_jsx_runtime.JSX.Element;
+declare const Dropdown: <T extends number | string | null>({ options, onOptionChange, selected, placeholder, headerIcon, disabled, maxMenuHeight, width, "aria-label": ariaLabel, }: Props$8<T>) => react_jsx_runtime.JSX.Element;
 
 declare const Input: React__default.ForwardRefExoticComponent<Omit<React__default.InputHTMLAttributes<HTMLInputElement>, "onChange"> & {
     onChange?: (text: string) => void;
@@ -200,8 +223,52 @@ declare const GlobalStyled: React$1.NamedExoticComponent<styled_components.Execu
 declare const MOBILE_WIDTH = 600;
 declare const TABLET_WIDTH = 900;
 declare const LARGE_WIDTH_PX = 1024;
+declare const CONTROL_HEIGHT_PX: {
+    readonly small: 32;
+    readonly medium: 40;
+    readonly large: 48;
+};
+declare const SPACING_PX: {
+    readonly xxs: 4;
+    readonly xs: 8;
+    readonly sm: 12;
+    readonly md: 16;
+    readonly lg: 20;
+    readonly xl: 24;
+    readonly xxl: 32;
+};
+declare const BORDER_RADIUS_PX: {
+    readonly small: 4;
+    readonly medium: 6;
+    readonly large: 8;
+    readonly xlarge: 12;
+    readonly pill: 999;
+};
+declare const FONT_SIZE_PX: {
+    readonly small: 14;
+    readonly medium: 16;
+};
+declare const MOTION_DURATION_MS: {
+    readonly press: 80;
+    readonly standard: 160;
+};
+declare const FOCUS_RING: {
+    readonly widthPx: 3;
+    readonly opacityPercent: 34;
+    readonly offsetPx: 2;
+};
 declare const onSmWidth = "@media only screen and (max-width: 600px)";
 declare const onMdWidth = "@media only screen and (max-width: 900px)";
 declare const onLgWidth = "@media only screen and (max-width: 1024px)";
 
-export { $currentTheme, Avatar, AvatarThumb, Button, Dropdown, GlobalStyled, Input, LARGE_WIDTH_PX, LinkButton, Loader, MOBILE_WIDTH, Modal, NavPanel, ProgressBar, Range, SettingRow, Settings, Switch, TABLET_WIDTH, THEME_KEY, TabBar, TextArea, type Theme, type ThemeItem, ThemeProvider, type ThemedStyledProps, availableThemes, createContextMenu, loadThemeFx, onLgWidth, onMdWidth, onSmWidth, themeVar, toggleTheme, useTheme };
+type UseArrowKeysOptions = {
+    visible: boolean;
+    length: number;
+    onSelect: (index: number) => void;
+    onClose: () => void;
+    isItemDisabled?: (index: number) => boolean;
+};
+declare const getNextEnabledIndex: (length: number, from: number, direction: 1 | -1, isItemDisabled?: (index: number) => boolean) => number | null;
+declare const useArrowKeys: ({ visible, length, onSelect, onClose, isItemDisabled, }: UseArrowKeysOptions) => [number | null, React__default.Dispatch<React__default.SetStateAction<number | null>>];
+
+export { $currentTheme, Avatar, AvatarThumb, BORDER_RADIUS_PX, Button, type ButtonSize, type ButtonVariant, CONTROL_HEIGHT_PX, Dropdown, type DropdownItem, FOCUS_RING, FONT_SIZE_PX, GlobalStyled, Input, LARGE_WIDTH_PX, LinkButton, Loader, MOBILE_WIDTH, MOTION_DURATION_MS, Modal, NavPanel, ProgressBar, Range, SPACING_PX, SettingRow, Settings, Switch, TABLET_WIDTH, THEME_KEY, TabBar, TextArea, type Theme, type ThemeItem, ThemeProvider, type ThemedStyledProps, availableThemes, createContextMenu, getNextEnabledIndex, loadThemeFx, onLgWidth, onMdWidth, onSmWidth, themeVar, toggleTheme, useArrowKeys, useTheme };

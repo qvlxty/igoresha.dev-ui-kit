@@ -1,6 +1,12 @@
 import React from 'react'
 import styled from 'styled-components'
 import { themeVar } from '../../theming'
+import { BORDER_RADIUS_PX, FONT_SIZE_PX, SPACING_PX } from '../../const'
+
+const SETTING_ROW_GAP_PX = 10
+const SETTING_ROW_BORDER_WIDTH_PX = 1
+const SETTING_DESCRIPTION_MAX_WIDTH_PX = 360
+const SETTING_ICON_BASELINE_OFFSET_PX = -2
 
 type Props = {
     icon?: React.ReactNode
@@ -29,32 +35,33 @@ export const SettingRow = ({ title, icon, option, description, containerStyle }:
 const Container = styled.div`
     display: flex;
     flex-direction: row;
-    padding: 12px;
+    padding: ${SPACING_PX.sm}px;
     width: 100%;
     box-sizing: border-box;
-    gap: 10px;
+    gap: ${SETTING_ROW_GAP_PX}px;
     align-items: center;
-    border-top: 1px solid ${themeVar('default700')};
+    border-top: ${SETTING_ROW_BORDER_WIDTH_PX}px solid ${themeVar('borderSubtle')};
     &:first-child {
-        border-top: 1px solid #00000000;
+        border-top: ${SETTING_ROW_BORDER_WIDTH_PX}px solid transparent;
     }
 `
 
 const Title = styled.div`
-    font-size: 16px;
+    font-size: ${FONT_SIZE_PX.medium}px;
     flex: 1;
     svg {
-        margin-right: 8px;
-        margin-bottom: -2px;
+        margin-right: ${SPACING_PX.xs}px;
+        margin-bottom: ${SETTING_ICON_BASELINE_OFFSET_PX}px;
     }    
 `
 
 const Description = styled.div`
-    font-size: 14px;
-    background-color: ${themeVar('default400')}09;
-    margin-top: 6px;
-    max-width: 360px;
-    padding: 8px;
-    border-radius: 12px;
+    font-size: ${FONT_SIZE_PX.small}px;
+    color: ${themeVar('textMuted')};
+    background-color: ${themeVar('surfaceHover')};
+    margin-top: ${BORDER_RADIUS_PX.medium}px;
+    max-width: ${SETTING_DESCRIPTION_MAX_WIDTH_PX}px;
+    padding: ${SPACING_PX.xs}px;
+    border-radius: ${BORDER_RADIUS_PX.xlarge}px;
 
 `

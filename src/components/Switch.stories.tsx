@@ -28,3 +28,10 @@ export const Element: Story = {
     return <Switch {...args} onChange={onChange} />
   },
 };
+
+export const Disabled: Story = {
+  args: {
+    checked: true,
+    disabled: true,
+  },
+};

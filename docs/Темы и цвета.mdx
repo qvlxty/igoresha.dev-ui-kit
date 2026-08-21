@@ -1,11 +1,15 @@
-import { lightTheme } from '../src/theming/themes/light.ts'
-import { darkTheme } from '../src/theming/themes/dark.ts'
+import { Canvas } from '@storybook/addon-docs/blocks'
+import * as ThemeTokenStories from '../src/theming/ThemeTokens.stories'
 
 # Темы и цвета
 
 Юай кит идёт с предустановленным набором цветов, который используется в элементах интерфейса.
 
 ## Использование переменных темы
+
+Компоненты кита используют семантические токены: `textPrimary`,
+`surfaceElevated`, `borderDefault`, `actionPrimary` и другие. Токен выбирается
+по назначению цвета, поэтому одна и та же роль сохраняется при смене темы.
 
 ### Хук useTheme в styled-components
 
@@ -16,7 +20,7 @@ export const TaskItem: React.FC<Props> = (props) => {
   const theme = useTheme()
 
   return (
-    <div style={{ color: theme.theme.default500 }} />
+    <div style={{ color: theme.textMuted }} />
   )
 }
 ```
@@ -27,9 +31,9 @@ export const TaskItem: React.FC<Props> = (props) => {
 
 ```tsx
 const DropdownHeader = styled.div`
-    color: ${themeVar('default300')};   
+    color: ${themeVar('textSecondary')};
     &:hover {
-        border: 1px solid ${themeVar('default600')};
+        border: 1px solid ${themeVar('borderStrong')};
     }
 `
 ```
@@ -74,11 +78,9 @@ export const App = () => {
       ...availableThemes,
       light: {
         ...availableThemes.light,
-        'accent300': '#9fa',
-        'accent400': '#9ea',
-        'accent500': '#9fa',
-        'accent600': '#9fa',
-        'accent700': '#9fa',
+        actionPrimary: '#5f3dc4',
+        actionPrimaryHover: '#5032aa',
+        actionPrimaryActive: '#402789',
       },
     }}>
         <>
@@ -91,32 +93,8 @@ export const App = () => {
 
 ```
 
-## Доступные цвета по-умолчанию
+## Семантические параметры темы
 
+Переключите тему в toolbar Storybook, чтобы сравнить одинаковые роли в light и dark.
 
-### Светлая тема
-{Object.keys(lightTheme).map((t) => (
-    <div 
-        style={{
-            backgroundColor: lightTheme[t], 
-            color: t === 'fontColor' ? '#fff' : undefined,
-            padding: '8px'
-        }}
-    >
-        {t}
-    </div>
-))}
-
-### Тёмная тема
-
-{Object.keys(darkTheme).map((t) => (
-    <div 
-        style={{
-            backgroundColor: darkTheme[t], 
-            color: t === 'fontColor' ? '#000' : '#fff',
-            padding: '8px'
-        }}
-    >
-        {t}
-    </div>
-))}
+<Canvas of={ThemeTokenStories.Palette} />

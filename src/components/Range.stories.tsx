@@ -23,3 +23,12 @@ export const Element: Story = {
         value: 66.6
     }
 };
+
+export const Disabled: Story = {
+    args: {
+        min: 0,
+        max: 100,
+        value: 40,
+        disabled: true,
+    }
+};

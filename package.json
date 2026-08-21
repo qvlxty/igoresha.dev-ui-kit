@@ -1,6 +1,6 @@
 {
   "name": "igoresha-dev-ui-kit",
-  "version": "0.4.8",
+  "version": "0.5.0",
   "author": "qvlxty",
   "license": "MIT",
   "main": "dist/index.js",
@@ -8,10 +8,12 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsup src/index.ts --format esm,cjs --dts --clean",
+    "check-contrast": "node scripts/check-theme-contrast.mjs",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
   "devDependencies": {
+    "@storybook/addon-a11y": "9.1.13",
     "@storybook/addon-docs": "^9.1.13",
     "@storybook/addon-themes": "^9.1.13",
     "@storybook/builder-vite": "^9.1.13",

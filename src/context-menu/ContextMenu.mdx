@@ -40,7 +40,7 @@ export const ExampleComponent = () => {
                 e.preventDefault()
                 openMenu({ e, payload: 'firstButton' })
             }}>Нажмите сюда правой кнопкой мыши</Button>
-            <Button $danger onContextMenu={(e) => {
+            <Button $variant="danger" onContextMenu={(e) => {
                 e.preventDefault()
                 openMenu({ e, payload: 'secondButton' })
             }}>Нажмите сюда правой кнопкой мыши</Button>

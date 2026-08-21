@@ -48,49 +48,80 @@ var $currentTheme = theme.$store;
 var loadThemeFx = theme.loadFx;
 var toggleTheme = theme.toggleEvent;
 
-// src/theming/themes/light.ts
-var lightTheme = {
-  backgroundColor: "#FAFAFA",
-  contentBg: "#fff",
-  fontColor: "#080111",
-  accent700: "#5530cf",
-  accent600: "#7e51f5",
-  accent500: "#a572ff",
-  accent400: "#cc95ff",
-  accent300: "#f4b9ff",
-  default800: "#eff3f5",
-  default700: "#dfe6ec",
-  default600: "#c0cdd8",
-  default500: "#a3b7c7",
-  default400: "#90a8bb",
-  default300: "#718fa8",
-  secondary500: "#29a0e6",
-  secondary400: "#125780",
-  error500: "#c9403e",
-  error400: "#631413"
-};
-
 // src/theming/themes/dark.ts
 var darkTheme = {
-  ...lightTheme,
-  backgroundColor: "#15151e",
-  contentBg: "#1d1d24",
-  fontColor: "#ffffff",
-  accent700: "#ccc1f0",
-  accent600: "#aa98e7",
-  accent500: "#8f76df",
-  accent400: "#775ad8",
-  accent300: "#5530cf",
-  default800: "#15151e",
-  default700: "#2a2a3c",
-  default600: "#3f3f5a",
-  default500: "#8888aa",
-  default400: "#a5a5c0",
-  default300: "#b5b5d0",
-  secondary500: "#29a0e6",
-  secondary400: "#125780",
-  error500: "#c9403e",
-  error400: "#631413"
+  surfacePage: "#14131a",
+  surfaceBase: "#1d1b24",
+  surfaceElevated: "#25222e",
+  surfaceHover: "#2e2a39",
+  surfaceSelected: "#352b55",
+  textPrimary: "#f7f4fa",
+  textSecondary: "#d1cad9",
+  textMuted: "#a9a1b3",
+  textDisabled: "#797180",
+  textOnAccent: "#15131a",
+  borderSubtle: "#2c2934",
+  borderDefault: "#3a3544",
+  borderStrong: "#655c72",
+  borderDisabled: "#332f3a",
+  focusRing: "#a991ff",
+  actionPrimary: "#a991ff",
+  actionPrimaryHover: "#b7a6ff",
+  actionPrimaryActive: "#9379f2",
+  actionPrimaryText: "#15131a",
+  actionSecondary: "#4ba9d8",
+  actionSecondaryHover: "#75bde2",
+  actionSecondaryActive: "#3192c3",
+  actionSecondaryText: "#15131a",
+  actionDanger: "#d9575c",
+  actionDangerHover: "#ed7378",
+  actionDangerActive: "#cc5a5f",
+  actionDangerText: "#15131a",
+  actionDisabled: "#302c37",
+  success: "#43c98b",
+  warning: "#e5b454",
+  scrollbarThumb: "#655c72",
+  scrollbarThumbHover: "#83778f",
+  shadowColor: "rgba(0, 0, 0, 0.42)",
+  overlayBackdrop: "rgba(3, 2, 6, 0.76)"
+};
+
+// src/theming/themes/light.ts
+var lightTheme = {
+  surfacePage: "#f7f7fa",
+  surfaceBase: "#ffffff",
+  surfaceElevated: "#ffffff",
+  surfaceHover: "#f4f1f7",
+  surfaceSelected: "#eee8ff",
+  textPrimary: "#17131f",
+  textSecondary: "#4f485d",
+  textMuted: "#657889",
+  textDisabled: "#929aa5",
+  textOnAccent: "#ffffff",
+  borderSubtle: "#e8e5ed",
+  borderDefault: "#d5cfdd",
+  borderStrong: "#9b91a8",
+  borderDisabled: "#e2dee7",
+  focusRing: "#7654e8",
+  actionPrimary: "#6c47d8",
+  actionPrimaryHover: "#5c39c8",
+  actionPrimaryActive: "#4d2daf",
+  actionPrimaryText: "#ffffff",
+  actionSecondary: "#1179ac",
+  actionSecondaryHover: "#0c6793",
+  actionSecondaryActive: "#095477",
+  actionSecondaryText: "#ffffff",
+  actionDanger: "#c9403e",
+  actionDangerHover: "#9f2c31",
+  actionDangerActive: "#852329",
+  actionDangerText: "#ffffff",
+  actionDisabled: "#e6e1ec",
+  success: "#16865a",
+  warning: "#9a6700",
+  scrollbarThumb: "#a89fb4",
+  scrollbarThumbHover: "#887c98",
+  shadowColor: "rgba(34, 24, 48, 0.14)",
+  overlayBackdrop: "rgba(10, 8, 14, 0.68)"
 };
 
 // src/theming/themes/index.ts
@@ -121,6 +152,7 @@ function themeVar(varName) {
 
 // src/components/Avatar.tsx
 import { jsx as jsx2 } from "react/jsx-runtime";
+var ONLINE_BORDER_WIDTH_PX = 2;
 var Avatar = ({
   url,
   $size = 20,
@@ -138,12 +170,11 @@ var Avatar = ({
   );
 };
 var Image = styled.img`
-    cursor: pointer;
     border-radius: 50%;
     width: ${({ $size }) => $size}px;
     height: ${({ $size }) => $size}px;
     ${({ $isOnline }) => $isOnline && css`
-        border: 2px solid ${themeVar("accent600")};
+        border: ${ONLINE_BORDER_WIDTH_PX}px solid ${themeVar("success")};
     `}
 `;
 
@@ -166,225 +197,529 @@ var stringToColor = (str) => {
 // src/components/AvatarThumb.tsx
 import styled2 from "styled-components";
 import { jsx as jsx3, jsxs } from "react/jsx-runtime";
+var AVATAR_THUMB_SIZE_PX = 32;
+var ONLINE_DOT_SIZE_PX = 12;
+var ONLINE_DOT_BORDER_WIDTH_PX = 2;
 var AvatarThumb = ({ nickname, style, isOnline }) => /* @__PURE__ */ jsxs(Wrap, { style: { ...style, backgroundColor: stringToColor(nickname || "0") }, children: [
   isOnline && /* @__PURE__ */ jsx3(Dot, {}),
   nickname.length > 0 && nickname[0].toUpperCase()
 ] });
 var Dot = styled2.div`
-    width: 12px;
-    height: 12px;
+    width: ${ONLINE_DOT_SIZE_PX}px;
+    height: ${ONLINE_DOT_SIZE_PX}px;
     border-radius: 50%;
-    background-color: #07b868;
+    background-color: ${themeVar("success")};
+    border: ${ONLINE_DOT_BORDER_WIDTH_PX}px solid ${themeVar("surfaceBase")};
     position: absolute;
     right: 0;
     bottom: 0;
 `;
 var Wrap = styled2.div`
     position: relative;
-    width: 32px;
-    height: 32px;
+    width: ${AVATAR_THUMB_SIZE_PX}px;
+    height: ${AVATAR_THUMB_SIZE_PX}px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: ${themeVar("backgroundColor")};
+    color: #ffffff;
 
 `;
 
 // src/components/Button.tsx
 import styled3, { css as css2 } from "styled-components";
-var ButtonCss = css2`
-    padding: 7px 14px;
-    border-radius: 6px;
-    border: 1px ${({ $dashed }) => $dashed ? "dashed" : "solid"} ${themeVar("default500")};
-    background: ${themeVar("default800")};
-    color: ${themeVar("default400")};
-    display: flex;
-    align-items: center;
-    font-size: 16px;
-    cursor: pointer;
-    ${({ $haveIcon }) => $haveIcon && css2`
-        svg {
-            margin-right: 8px;
-        }
-    `}
-    &:hover {
-        color: ${themeVar("default800")};
-        background: ${themeVar("default500")};
-        transition: 0.2s;
-    }
-    ${({ $primary }) => $primary && css2`
-        background: ${themeVar("accent500")};
-        color: #fff;
-        border: none;
-        &:hover {
-            color: #fff;
-            background: ${themeVar("accent400")};
-        }
-    `}
-    ${({ $secondary }) => $secondary && css2`
-        background: ${themeVar("secondary500")};
-        color: #fff;
-        border: none;
-        &:hover {
-            background: ${themeVar("secondary400")};
-            color: #fff;
-        }
-    `}
-    ${({ $danger }) => $danger && css2`
-        background: ${themeVar("error500")};
-        color: #fff;
-        border: none;
-        &:hover {
-            background: ${themeVar("error400")};
-            color: #fff;
-        }
-    `}
-`;
-var Button = styled3.button`
-    ${ButtonCss}
-`;
-var LinkButton = styled3.a`
-    ${ButtonCss}
-    text-decoration: none;
-`;
-Button.displayName = "Button";
-LinkButton.displayName = "LinkButton";
-
-// src/components/Dropdown.tsx
-import React2 from "react";
-import styled4 from "styled-components";
 
 // src/const.ts
 var MOBILE_WIDTH = 600;
 var TABLET_WIDTH = 900;
 var LARGE_WIDTH_PX = 1024;
+var CONTROL_HEIGHT_PX = {
+  small: 32,
+  medium: 40,
+  large: 48
+};
+var SPACING_PX = {
+  xxs: 4,
+  xs: 8,
+  sm: 12,
+  md: 16,
+  lg: 20,
+  xl: 24,
+  xxl: 32
+};
+var BORDER_RADIUS_PX = {
+  small: 4,
+  medium: 6,
+  large: 8,
+  xlarge: 12,
+  pill: 999
+};
+var FONT_SIZE_PX = {
+  small: 14,
+  medium: 16
+};
+var MOTION_DURATION_MS = {
+  press: 80,
+  standard: 160
+};
+var FOCUS_RING = {
+  widthPx: 3,
+  opacityPercent: 34,
+  offsetPx: 2
+};
 var onSmWidth = `@media only screen and (max-width: ${MOBILE_WIDTH}px)`;
 var onMdWidth = `@media only screen and (max-width: ${TABLET_WIDTH}px)`;
 var onLgWidth = `@media only screen and (max-width: ${LARGE_WIDTH_PX}px)`;
 
-// src/components/Dropdown.tsx
-import { jsx as jsx4, jsxs as jsxs2 } from "react/jsx-runtime";
-var Dropdown = ({ options, onOptionChange, selected, placeholder = "Empty", headerIcon }) => {
-  const [isOpen, setIsOpen] = React2.useState(false);
-  const toggleList = () => setIsOpen(!isOpen);
-  const selectedText = options.find((cat) => cat.value === selected)?.text;
-  const onOptionClicked = (item) => {
-    onOptionChange(item.value);
-    toggleList();
-  };
-  const ref = React2.useRef(null);
-  React2.useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (ref.current && !ref.current.contains(e.target)) {
-        if (isOpen) {
-          setIsOpen(false);
+// src/components/Button.tsx
+var BUTTON_HORIZONTAL_PADDING_PX = {
+  small: SPACING_PX.sm,
+  medium: SPACING_PX.md,
+  large: SPACING_PX.lg
+};
+var BUTTON_FONT_SIZE_PX = {
+  small: FONT_SIZE_PX.small,
+  medium: FONT_SIZE_PX.medium,
+  large: FONT_SIZE_PX.medium
+};
+var BUTTON_BORDER_WIDTH_PX = 1;
+var variantStyles = ({ theme: theme2, $variant = "default" }) => {
+  const variant = $variant;
+  if (variant === "primary") return css2`
+        color: ${theme2.actionPrimaryText};
+        background: ${theme2.actionPrimary};
+        border-color: transparent;
+        &:hover:not(:disabled):not([aria-disabled='true']) { background: ${theme2.actionPrimaryHover}; }
+        &:active:not(:disabled):not([aria-disabled='true']) { background: ${theme2.actionPrimaryActive}; }
+    `;
+  if (variant === "secondary") return css2`
+        color: ${theme2.actionSecondaryText};
+        background: ${theme2.actionSecondary};
+        border-color: transparent;
+        &:hover:not(:disabled):not([aria-disabled='true']) { background: ${theme2.actionSecondaryHover}; }
+        &:active:not(:disabled):not([aria-disabled='true']) { background: ${theme2.actionSecondaryActive}; }
+    `;
+  if (variant === "danger") return css2`
+        color: ${theme2.actionDangerText};
+        background: ${theme2.actionDanger};
+        border-color: transparent;
+        &:hover:not(:disabled):not([aria-disabled='true']) { background: ${theme2.actionDangerHover}; }
+        &:active:not(:disabled):not([aria-disabled='true']) { background: ${theme2.actionDangerActive}; }
+    `;
+  return css2`
+        color: ${theme2.textSecondary};
+        background: ${theme2.surfaceBase};
+        &:hover:not(:disabled):not([aria-disabled='true']) {
+            color: ${theme2.textPrimary};
+            background: ${theme2.surfaceHover};
+            border-color: ${theme2.borderStrong};
         }
+        &:active:not(:disabled):not([aria-disabled='true']) { background: ${theme2.surfaceSelected}; }
+    `;
+};
+var sizeStyles = ({ $size = "medium", $iconOnly }) => {
+  const height = CONTROL_HEIGHT_PX[$size];
+  const horizontalPadding = BUTTON_HORIZONTAL_PADDING_PX[$size];
+  return css2`
+        min-height: ${height}px;
+        min-width: ${$iconOnly ? height : 0}px;
+        padding: ${$iconOnly ? 0 : `0 ${horizontalPadding}px`};
+        font-size: ${BUTTON_FONT_SIZE_PX[$size]}px;
+    `;
+};
+var ButtonCss = css2`
+    ${sizeStyles}
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: ${SPACING_PX.xs}px;
+    width: ${({ $fullWidth }) => $fullWidth ? "100%" : "auto"};
+    border: ${BUTTON_BORDER_WIDTH_PX}px ${({ $dashed }) => $dashed ? "dashed" : "solid"} ${themeVar("borderDefault")};
+    border-radius: ${BORDER_RADIUS_PX.large}px;
+    cursor: pointer;
+    line-height: 1;
+    text-decoration: none;
+    user-select: none;
+    transition: background-color ${MOTION_DURATION_MS.standard}ms ease,
+        border-color ${MOTION_DURATION_MS.standard}ms ease,
+        color ${MOTION_DURATION_MS.standard}ms ease,
+        box-shadow ${MOTION_DURATION_MS.standard}ms ease,
+        transform ${MOTION_DURATION_MS.press}ms ease;
+
+    svg { flex: 0 0 auto; }
+    ${variantStyles}
+
+    &:focus-visible {
+        outline: ${FOCUS_RING.widthPx}px solid color-mix(
+            in srgb,
+            ${themeVar("focusRing")} ${FOCUS_RING.opacityPercent}%,
+            transparent
+        );
+        outline-offset: ${FOCUS_RING.offsetPx}px;
+    }
+
+    &:disabled,
+    &[aria-disabled='true'] {
+        color: ${themeVar("textDisabled")};
+        background: ${themeVar("actionDisabled")};
+        border-color: ${themeVar("borderDisabled")};
+        box-shadow: none;
+        cursor: not-allowed;
+    }
+`;
+var Button = styled3.button.attrs({ type: "button" })`
+    ${ButtonCss}
+`;
+var LinkButton = styled3.a`
+    ${ButtonCss}
+    &[aria-disabled='true'] { pointer-events: none; }
+`;
+Button.displayName = "Button";
+LinkButton.displayName = "LinkButton";
+
+// src/components/Dropdown.tsx
+import React3 from "react";
+import { AiOutlineCheck, AiOutlineDown } from "react-icons/ai";
+import styled4, { css as css3 } from "styled-components";
+
+// src/lib/useArrowKeys.ts
+import React2 from "react";
+var noDisabledItems = () => false;
+var getNextEnabledIndex = (length, from, direction, isItemDisabled = () => false) => {
+  if (length === 0) return null;
+  for (let step = 1; step <= length; step += 1) {
+    const index = (from + direction * step + length) % length;
+    if (!isItemDisabled(index)) return index;
+  }
+  return null;
+};
+var useArrowKeys = ({
+  visible,
+  length,
+  onSelect,
+  onClose,
+  isItemDisabled = noDisabledItems
+}) => {
+  const [index, setIndex] = React2.useState(null);
+  React2.useEffect(() => {
+    if (!visible) setIndex(null);
+  }, [visible]);
+  React2.useEffect(() => {
+    if (index !== null && (index >= length || isItemDisabled(index))) setIndex(null);
+  }, [index, isItemDisabled, length]);
+  React2.useEffect(() => {
+    if (!visible) return;
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        onClose();
+        return;
+      }
+      if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+        event.preventDefault();
+        const direction = event.key === "ArrowDown" ? 1 : -1;
+        const start = index ?? (direction === 1 ? -1 : 0);
+        setIndex(getNextEnabledIndex(length, start, direction, isItemDisabled));
+        return;
+      }
+      if ((event.key === "Enter" || event.key === " ") && index !== null) {
+        event.preventDefault();
+        onSelect(index);
+        onClose();
       }
     };
-    document.addEventListener("click", handleClickOutside);
-    return () => {
-      document.removeEventListener("click", handleClickOutside);
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [index, isItemDisabled, length, onClose, onSelect, visible]);
+  return [index, setIndex];
+};
+
+// src/components/Dropdown.tsx
+import { jsx as jsx4, jsxs as jsxs2 } from "react/jsx-runtime";
+var DEFAULT_DROPDOWN_WIDTH_PX = 240;
+var DEFAULT_MENU_MAX_HEIGHT_PX = 320;
+var MENU_MIN_HEIGHT_PX = 96;
+var MENU_PLACEMENT_THRESHOLD_PX = 180;
+var MENU_VIEWPORT_MARGIN_PX = SPACING_PX.sm;
+var MENU_OFFSET_PX = BORDER_RADIUS_PX.medium;
+var MENU_Z_INDEX = 20;
+var MENU_ITEM_HORIZONTAL_PADDING_PX = 10;
+var MENU_SHADOW_Y_PX = SPACING_PX.sm;
+var MENU_SHADOW_BLUR_PX = SPACING_PX.xxl;
+var SCROLLBAR_WIDTH_PX = SPACING_PX.xs;
+var SCROLLBAR_THUMB_BORDER_PX = 2;
+var CHEVRON_OPEN_ROTATION_DEG = 180;
+var CONTROL_BORDER_WIDTH_PX = 1;
+var Dropdown = ({
+  options,
+  onOptionChange,
+  selected,
+  placeholder = "Empty",
+  headerIcon,
+  disabled = false,
+  maxMenuHeight = DEFAULT_MENU_MAX_HEIGHT_PX,
+  width = DEFAULT_DROPDOWN_WIDTH_PX,
+  "aria-label": ariaLabel
+}) => {
+  const [isOpen, setIsOpen] = React3.useState(false);
+  const [placement, setPlacement] = React3.useState("bottom");
+  const [availableHeight, setAvailableHeight] = React3.useState(maxMenuHeight);
+  const containerRef = React3.useRef(null);
+  const itemRefs = React3.useRef([]);
+  const listId = React3.useId();
+  const selectedIdx = options.findIndex((item) => item.value === selected);
+  const selectedOption = selectedIdx >= 0 ? options[selectedIdx] : void 0;
+  const closeMenu = React3.useCallback(() => {
+    setIsOpen(false);
+  }, []);
+  const selectOption = React3.useCallback((item) => {
+    if (item.disabled) return;
+    onOptionChange(item.value);
+    closeMenu();
+  }, [closeMenu, onOptionChange]);
+  const isItemDisabled = React3.useCallback(
+    (index) => Boolean(options[index]?.disabled),
+    [options]
+  );
+  const selectByIndex = React3.useCallback(
+    (index) => selectOption(options[index]),
+    [options, selectOption]
+  );
+  const [highlightedIdx, setHighlightedIdx] = useArrowKeys({
+    visible: isOpen,
+    length: options.length,
+    onSelect: selectByIndex,
+    onClose: closeMenu,
+    isItemDisabled
+  });
+  const openMenu = React3.useCallback((preferredIdx) => {
+    if (disabled || !options.length) return;
+    const fallbackIdx = selectedIdx >= 0 && !options[selectedIdx].disabled ? selectedIdx : getNextEnabledIndex(options.length, -1, 1, isItemDisabled);
+    setHighlightedIdx(preferredIdx ?? fallbackIdx);
+    setIsOpen(true);
+  }, [disabled, isItemDisabled, options, selectedIdx, setHighlightedIdx]);
+  React3.useLayoutEffect(() => {
+    if (!isOpen || !containerRef.current) return;
+    const rect = containerRef.current.getBoundingClientRect();
+    const below = window.innerHeight - rect.bottom - MENU_VIEWPORT_MARGIN_PX;
+    const above = rect.top - MENU_VIEWPORT_MARGIN_PX;
+    const nextPlacement = below < Math.min(MENU_PLACEMENT_THRESHOLD_PX, maxMenuHeight) && above > below ? "top" : "bottom";
+    setPlacement(nextPlacement);
+    setAvailableHeight(Math.max(
+      MENU_MIN_HEIGHT_PX,
+      Math.min(maxMenuHeight, nextPlacement === "top" ? above : below)
+    ));
+  }, [isOpen, maxMenuHeight]);
+  React3.useEffect(() => {
+    if (!isOpen) return;
+    const handlePointerDown = (event) => {
+      if (containerRef.current && !containerRef.current.contains(event.target)) closeMenu();
     };
-  }, [isOpen]);
-  return /* @__PURE__ */ jsxs2(Container, { ref, children: [
-    /* @__PURE__ */ jsxs2(Header, { onClick: toggleList, children: [
-      /* @__PURE__ */ jsxs2("div", { children: [
-        selectedText && /* @__PURE__ */ jsx4("div", { children: selectedText }),
-        !selectedText && /* @__PURE__ */ jsx4("div", { children: placeholder })
-      ] }),
-      headerIcon
-    ] }),
-    isOpen && /* @__PURE__ */ jsx4(Wrapper, { children: /* @__PURE__ */ jsx4(ListContainer, { children: /* @__PURE__ */ jsx4(List, { children: options.map((item) => /* @__PURE__ */ jsxs2(
-      ListItem,
+    const handleResize = () => closeMenu();
+    document.addEventListener("pointerdown", handlePointerDown);
+    window.addEventListener("resize", handleResize);
+    return () => {
+      document.removeEventListener("pointerdown", handlePointerDown);
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [closeMenu, isOpen]);
+  React3.useEffect(() => {
+    if (isOpen && highlightedIdx !== null) {
+      itemRefs.current[highlightedIdx]?.scrollIntoView({ block: "nearest" });
+    }
+  }, [highlightedIdx, isOpen]);
+  const onKeyDown = (event) => {
+    if (!disabled && !isOpen && (event.key === "ArrowDown" || event.key === "ArrowUp")) {
+      event.preventDefault();
+      const direction = event.key === "ArrowDown" ? 1 : -1;
+      const edge = direction === 1 ? -1 : 0;
+      openMenu(getNextEnabledIndex(options.length, edge, direction, isItemDisabled));
+    }
+  };
+  return /* @__PURE__ */ jsxs2(Container, { ref: containerRef, $width: width, children: [
+    /* @__PURE__ */ jsxs2(
+      Header,
       {
-        onClick: () => onOptionClicked(item),
+        type: "button",
+        disabled,
+        "aria-label": ariaLabel,
+        "aria-haspopup": "listbox",
+        "aria-expanded": isOpen,
+        "aria-controls": isOpen ? listId : void 0,
+        "aria-activedescendant": isOpen && highlightedIdx !== null ? `${listId}-${highlightedIdx}` : void 0,
+        onClick: () => isOpen ? closeMenu() : openMenu(),
+        onKeyDown,
         children: [
-          /* @__PURE__ */ jsx4("div", { children: item.text }),
-          /* @__PURE__ */ jsx4("div", { children: item.icon })
+          /* @__PURE__ */ jsxs2(HeaderContent, { children: [
+            selectedOption?.icon && /* @__PURE__ */ jsx4(HeaderLeading, { children: selectedOption.icon }),
+            /* @__PURE__ */ jsx4(HeaderText, { $placeholder: !selectedOption, children: selectedOption?.text ?? placeholder })
+          ] }),
+          /* @__PURE__ */ jsx4(HeaderTrailing, { $open: isOpen, children: headerIcon ?? /* @__PURE__ */ jsx4(AiOutlineDown, { "aria-hidden": true }) })
         ]
-      },
-      item.value
-    )) }) }) })
+      }
+    ),
+    isOpen && /* @__PURE__ */ jsx4(
+      List,
+      {
+        id: listId,
+        role: "listbox",
+        "aria-label": ariaLabel,
+        $placement: placement,
+        $maxHeight: availableHeight,
+        children: options.map((item, index) => {
+          const isSelected = item.value === selected;
+          return /* @__PURE__ */ jsx4("li", { role: "presentation", children: /* @__PURE__ */ jsxs2(
+            ListItem,
+            {
+              ref: (element) => {
+                itemRefs.current[index] = element;
+              },
+              id: `${listId}-${index}`,
+              type: "button",
+              role: "option",
+              "aria-selected": isSelected,
+              disabled: item.disabled,
+              $selected: isSelected,
+              $highlighted: highlightedIdx === index,
+              onPointerMove: () => !item.disabled && setHighlightedIdx(index),
+              onClick: () => selectOption(item),
+              children: [
+                /* @__PURE__ */ jsxs2(ItemContent, { children: [
+                  item.icon && /* @__PURE__ */ jsx4(ItemIcon, { children: item.icon }),
+                  /* @__PURE__ */ jsx4(ItemText, { children: item.text })
+                ] }),
+                isSelected && /* @__PURE__ */ jsx4(AiOutlineCheck, { "aria-hidden": true })
+              ]
+            }
+          ) }, `${String(item.value)}-${index}`);
+        })
+      }
+    )
   ] });
 };
 var Container = styled4.div`
-    width: 240px;
-    ${onSmWidth} {
-        width: 100%;
-    }
-`;
-var Header = styled4.div`
-    border-radius: 4px;
-    border: 1px solid ${themeVar("default800")};
-    padding: 14px;
-    font-weight: 400;
-    color: ${themeVar("default300")};   
-    box-sizing: border-box;
-    max-height: 40px;
-    background: ${themeVar("contentBg")};
-    cursor: pointer;
-    user-select: none;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    &:hover {
-        border: 1px solid ${themeVar("default600")};
-    }
-`;
-var Wrapper = styled4.div`
     position: relative;
-    z-index: 1;
-
+    width: ${({ $width }) => typeof $width === "number" ? `${$width}px` : $width};
+    ${onSmWidth} { max-width: 100%; }
 `;
-var ListContainer = styled4.div`
-    position: absolute;
-    height: 0;
-    border-radius: 4px;
-    margin-top: 0px;
-    width: 240px;
-    right:0;
+var Header = styled4.button`
+    width: 100%;
+    min-height: ${CONTROL_HEIGHT_PX.medium}px;
+    padding: 0 ${SPACING_PX.sm}px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: ${SPACING_PX.sm}px;
+    color: ${themeVar("textSecondary")};
+    background: ${themeVar("surfaceBase")};
+    border: ${CONTROL_BORDER_WIDTH_PX}px solid ${themeVar("borderDefault")};
+    border-radius: ${BORDER_RADIUS_PX.large}px;
+    cursor: pointer;
+    text-align: left;
+    transition: border-color ${MOTION_DURATION_MS.standard}ms ease,
+        box-shadow ${MOTION_DURATION_MS.standard}ms ease,
+        background ${MOTION_DURATION_MS.standard}ms ease;
+
+    &:hover:not(:disabled) { border-color: ${themeVar("borderStrong")}; }
+    &:focus-visible {
+        outline: ${FOCUS_RING.widthPx}px solid color-mix(
+            in srgb,
+            ${themeVar("focusRing")} ${FOCUS_RING.opacityPercent}%,
+            transparent
+        );
+        outline-offset: ${FOCUS_RING.offsetPx}px;
+    }
+    &:disabled {
+        color: ${themeVar("textDisabled")};
+        background: ${themeVar("actionDisabled")};
+        border-color: ${themeVar("borderDisabled")};
+        cursor: not-allowed;
+    }
+`;
+var HeaderContent = styled4.span`
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: ${SPACING_PX.xs}px;
+`;
+var HeaderLeading = styled4.span`display: flex; flex: 0 0 auto;`;
+var HeaderText = styled4.span`
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    ${({ $placeholder }) => $placeholder && css3`color: ${themeVar("textMuted")};`}
+`;
+var HeaderTrailing = styled4.span`
+    display: flex;
+    flex: 0 0 auto;
+    transform: rotate(${({ $open }) => $open ? CHEVRON_OPEN_ROTATION_DEG : 0}deg);
+    transition: transform ${MOTION_DURATION_MS.standard}ms ease;
 `;
 var List = styled4.ul`
-    padding: 0;
+    position: absolute;
+    ${({ $placement }) => $placement === "top" ? `bottom: calc(100% + ${MENU_OFFSET_PX}px);` : `top: calc(100% + ${MENU_OFFSET_PX}px);`}
+    left: 0;
+    z-index: ${MENU_Z_INDEX};
+    width: 100%;
+    max-height: ${({ $maxHeight }) => $maxHeight}px;
+    padding: ${SPACING_PX.xxs}px;
     margin: 0;
-    margin-top: -4px;
-    background: ${themeVar("contentBg")};
-    
-    border: 1px solid ${themeVar("default700")};
-    border-radius: 4px;
-    color: ${themeVar("accent500")};
-
-    box-shadow: 0px 12px 24px 2px #11111111;
-    box-sizing: border-box;
-
-    max-height: 80vh;
     overflow-y: auto;
-`;
-var ListItem = styled4.li`
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+    scrollbar-color: ${themeVar("scrollbarThumb")} transparent;
     list-style: none;
-    padding-left: 8px;
-    padding-right: 8px;
-    padding-bottom: 12px;
-    padding-top: 12px;
-    color: ${themeVar("default400")};
-    animation: fadeout 0.5s;
-    border-radius: 4px;
-    user-select: none;
-    &:hover {
-        color: ${themeVar("default300")};
-        cursor: pointer; 
+    color: ${themeVar("textSecondary")};
+    background: ${themeVar("surfaceElevated")};
+    border: ${CONTROL_BORDER_WIDTH_PX}px solid ${themeVar("borderSubtle")};
+    border-radius: ${BORDER_RADIUS_PX.large}px;
+    box-shadow: 0 ${MENU_SHADOW_Y_PX}px ${MENU_SHADOW_BLUR_PX}px ${themeVar("shadowColor")};
+
+    &::-webkit-scrollbar { width: ${SCROLLBAR_WIDTH_PX}px; }
+    &::-webkit-scrollbar-track { background: transparent; }
+    &::-webkit-scrollbar-thumb {
+        background: ${themeVar("scrollbarThumb")};
+        border: ${SCROLLBAR_THUMB_BORDER_PX}px solid ${themeVar("surfaceElevated")};
+        border-radius: ${BORDER_RADIUS_PX.pill}px;
+    }
+    &::-webkit-scrollbar-thumb:hover { background: ${themeVar("scrollbarThumbHover")}; }
+`;
+var ListItem = styled4.button`
+    width: 100%;
+    min-height: ${CONTROL_HEIGHT_PX.medium}px;
+    padding: ${SPACING_PX.xs}px ${MENU_ITEM_HORIZONTAL_PADDING_PX}px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: ${SPACING_PX.sm}px;
+    color: ${({ $selected, theme: theme2 }) => $selected ? theme2.actionPrimary : theme2.textSecondary};
+    background: ${({ $selected, $highlighted, theme: theme2 }) => $selected ? theme2.surfaceSelected : $highlighted ? theme2.surfaceHover : "transparent"};
+    border: 0;
+    border-radius: ${BORDER_RADIUS_PX.medium}px;
+    cursor: pointer;
+    text-align: left;
+
+    &:focus { outline: none; }
+    &:disabled {
+        color: ${themeVar("textDisabled")};
+        cursor: not-allowed;
     }
 `;
+var ItemContent = styled4.span`
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: ${SPACING_PX.xs}px;
+`;
+var ItemIcon = styled4.span`display: flex; flex: 0 0 auto;`;
+var ItemText = styled4.span`overflow: hidden; text-overflow: ellipsis; white-space: nowrap;`;
 
 // src/components/Input.tsx
-import React3 from "react";
-import styled5, { css as css3 } from "styled-components";
+import React4 from "react";
+import styled5, { css as css4 } from "styled-components";
 import { Fragment, jsx as jsx5, jsxs as jsxs3 } from "react/jsx-runtime";
-var Input = React3.forwardRef(({
+var INPUT_BORDER_WIDTH_PX = 1;
+var Input = React4.forwardRef(({
   onChange,
   errorText,
   hasError,
@@ -404,120 +739,215 @@ var Input = React3.forwardRef(({
   ] });
 });
 var InputWrapper = styled5.input`
-    flex-direction: row;
-    font-size: 16px;
-    padding: 10px;
-    border-radius: 4px;
-    background: ${themeVar("contentBg")};
-    border: 1px solid ${themeVar("default800")};
-    color: ${themeVar("fontColor")};
-    &:focus {
-        outline: none;
-        border: 1px solid ${themeVar("default600")};
+    min-height: ${CONTROL_HEIGHT_PX.medium}px;
+    width: 100%;
+    font-size: ${FONT_SIZE_PX.medium}px;
+    padding: ${SPACING_PX.xs}px ${SPACING_PX.sm}px;
+    border-radius: ${BORDER_RADIUS_PX.large}px;
+    background: ${themeVar("surfaceBase")};
+    border: ${INPUT_BORDER_WIDTH_PX}px solid ${themeVar("borderDefault")};
+    color: ${themeVar("textPrimary")};
+    transition: border-color ${MOTION_DURATION_MS.standard}ms ease,
+        box-shadow ${MOTION_DURATION_MS.standard}ms ease;
+    &:focus-visible {
+        outline: ${FOCUS_RING.widthPx}px solid color-mix(
+            in srgb,
+            ${themeVar("focusRing")} ${FOCUS_RING.opacityPercent}%,
+            transparent
+        );
+        outline-offset: ${FOCUS_RING.offsetPx}px;
+        border-color: ${themeVar("focusRing")};
     }
-    ${({ $hasError }) => $hasError && css3`
-        border-color: ${themeVar("error500")};
+    ${({ $hasError }) => $hasError && css4`
+        border-color: ${themeVar("actionDanger")};
     `}
     &::placeholder {
-        color: ${themeVar("default500")};
-        font-weight: 300;
+        color: ${themeVar("textMuted")};
+    }
+    &:disabled {
+        color: ${themeVar("textDisabled")};
+        background: ${themeVar("actionDisabled")};
+        border-color: ${themeVar("borderDisabled")};
+        cursor: not-allowed;
     }
 `;
 var ErrorText = styled5.div`
-    color: ${themeVar("error500")};
-    font-size: 14px;
-    margin-top: 4px;
+    color: ${themeVar("actionDanger")};
+    font-size: ${FONT_SIZE_PX.small}px;
+    margin-top: ${SPACING_PX.xxs}px;
 `;
 
 // src/components/Loader.tsx
 import styled6 from "styled-components";
+var LOADER_SIZE_PX = 36;
+var LOADER_BORDER_WIDTH_PX = 2;
+var LOADER_ROTATION_DURATION_MS = 500;
+var FULL_ROTATION_DEG = 360;
 var Loader = styled6.div`
-  border: 2px solid ${themeVar("default300")};
-  border-top: 2px solid ${themeVar("default700")}; 
+  border: ${LOADER_BORDER_WIDTH_PX}px solid ${themeVar("borderDefault")};
+  border-top-color: ${themeVar("actionPrimary")};
   border-radius: 50%;
-  width: 36px;
-  height: 36px;
-  animation: spin 0.5s linear infinite;
+  width: ${LOADER_SIZE_PX}px;
+  height: ${LOADER_SIZE_PX}px;
+  animation: spin ${LOADER_ROTATION_DURATION_MS}ms linear infinite;
   @keyframes spin {
     0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    100% { transform: rotate(${FULL_ROTATION_DEG}deg); }
   }
 `;
 Loader.displayName = "Loader";
 
 // src/components/Modal.tsx
-import React4 from "react";
+import React5 from "react";
 import styled7 from "styled-components";
+import { AiOutlineClose } from "react-icons/ai";
 import { jsx as jsx6, jsxs as jsxs4 } from "react/jsx-runtime";
+var MODAL_WIDTH_VIEWPORT_PERCENT = 85;
+var MODAL_BORDER_WIDTH_PX = 1;
+var MODAL_SHADOW_Y_PX = SPACING_PX.xl;
+var MODAL_SHADOW_BLUR_PX = 64;
+var OVERLAY_Z_INDEX = 20;
+var OVERLAY_BLUR_PX = 5;
 var Modal = ({ visible, onClose, children, loading = false, style }) => {
-  React4.useEffect(() => {
+  React5.useEffect(() => {
+    const previousOverflow = document.body.style.overflow;
     if (visible) {
       document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
     }
     return () => {
-      document.body.style.overflow = "auto";
+      document.body.style.overflow = previousOverflow;
     };
   }, [visible]);
+  React5.useEffect(() => {
+    if (!visible) return;
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape") onClose();
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [onClose, visible]);
   if (!visible) {
     return null;
   }
-  return /* @__PURE__ */ jsxs4(Overlay, { onClick: () => onClose(), style, children: [
-    loading && /* @__PURE__ */ jsx6(Loader, {}),
-    !loading && /* @__PURE__ */ jsx6(Container2, { onClick: (e) => e.stopPropagation(), children })
-  ] });
+  return /* @__PURE__ */ jsx6(Overlay, { onClick: () => onClose(), style, children: /* @__PURE__ */ jsxs4(Container2, { role: "dialog", "aria-modal": "true", onClick: (e) => e.stopPropagation(), children: [
+    /* @__PURE__ */ jsx6(ModalHeader, { children: /* @__PURE__ */ jsx6(CloseButton, { type: "button", "aria-label": "Close modal", onClick: onClose, children: /* @__PURE__ */ jsx6(AiOutlineClose, { "aria-hidden": true }) }) }),
+    /* @__PURE__ */ jsx6(ModalContent, { $loading: loading, children: loading ? /* @__PURE__ */ jsx6(Loader, {}) : children })
+  ] }) });
 };
 var Container2 = styled7.div`
-    background-color: ${themeVar("backgroundColor")};
-    width: 85vw;
-    padding: 30px;
-    min-width: 320px;
+    position: relative;
+    background-color: ${themeVar("surfaceElevated")};
+    width: min(${MODAL_WIDTH_VIEWPORT_PERCENT}vw, ${TABLET_WIDTH}px);
+    padding: ${SPACING_PX.xl}px;
     max-width: ${TABLET_WIDTH}px;
-    max-height: 100vh;
+    max-height: 100%;
     height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border: ${MODAL_BORDER_WIDTH_PX}px solid ${themeVar("borderSubtle")};
+    border-radius: ${BORDER_RADIUS_PX.xlarge}px;
+    box-shadow: 0 ${MODAL_SHADOW_Y_PX}px ${MODAL_SHADOW_BLUR_PX}px ${themeVar("shadowColor")};
+    scrollbar-width: thin;
+    scrollbar-color: ${themeVar("scrollbarThumb")} transparent;
+`;
+var ModalHeader = styled7.div`
+    position: absolute;
+    top: ${SPACING_PX.md}px;
+    right: ${SPACING_PX.md}px;
+    z-index: 1;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+`;
+var CloseButton = styled7.button`
+    width: ${CONTROL_HEIGHT_PX.small}px;
+    height: ${CONTROL_HEIGHT_PX.small}px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    color: ${themeVar("textMuted")};
+    background: transparent;
+    border: 0;
+    border-radius: ${BORDER_RADIUS_PX.large}px;
+    cursor: pointer;
+    transition: color ${MOTION_DURATION_MS.standard}ms ease,
+        background ${MOTION_DURATION_MS.standard}ms ease;
+
+    &:hover {
+        color: ${themeVar("textPrimary")};
+        background: ${themeVar("surfaceHover")};
+    }
+    &:focus-visible {
+        outline: ${FOCUS_RING.widthPx}px solid color-mix(
+            in srgb,
+            ${themeVar("focusRing")} ${FOCUS_RING.opacityPercent}%,
+            transparent
+        );
+        outline-offset: ${FOCUS_RING.offsetPx}px;
+    }
+`;
+var ModalContent = styled7.div`
+    min-height: 0;
+    flex: 1;
     overflow-y: auto;
-    box-shadow: 0, 0, 8px, #111;
+    scrollbar-width: thin;
+    scrollbar-color: ${themeVar("scrollbarThumb")} transparent;
+    ${({ $loading }) => $loading && `
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    `}
 `;
 var Overlay = styled7.div`
-    z-index: 20;
+    z-index: ${OVERLAY_Z_INDEX};
     width: 100vw;
-    height: 100vh;
+    height: 100dvh;
+    padding: ${SPACING_PX.md}px;
     display: flex;
     justify-content: center;
     align-items: center;
     position:fixed; 
     top: 0;
     left: 0;
-    background-color: #11111199;
+    background-color: ${themeVar("overlayBackdrop")};
     overflow: hidden;
     overflow-anchor: auto;
-    backdrop-filter: blur(5px);
+    backdrop-filter: blur(${OVERLAY_BLUR_PX}px);
 `;
 
 // src/components/ProgressBar.tsx
 import styled8 from "styled-components";
 import { jsx as jsx7 } from "react/jsx-runtime";
+var PROGRESS_MIN_VISIBLE_PERCENT = 15;
 var ProgressBar = ({ completed, style }) => /* @__PURE__ */ jsx7(Container3, { style, children: completed > 0 && /* @__PURE__ */ jsx7(Filter, { completed }) });
 var Container3 = styled8.div`
-    border-radius: 50px;
-    background-color: ${themeVar("default400")};
+    border-radius: ${BORDER_RADIUS_PX.pill}px;
+    background-color: ${themeVar("borderSubtle")};
     text-align: center;
     flex-shrink: 1;
     flex-grow: 1;
-    height: 40px;
+    height: ${SPACING_PX.xs}px;
 `;
 var Filter = styled8.div`
     height: 100%;
     width: ${({ completed }) => completed}%;
     max-width: 100%;
-    min-width: 15%;
+    min-width: ${PROGRESS_MIN_VISIBLE_PERCENT}%;
     border-radius: inherit;
-    background-color: ${themeVar("default700")};
+    background-color: ${themeVar("actionPrimary")};
 `;
 
 // src/components/Range.tsx
 import styled9 from "styled-components";
+var RANGE_HIT_AREA_HEIGHT_PX = 10;
+var RANGE_TRACK_HEIGHT_PX = 2;
+var RANGE_THUMB_SIZE_PX = 10;
+var RANGE_FIREFOX_THUMB_SIZE_PX = 12;
+var RANGE_THUMB_TRACK_OFFSET_PX = -4;
+var RANGE_FOCUS_OFFSET_PX = 4;
+var RANGE_DISABLED_OPACITY = 0.55;
 var Range = styled9.input.attrs({ type: "range" })`
    &[type='range'] {
     outline: none;
@@ -525,31 +955,64 @@ var Range = styled9.input.attrs({ type: "range" })`
     appearance: none;
     background: transparent;
     width: 100%;
-    height: 10px; 
+    height: ${RANGE_HIT_AREA_HEIGHT_PX}px;
     cursor: pointer;
   }
 
   &[type='range']::-webkit-slider-runnable-track {
-    height: 2px; /* тонкая линия */
-    background: ${themeVar("default600")};
-    border-radius: 2px;
+    height: ${RANGE_TRACK_HEIGHT_PX}px;
+    background: ${themeVar("borderDefault")};
+    border-radius: ${RANGE_TRACK_HEIGHT_PX}px;
   }
 
   &[type='range']::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-    border-radius: 4px;
-    height: 10px;
-    width: 10px;
-    background: ${themeVar("default500")};
+    border-radius: ${BORDER_RADIUS_PX.small}px;
+    height: ${RANGE_THUMB_SIZE_PX}px;
+    width: ${RANGE_THUMB_SIZE_PX}px;
+    background: ${themeVar("actionPrimary")};
     cursor: pointer;
-    margin-top: -4px; 
+    margin-top: ${RANGE_THUMB_TRACK_OFFSET_PX}px;
   }
+
+  &[type='range']::-moz-range-track {
+    height: ${RANGE_TRACK_HEIGHT_PX}px;
+    background: ${themeVar("borderDefault")};
+    border-radius: ${RANGE_TRACK_HEIGHT_PX}px;
+  }
+
+  &[type='range']::-moz-range-thumb {
+    width: ${RANGE_FIREFOX_THUMB_SIZE_PX}px;
+    height: ${RANGE_FIREFOX_THUMB_SIZE_PX}px;
+    border: 0;
+    border-radius: ${BORDER_RADIUS_PX.small}px;
+    background: ${themeVar("actionPrimary")};
+  }
+
+  &[type='range']:focus-visible {
+    outline: ${FOCUS_RING.widthPx}px solid color-mix(
+      in srgb,
+      ${themeVar("focusRing")} ${FOCUS_RING.opacityPercent}%,
+      transparent
+    );
+    outline-offset: ${RANGE_FOCUS_OFFSET_PX}px;
+    border-radius: ${BORDER_RADIUS_PX.small}px;
+  }
+
+  &[type='range']:disabled { cursor: not-allowed; opacity: ${RANGE_DISABLED_OPACITY}; }
 `;
 
 // src/components/Switch.tsx
 import styled10 from "styled-components";
 import { jsx as jsx8, jsxs as jsxs5 } from "react/jsx-runtime";
+var SWITCH_WIDTH_PX = 40;
+var SWITCH_HEIGHT_PX = 18;
+var SWITCH_THUMB_SIZE_PX = 12;
+var SWITCH_THUMB_LEFT_PX = 4;
+var SWITCH_THUMB_BOTTOM_PX = 3;
+var SWITCH_THUMB_TRANSLATE_X_PX = 20;
+var VISUALLY_HIDDEN_SIZE_PX = 1;
 var Switch = ({ checked, onChange, disabled }) => /* @__PURE__ */ jsx8(Container4, { children: /* @__PURE__ */ jsxs5(Label, { className: "switch", children: [
   /* @__PURE__ */ jsx8(Input2, { type: "checkbox", checked, onChange, disabled }),
   /* @__PURE__ */ jsx8("span", { className: "slider round" })
@@ -557,14 +1020,17 @@ var Switch = ({ checked, onChange, disabled }) => /* @__PURE__ */ jsx8(Container
 var Label = styled10.label`
     position: relative;
     display: block;
-    width: 40px;
-    height: 18px;
+    width: ${SWITCH_WIDTH_PX}px;
+    height: ${SWITCH_HEIGHT_PX}px;
     margin-left: 0;
+    cursor: pointer;
+    &:has(input:disabled) { cursor: not-allowed; }
 `;
 var Input2 = styled10.input`
     opacity: 0;
-    width: 0;
-    height: 0;
+    position: absolute;
+    width: ${VISUALLY_HIDDEN_SIZE_PX}px;
+    height: ${VISUALLY_HIDDEN_SIZE_PX}px;
 `;
 var Container4 = styled10.div`
 & {
@@ -575,43 +1041,47 @@ var Container4 = styled10.div`
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: ${themeVar("default500")};
-    -webkit-transition: .4s;
-    transition: .4s;
+    background-color: ${themeVar("borderStrong")};
+    transition: background-color ${MOTION_DURATION_MS.standard}ms ease,
+      box-shadow ${MOTION_DURATION_MS.standard}ms ease;
   }
 
   .slider:before {
     position: absolute;
     content: "";
-    height: 12px;
-    width: 12px;
-    left: 4px;
-    bottom: 3px;
+    height: ${SWITCH_THUMB_SIZE_PX}px;
+    width: ${SWITCH_THUMB_SIZE_PX}px;
+    left: ${SWITCH_THUMB_LEFT_PX}px;
+    bottom: ${SWITCH_THUMB_BOTTOM_PX}px;
     background-color: white;
-    -webkit-transition: .4s;
-    transition: .4s;
+    transition: transform ${MOTION_DURATION_MS.standard}ms ease;
   }
 
   
   input:checked + .slider {
-    background-color: ${themeVar("accent500")};
+    background-color: ${themeVar("actionPrimary")};
   }
   
-  input:focus + .slider {
-    box-shadow: 0 0 1px ${themeVar("accent500")};
+  input:focus-visible + .slider {
+    box-shadow: 0 0 0 ${FOCUS_RING.widthPx}px color-mix(
+      in srgb,
+      ${themeVar("focusRing")} ${FOCUS_RING.opacityPercent}%,
+      transparent
+    );
   }
   input:disabled + .slider { 
-    background-color: ${themeVar("default600")};
+    background-color: ${themeVar("actionDisabled")};
+    cursor: not-allowed;
   }
 
   input:checked + .slider:before {
-    -webkit-transform: translateX(20px);
-    -ms-transform: translateX(20px);
-    transform: translateX(20px);
+    -webkit-transform: translateX(${SWITCH_THUMB_TRANSLATE_X_PX}px);
+    -ms-transform: translateX(${SWITCH_THUMB_TRANSLATE_X_PX}px);
+    transform: translateX(${SWITCH_THUMB_TRANSLATE_X_PX}px);
   }
 
   .slider.round {
-    border-radius: 34px;
+    border-radius: ${BORDER_RADIUS_PX.pill}px;
   }
 
   .slider.round:before {
@@ -621,12 +1091,18 @@ var Container4 = styled10.div`
 `;
 
 // src/components/TabBar.tsx
-import styled11, { css as css4 } from "styled-components";
+import styled11, { css as css5 } from "styled-components";
 import { jsx as jsx9 } from "react/jsx-runtime";
+var TAB_HORIZONTAL_PADDING_PX = SPACING_PX.md;
+var TAB_MOBILE_VERTICAL_PADDING_PX = 10;
+var TAB_LIST_PADDING_PX = 3;
+var TAB_FOCUS_OFFSET_PX = 1;
+var TAB_LIST_BORDER_WIDTH_PX = 1;
 var TabBar = ({ options, selected, onSet }) => {
   return /* @__PURE__ */ jsx9(Container5, { children: options.map((item, index) => /* @__PURE__ */ jsx9(
     Item,
     {
+      type: "button",
       $active: item.value === selected,
       onClick: () => onSet?.(item.value),
       children: item.title
@@ -634,53 +1110,68 @@ var TabBar = ({ options, selected, onSet }) => {
     index
   )) });
 };
-var Item = styled11.div`
-    font-size: 16px;
+var Item = styled11.button`
+    min-height: ${CONTROL_HEIGHT_PX.medium}px;
     white-space: nowrap;
-    padding: 12px 16px;
-    border-radius: 8px;
-    font-size: 18px;
-    gap: 12px;
+    padding: ${SPACING_PX.xs}px ${TAB_HORIZONTAL_PADDING_PX}px;
+    border-radius: ${BORDER_RADIUS_PX.large}px;
+    border: 0;
+    background: transparent;
+    font-size: ${FONT_SIZE_PX.medium}px;
+    gap: ${SPACING_PX.sm}px;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: ${themeVar("default400")};
-    ${({ $active }) => $active && css4`
-        color: ${themeVar("accent500")};
+    color: ${themeVar("textMuted")};
+    ${({ $active }) => $active && css5`
+        color: ${themeVar("actionPrimary")};
+        background: ${themeVar("surfaceSelected")};
     `}
     &:hover {
-        color: ${themeVar("accent500")};
+        color: ${themeVar("actionPrimary")};
+        background: ${themeVar("surfaceHover")};
+    }
+    &:focus-visible {
+        outline: ${FOCUS_RING.widthPx}px solid color-mix(
+            in srgb,
+            ${themeVar("focusRing")} ${FOCUS_RING.opacityPercent}%,
+            transparent
+        );
+        outline-offset: ${TAB_FOCUS_OFFSET_PX}px;
     }
     cursor: pointer;
 
     ${onSmWidth} {
-        padding: 10px 12px;
-        font-size: 14px;
+        padding: ${TAB_MOBILE_VERTICAL_PADDING_PX}px ${SPACING_PX.sm}px;
+        font-size: ${FONT_SIZE_PX.small}px;
     }
 `;
 var Container5 = styled11.div`
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 4px;
+    gap: ${SPACING_PX.xxs}px;
     box-sizing: border-box;
     overflow-x: auto;
-    border: 0.5px solid ${themeVar("default700")};
-    border-radius: 16px;
+    padding: ${TAB_LIST_PADDING_PX}px;
+    border: ${TAB_LIST_BORDER_WIDTH_PX}px solid ${themeVar("borderSubtle")};
+    border-radius: ${BORDER_RADIUS_PX.xlarge}px;
+    background: ${themeVar("surfacePage")};
 `;
 
 // src/components/TextArea.tsx
-import styled12, { css as css5 } from "styled-components";
-import React5 from "react";
+import styled12, { css as css6 } from "styled-components";
+import React6 from "react";
 import { Fragment as Fragment2, jsx as jsx10, jsxs as jsxs6 } from "react/jsx-runtime";
-var TextArea = React5.forwardRef(({
+var TEXT_AREA_BORDER_WIDTH_PX = 1;
+var TextArea = React6.forwardRef(({
   onChange,
   $errorText,
   $hasError,
   ...props
 }, ref) => /* @__PURE__ */ jsxs6(Fragment2, { children: [
   /* @__PURE__ */ jsx10(
-    Wrapper2,
+    Wrapper,
     {
       ref,
       $hasError,
@@ -690,37 +1181,55 @@ var TextArea = React5.forwardRef(({
   ),
   $errorText && /* @__PURE__ */ jsx10(ErrorText2, { children: $errorText })
 ] }));
-var Wrapper2 = styled12.textarea`
-    font-size: 16px;
-    padding: 16px;
-    border-radius: 4px;
-    background: ${themeVar("contentBg")};
-    color: ${themeVar("fontColor")};
+var Wrapper = styled12.textarea`
+    font-size: ${FONT_SIZE_PX.medium}px;
+    padding: ${SPACING_PX.sm}px;
+    border-radius: ${BORDER_RADIUS_PX.large}px;
+    background: ${themeVar("surfaceBase")};
+    color: ${themeVar("textPrimary")};
     width: 100%;
-    border: 1px solid ${themeVar("default800")};
+    border: ${TEXT_AREA_BORDER_WIDTH_PX}px solid ${themeVar("borderDefault")};
+    resize: vertical;
+    transition: border-color ${MOTION_DURATION_MS.standard}ms ease,
+        box-shadow ${MOTION_DURATION_MS.standard}ms ease;
 
-    &:focus {
-        outline: none;
-        box-shadow: 0px 0px 2px #${themeVar("accent600")};
+    &:focus-visible {
+        outline: ${FOCUS_RING.widthPx}px solid color-mix(
+            in srgb,
+            ${themeVar("focusRing")} ${FOCUS_RING.opacityPercent}%,
+            transparent
+        );
+        outline-offset: ${FOCUS_RING.offsetPx}px;
+        border-color: ${themeVar("focusRing")};
     }
-    ${({ $hasError }) => $hasError && css5`
-        border-color: ${themeVar("error500")};
+    ${({ $hasError }) => $hasError && css6`
+        border-color: ${themeVar("actionDanger")};
     `}
+    &::placeholder { color: ${themeVar("textMuted")}; }
+    &:disabled {
+        color: ${themeVar("textDisabled")};
+        background: ${themeVar("actionDisabled")};
+        border-color: ${themeVar("borderDisabled")};
+        cursor: not-allowed;
+    }
 `;
 var ErrorText2 = styled12.div`
-    color: ${themeVar("error500")};
-    font-size: 14px;
-    margin-top: 4px;
+    color: ${themeVar("actionDanger")};
+    font-size: ${FONT_SIZE_PX.small}px;
+    margin-top: ${SPACING_PX.xxs}px;
 `;
 
 // src/components/NavPanel/NavPanel.tsx
 import styled13 from "styled-components";
 import { Fragment as Fragment3, jsx as jsx11, jsxs as jsxs7 } from "react/jsx-runtime";
+var NAV_PANEL_WIDTH_PX = 60;
+var NAV_PANEL_Z_INDEX = 11;
+var NAV_ITEM_BORDER_WIDTH_PX = 1;
 var NavPanel = ({
   links,
   LinkElement
 }) => {
-  return /* @__PURE__ */ jsx11(Container6, { children: /* @__PURE__ */ jsx11(Wrapper3, { children: links.map((v, idx) => /* @__PURE__ */ jsxs7(Fragment3, { children: [
+  return /* @__PURE__ */ jsx11(Container6, { children: /* @__PURE__ */ jsx11(Wrapper2, { children: links.map((v, idx) => /* @__PURE__ */ jsxs7(Fragment3, { children: [
     v === "Separator" && /* @__PURE__ */ jsx11(Separator, {}, idx),
     v !== "Separator" && /* @__PURE__ */ jsxs7(Fragment3, { children: [
       "to" in v && /* @__PURE__ */ jsx11(
@@ -745,49 +1254,59 @@ var NavPanel = ({
   ] })) }) });
 };
 var Container6 = styled13.div`
-    width: 60px;
+    width: ${NAV_PANEL_WIDTH_PX}px;
     position: fixed;
     left: 0;
     top: 0;
     height: 100vh;
-    border-right: 1px solid ${themeVar("default700")};
-    background: ${themeVar("default800")};
+    border-right: ${NAV_ITEM_BORDER_WIDTH_PX}px solid ${themeVar("borderSubtle")};
+    background: ${themeVar("surfaceBase")};
     background-size: cover;
-    z-index: 11;
+    z-index: ${NAV_PANEL_Z_INDEX};
   
 `;
-var Wrapper3 = styled13.div`
+var Wrapper2 = styled13.div`
     width: 100%;
     height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 16px;
-    padding-top: 12px;
-    padding-bottom: 12px;
+    gap: ${SPACING_PX.md}px;
+    padding-top: ${SPACING_PX.sm}px;
+    padding-bottom: ${SPACING_PX.sm}px;
     box-sizing: border-box;
 
 
     .link-element {
         display: flex;
         align-items: center;
-        border: 1px solid #00000000;
+        border: ${NAV_ITEM_BORDER_WIDTH_PX}px solid transparent;
         justify-content: center;
         outline: none;
         border-radius: 50%;
-        padding: 8px;
+        padding: ${SPACING_PX.xs}px;
         cursor: pointer;
-        background: ${themeVar("default800")};
+        color: ${themeVar("textMuted")};
+        background: ${themeVar("surfaceBase")};
         & * {
-            color: ${themeVar("default500")};
+            color: currentColor;
         }
         &:hover {
-            background-color: ${themeVar("default800")};
-            border: 1px solid ${themeVar("default700")};
+            color: ${themeVar("actionPrimary")};
+            background-color: ${themeVar("surfaceHover")};
+            border: ${NAV_ITEM_BORDER_WIDTH_PX}px solid ${themeVar("borderDefault")};
             svg {
-                fill: ${themeVar("default600")};
-                stroke: ${themeVar("default600")};
+                fill: currentColor;
+                stroke: currentColor;
             }
+        }
+        &:focus-visible {
+            outline: ${FOCUS_RING.widthPx}px solid color-mix(
+                in srgb,
+                ${themeVar("focusRing")} ${FOCUS_RING.opacityPercent}%,
+                transparent
+            );
+            outline-offset: ${FOCUS_RING.offsetPx}px;
         }
     }
 `;
@@ -799,6 +1318,7 @@ var Separator = styled13.div`
 // src/components/Settings/Settings.tsx
 import styled14 from "styled-components";
 import { jsx as jsx12, jsxs as jsxs8 } from "react/jsx-runtime";
+var SETTINGS_BOTTOM_PADDING_PX = 86;
 var Settings = ({
   children,
   containerStyle,
@@ -823,22 +1343,26 @@ var Container7 = styled14.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  padding-left: 24px;
-  padding-right: 24px;
-  padding-bottom: 86px;
+  padding-left: ${SPACING_PX.xl}px;
+  padding-right: ${SPACING_PX.xl}px;
+  padding-bottom: ${SETTINGS_BOTTOM_PADDING_PX}px;
   box-sizing: border-box;
-  gap: 12px;
+  gap: ${SPACING_PX.sm}px;
 `;
 var Header2 = styled14.div`
     display: flex;
     align-items: center;
     flex-direction: row;
-    gap: 12px;
+    gap: ${SPACING_PX.sm}px;
 `;
 
 // src/components/Settings/SettingRow.tsx
 import styled15 from "styled-components";
 import { jsx as jsx13, jsxs as jsxs9 } from "react/jsx-runtime";
+var SETTING_ROW_GAP_PX = 10;
+var SETTING_ROW_BORDER_WIDTH_PX = 1;
+var SETTING_DESCRIPTION_MAX_WIDTH_PX = 360;
+var SETTING_ICON_BASELINE_OFFSET_PX = -2;
 var SettingRow = ({ title, icon, option, description, containerStyle }) => {
   return /* @__PURE__ */ jsxs9(Container8, { style: containerStyle, children: [
     /* @__PURE__ */ jsxs9(Title, { children: [
@@ -852,86 +1376,47 @@ var SettingRow = ({ title, icon, option, description, containerStyle }) => {
 var Container8 = styled15.div`
     display: flex;
     flex-direction: row;
-    padding: 12px;
+    padding: ${SPACING_PX.sm}px;
     width: 100%;
     box-sizing: border-box;
-    gap: 10px;
+    gap: ${SETTING_ROW_GAP_PX}px;
     align-items: center;
-    border-top: 1px solid ${themeVar("default700")};
+    border-top: ${SETTING_ROW_BORDER_WIDTH_PX}px solid ${themeVar("borderSubtle")};
     &:first-child {
-        border-top: 1px solid #00000000;
+        border-top: ${SETTING_ROW_BORDER_WIDTH_PX}px solid transparent;
     }
 `;
 var Title = styled15.div`
-    font-size: 16px;
+    font-size: ${FONT_SIZE_PX.medium}px;
     flex: 1;
     svg {
-        margin-right: 8px;
-        margin-bottom: -2px;
+        margin-right: ${SPACING_PX.xs}px;
+        margin-bottom: ${SETTING_ICON_BASELINE_OFFSET_PX}px;
     }    
 `;
 var Description = styled15.div`
-    font-size: 14px;
-    background-color: ${themeVar("default400")}09;
-    margin-top: 6px;
-    max-width: 360px;
-    padding: 8px;
-    border-radius: 12px;
+    font-size: ${FONT_SIZE_PX.small}px;
+    color: ${themeVar("textMuted")};
+    background-color: ${themeVar("surfaceHover")};
+    margin-top: ${BORDER_RADIUS_PX.medium}px;
+    max-width: ${SETTING_DESCRIPTION_MAX_WIDTH_PX}px;
+    padding: ${SPACING_PX.xs}px;
+    border-radius: ${BORDER_RADIUS_PX.xlarge}px;
 
 `;
 
-// src/components/context-menu/create-context-menu.tsx
+// src/context-menu/create-context-menu.tsx
 import React7 from "react";
 import { useUnit as useUnit2 } from "effector-react";
 import { createEffect, createEvent, createStore, sample as sample2 } from "effector";
-import styled16, { css as css7 } from "styled-components";
-
-// src/components/context-menu/context-menu/useArrowKeys.ts
-import React6 from "react";
-var useArrowKeys = (visible, len, cb, closeMenu) => {
-  const [idx, setIdx] = React6.useState(null);
-  React6.useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (!visible) {
-        return;
-      }
-      ["ArrowDown", "ArrowUp", "Enter", "Space"].includes(e.key) && setIdx((idx2) => {
-        e.preventDefault();
-        if (idx2 === null) {
-          if (e.key === "ArrowDown") {
-            return 0;
-          }
-          if (e.key === "ArrowUp") {
-            return len - 1;
-          }
-          return null;
-        }
-        if (e.key === "ArrowDown") {
-          return idx2 + 1 < len ? idx2 + 1 : 0;
-        }
-        if (e.key === "ArrowUp") {
-          return idx2 > 0 ? idx2 - 1 : len - 1;
-        }
-        if (e.key === "Enter" || e.key === "Space") {
-          cb(idx2);
-          closeMenu();
-        }
-        return idx2;
-      });
-    };
-    document.addEventListener("keydown", handleKeyDown);
-    return () => {
-      document.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [len, visible]);
-  return [idx, setIdx];
-};
-
-// src/components/context-menu/create-context-menu.tsx
+import styled16, { css as css8 } from "styled-components";
 import { jsx as jsx14, jsxs as jsxs10 } from "react/jsx-runtime";
-var WIDTH_PX = 220;
-var MENU_ITEM_HEIGHT_PX = 26;
-var HEIGHT_PADDINGS = 12;
+var CONTEXT_MENU_WIDTH_PX = 220;
+var CONTEXT_MENU_ITEM_HEIGHT_PX = 26;
+var CONTEXT_MENU_VIEWPORT_PADDING_PX = SPACING_PX.sm;
+var CONTEXT_MENU_Z_INDEX = 990;
+var CONTEXT_MENU_BORDER_WIDTH_PX = 1;
+var CONTEXT_MENU_FONT_SIZE_PX = 13;
 var createContextMenu = () => {
   const $payload = createStore(null);
   const $top = createStore(0);
@@ -964,12 +1449,12 @@ var createContextMenu = () => {
     let left = 0;
     let top = 0;
     if (window.innerHeight / 2 < e.clientY) {
-      top = e.clientY - height - HEIGHT_PADDINGS;
+      top = e.clientY - height - CONTEXT_MENU_VIEWPORT_PADDING_PX;
     } else {
       top = e.clientY;
     }
     if (window.innerWidth / 2 < e.clientX) {
-      left = e.clientX - WIDTH_PX;
+      left = e.clientX - CONTEXT_MENU_WIDTH_PX;
     } else {
       left = e.clientX;
     }
@@ -984,7 +1469,7 @@ var createContextMenu = () => {
       return items.filter((v) => v.filter ? v.filter(payload) : true);
     }, [items, payload]);
     React7.useEffect(() => {
-      setHeight(itemsToRender.length * MENU_ITEM_HEIGHT_PX);
+      setHeight(itemsToRender.length * CONTEXT_MENU_ITEM_HEIGHT_PX);
     }, [itemsToRender]);
     React7.useEffect(() => {
       document.addEventListener("click", clearContextMenu);
@@ -992,12 +1477,12 @@ var createContextMenu = () => {
         document.removeEventListener("click", clearContextMenu);
       };
     }, []);
-    const [selectedIdx, setSelectedIdx] = useArrowKeys(
-      payload !== null,
-      itemsToRender.length,
-      (id) => itemsToRender[id].action(payload),
-      closeMenu
-    );
+    const [selectedIdx, setSelectedIdx] = useArrowKeys({
+      visible: payload !== null,
+      length: itemsToRender.length,
+      onSelect: (id) => itemsToRender[id].action(payload),
+      onClose: closeMenu
+    });
     if (payload === null) {
       return null;
     }
@@ -1039,60 +1524,63 @@ var Motion = styled16.div`
     width: 0;
     height: 0;
     left:0;
-    z-index: 990;
+    z-index: ${CONTEXT_MENU_Z_INDEX};
     overflow: visible;
     &::-webkit-scrollbar {
         width: 0px;
     }
     `;
 var MenuWrapper = styled16.div`
-    border: 2px solid ${themeVar("default700")};
-    background-color: ${themeVar("default800")};
-    color: white;
+    border: ${CONTEXT_MENU_BORDER_WIDTH_PX}px solid ${themeVar("borderSubtle")};
+    background-color: ${themeVar("surfaceElevated")};
+    color: ${themeVar("textPrimary")};
     position: relative;
-    border-radius: 6px;
-    max-width: ${WIDTH_PX}px;
-    width: ${WIDTH_PX}px;
-    padding: 4px;
+    border-radius: ${BORDER_RADIUS_PX.medium}px;
+    max-width: ${CONTEXT_MENU_WIDTH_PX}px;
+    width: ${CONTEXT_MENU_WIDTH_PX}px;
+    padding: ${SPACING_PX.xxs}px;
 `;
 var IconWrapper = styled16.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    padding-left: 8px;
-    padding-right: 8px;
+    padding-left: ${SPACING_PX.xs}px;
+    padding-right: ${SPACING_PX.xs}px;
 `;
 var TitleWrapper = styled16.div`
-    padding: 6px;
+    padding: ${BORDER_RADIUS_PX.medium}px;
 `;
 var MenuItem = styled16.button`
-    padding: 6px;
+    padding: ${BORDER_RADIUS_PX.medium}px;
     display: flex;
-    height: ${MENU_ITEM_HEIGHT_PX};
     flex-direction: row;
     align-items: center;
-    font-size: 13px;
-    color: ${themeVar("fontColor")};
+    font-size: ${CONTEXT_MENU_FONT_SIZE_PX}px;
+    color: ${themeVar("textPrimary")};
     background: none;
     outline: none;
-    height: ${MENU_ITEM_HEIGHT_PX}px;
+    height: ${CONTEXT_MENU_ITEM_HEIGHT_PX}px;
     border: 0;
     width: 100%;
     cursor: pointer;
-    ${({ $active }) => $active && css7`
-        background-color: ${themeVar("default700")};
-        color: ${themeVar("default300")};
+    ${({ $active }) => $active && css8`
+        background-color: ${themeVar("surfaceHover")};
+        color: ${themeVar("actionPrimary")};
     `}
 `;
 
 // src/theming/global.styled.tsx
 import { createGlobalStyle } from "styled-components";
 var GlobalStyled = createGlobalStyle`
+    :root {
+        color-scheme: light dark;
+    }
+
     body {
         margin: 0;
         padding: 0;
-        color: ${themeVar("fontColor")};
-        background-color: ${themeVar("backgroundColor")};
+        color: ${themeVar("textPrimary")};
+        background-color: ${themeVar("surfacePage")};
     }
 
     body,
@@ -1100,18 +1588,24 @@ var GlobalStyled = createGlobalStyle`
         box-sizing: border-box;
     }
 
-    label {
-        font-weight: 300;
-        font-size: 14px;
-        margin-left: 4px;
+    body {
+        font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        line-height: 1.5;
     }
 
-    body {
-        background: ${themeVar("backgroundColor")};
-        font-family: 'Roboto';
-        margin: 0;
-        color: ${themeVar("fontColor")};
-        padding: 0;
+    button,
+    input,
+    textarea,
+    select {
+        font: inherit;
+    }
+
+    button,
+    a,
+    input,
+    textarea,
+    select {
+        -webkit-tap-highlight-color: transparent;
     }
 
 
@@ -1128,7 +1622,7 @@ var GlobalStyled = createGlobalStyle`
     }
 
     a {
-        color: ${themeVar("accent500")};
+        color: ${themeVar("actionPrimary")};
         text-decoration: none;
     }
 
@@ -1136,23 +1630,40 @@ var GlobalStyled = createGlobalStyle`
         padding: 0;
         margin: 0;
     }
+
+    @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            scroll-behavior: auto !important;
+            transition-duration: 0.01ms !important;
+        }
+    }
 `;
 export {
   $currentTheme,
   Avatar,
   AvatarThumb,
+  BORDER_RADIUS_PX,
   Button,
+  CONTROL_HEIGHT_PX,
   Dropdown,
+  FOCUS_RING,
+  FONT_SIZE_PX,
   GlobalStyled,
   Input,
   LARGE_WIDTH_PX,
   LinkButton,
   Loader,
   MOBILE_WIDTH,
+  MOTION_DURATION_MS,
   Modal,
   NavPanel,
   ProgressBar,
   Range,
+  SPACING_PX,
   SettingRow,
   Settings,
   Switch,
@@ -1163,11 +1674,13 @@ export {
   ThemeProvider,
   availableThemes,
   createContextMenu,
+  getNextEnabledIndex,
   loadThemeFx,
   onLgWidth,
   onMdWidth,
   onSmWidth,
   themeVar,
   toggleTheme,
+  useArrowKeys,
   useTheme
 };

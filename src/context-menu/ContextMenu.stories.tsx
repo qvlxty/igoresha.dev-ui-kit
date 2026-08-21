@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import React from "react";
 import { createContextMenu } from "./create-context-menu";
 import { AiFillCalendar, AiFillSetting, AiFillMoon } from 'react-icons/ai'
-import { Button } from '../Button';
+import { Button } from '../components/Button';
 
 export const {
     ContextMenu,
@@ -20,7 +20,7 @@ export const ExampleComponent = () => {
                 }}>Нажмите сюда правой кнопкой мыши</Button>
             </p>
             <p>
-                <Button $danger onContextMenu={(e) => {
+                <Button $variant="danger" onContextMenu={(e) => {
                     e.preventDefault()
                     openMenu({ e, payload: 'secondButton' })
                 }}>Нажмите сюда правой кнопкой мыши</Button>
@@ -29,13 +29,6 @@ export const ExampleComponent = () => {
                 { icon: <AiFillCalendar />, name: 'Calendar', action: (p) => alert(p) },
                 { icon: <AiFillSetting />, name: 'Settings', action: () => alert('second') },
                 { icon: <AiFillMoon />, name: 'Theme', action: () => alert('third') },
-                { icon: <AiFillMoon />, name: 'Theme', action: () => alert('third') },
-                { icon: <AiFillMoon />, name: 'Theme2', filter: () => false, action: () => alert('third') },
-                { icon: <AiFillMoon />, name: 'Theme3', action: () => alert('third') },
-                { icon: <AiFillMoon />, name: 'Theme4', action: () => alert('third') },
-                { icon: <AiFillMoon />, name: 'Theme5', filter: () => true, action: () => alert('third') },
-                { icon: <AiFillMoon />, name: 'Theme6', action: () => alert('third') },
-                { icon: <AiFillMoon />, name: 'Theme7', action: () => alert('third') },
             ]} />
         </>
     )

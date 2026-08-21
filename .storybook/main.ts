@@ -9,6 +9,7 @@ const config: StorybookConfig = {
   "addons": [
     '@storybook/addon-themes',
     '@storybook/addon-docs',
+    '@storybook/addon-a11y',
   ],
   "staticDirs": ['../assets'],
   "framework": {

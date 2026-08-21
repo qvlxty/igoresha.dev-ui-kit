@@ -3,12 +3,16 @@ import { useUnit } from "effector-react"
 import { createEffect, createEvent, createStore, sample } from "effector"
 import styled, { css } from "styled-components"
 
-import { useArrowKeys } from "./context-menu/useArrowKeys"
-import { themeVar } from "../../theming"
+import { useArrowKeys } from "../lib/useArrowKeys"
+import { themeVar } from "../theming"
+import { BORDER_RADIUS_PX, SPACING_PX } from "../const"
 
-const WIDTH_PX = 220
-const MENU_ITEM_HEIGHT_PX = 26
-const HEIGHT_PADDINGS = 12
+const CONTEXT_MENU_WIDTH_PX = 220
+const CONTEXT_MENU_ITEM_HEIGHT_PX = 26
+const CONTEXT_MENU_VIEWPORT_PADDING_PX = SPACING_PX.sm
+const CONTEXT_MENU_Z_INDEX = 990
+const CONTEXT_MENU_BORDER_WIDTH_PX = 1
+const CONTEXT_MENU_FONT_SIZE_PX = 13
 
 export const createContextMenu = <T = unknown,>() => {
     const $payload = createStore<T | null>(null)
@@ -53,12 +57,12 @@ export const createContextMenu = <T = unknown,>() => {
         let left = 0
         let top = 0
         if (window.innerHeight / 2 < e.clientY) {
-            top = e.clientY - height - HEIGHT_PADDINGS
+            top = e.clientY - height - CONTEXT_MENU_VIEWPORT_PADDING_PX
         } else {
             top = e.clientY
         }
         if (window.innerWidth / 2 < e.clientX) {
-            left = e.clientX - WIDTH_PX
+            left = e.clientX - CONTEXT_MENU_WIDTH_PX
         } else {
             left = e.clientX
         }
@@ -76,7 +80,7 @@ export const createContextMenu = <T = unknown,>() => {
         },[items, payload])
 
         React.useEffect(() => {
-            setHeight(itemsToRender.length * MENU_ITEM_HEIGHT_PX)
+            setHeight(itemsToRender.length * CONTEXT_MENU_ITEM_HEIGHT_PX)
         }, [itemsToRender])
 
         React.useEffect(() => {
@@ -86,12 +90,12 @@ export const createContextMenu = <T = unknown,>() => {
             }
         }, [])
 
-        const [selectedIdx, setSelectedIdx] = useArrowKeys(
-            payload !== null,
-            itemsToRender.length, 
-            (id) => itemsToRender[id].action(payload!),
-            closeMenu
-        )
+        const [selectedIdx, setSelectedIdx] = useArrowKeys({
+            visible: payload !== null,
+            length: itemsToRender.length,
+            onSelect: (id) => itemsToRender[id].action(payload!),
+            onClose: closeMenu,
+        })
 
         if (payload === null) {
             return null
@@ -141,7 +145,7 @@ const Motion = styled.div`
     width: 0;
     height: 0;
     left:0;
-    z-index: 990;
+    z-index: ${CONTEXT_MENU_Z_INDEX};
     overflow: visible;
     &::-webkit-scrollbar {
         width: 0px;
@@ -149,44 +153,43 @@ const Motion = styled.div`
     `
 
 const MenuWrapper = styled.div`
-    border: 2px solid ${themeVar('default700')};
-    background-color: ${themeVar('default800')};
-    color: white;
+    border: ${CONTEXT_MENU_BORDER_WIDTH_PX}px solid ${themeVar('borderSubtle')};
+    background-color: ${themeVar('surfaceElevated')};
+    color: ${themeVar('textPrimary')};
     position: relative;
-    border-radius: 6px;
-    max-width: ${WIDTH_PX}px;
-    width: ${WIDTH_PX}px;
-    padding: 4px;
+    border-radius: ${BORDER_RADIUS_PX.medium}px;
+    max-width: ${CONTEXT_MENU_WIDTH_PX}px;
+    width: ${CONTEXT_MENU_WIDTH_PX}px;
+    padding: ${SPACING_PX.xxs}px;
 `
 
 const IconWrapper = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    padding-left: 8px;
-    padding-right: 8px;
+    padding-left: ${SPACING_PX.xs}px;
+    padding-right: ${SPACING_PX.xs}px;
 `
 
 const TitleWrapper = styled.div`
-    padding: 6px;
+    padding: ${BORDER_RADIUS_PX.medium}px;
 `
 
 const MenuItem = styled.button<{ $active: boolean }>`
-    padding: 6px;
+    padding: ${BORDER_RADIUS_PX.medium}px;
     display: flex;
-    height: ${MENU_ITEM_HEIGHT_PX};
     flex-direction: row;
     align-items: center;
-    font-size: 13px;
-    color: ${themeVar('fontColor')};
+    font-size: ${CONTEXT_MENU_FONT_SIZE_PX}px;
+    color: ${themeVar('textPrimary')};
     background: none;
     outline: none;
-    height: ${MENU_ITEM_HEIGHT_PX}px;
+    height: ${CONTEXT_MENU_ITEM_HEIGHT_PX}px;
     border: 0;
     width: 100%;
     cursor: pointer;
     ${({ $active }) => $active && css`
-        background-color: ${themeVar('default700')};
-        color: ${themeVar('default300')};
+        background-color: ${themeVar('surfaceHover')};
+        color: ${themeVar('actionPrimary')};
     `}
 `

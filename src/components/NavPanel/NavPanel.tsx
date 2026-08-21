@@ -1,6 +1,11 @@
 import styled, { css } from "styled-components"
 import { themeVar } from "../../theming"
 import React, { JSX } from "react"
+import { FOCUS_RING, SPACING_PX } from "../../const"
+
+const NAV_PANEL_WIDTH_PX = 60
+const NAV_PANEL_Z_INDEX = 11
+const NAV_ITEM_BORDER_WIDTH_PX = 1
 
 type NavPanelItem = 'Separator' | {
     to: string,
@@ -58,15 +63,15 @@ export const NavPanel = ({
 }
 
 const Container = styled.div`
-    width: 60px;
+    width: ${NAV_PANEL_WIDTH_PX}px;
     position: fixed;
     left: 0;
     top: 0;
     height: 100vh;
-    border-right: 1px solid ${themeVar('default700')};
-    background: ${themeVar('default800')};
+    border-right: ${NAV_ITEM_BORDER_WIDTH_PX}px solid ${themeVar('borderSubtle')};
+    background: ${themeVar('surfaceBase')};
     background-size: cover;
-    z-index: 11;
+    z-index: ${NAV_PANEL_Z_INDEX};
   
 `
 
@@ -76,32 +81,42 @@ const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 16px;
-    padding-top: 12px;
-    padding-bottom: 12px;
+    gap: ${SPACING_PX.md}px;
+    padding-top: ${SPACING_PX.sm}px;
+    padding-bottom: ${SPACING_PX.sm}px;
     box-sizing: border-box;
 
 
     .link-element {
         display: flex;
         align-items: center;
-        border: 1px solid #00000000;
+        border: ${NAV_ITEM_BORDER_WIDTH_PX}px solid transparent;
         justify-content: center;
         outline: none;
         border-radius: 50%;
-        padding: 8px;
+        padding: ${SPACING_PX.xs}px;
         cursor: pointer;
-        background: ${themeVar('default800')};
+        color: ${themeVar('textMuted')};
+        background: ${themeVar('surfaceBase')};
         & * {
-            color: ${themeVar('default500')};
+            color: currentColor;
         }
         &:hover {
-            background-color: ${themeVar('default800')};
-            border: 1px solid ${themeVar('default700')};
+            color: ${themeVar('actionPrimary')};
+            background-color: ${themeVar('surfaceHover')};
+            border: ${NAV_ITEM_BORDER_WIDTH_PX}px solid ${themeVar('borderDefault')};
             svg {
-                fill: ${themeVar('default600')};
-                stroke: ${themeVar('default600')};
+                fill: currentColor;
+                stroke: currentColor;
             }
+        }
+        &:focus-visible {
+            outline: ${FOCUS_RING.widthPx}px solid color-mix(
+                in srgb,
+                ${themeVar('focusRing')} ${FOCUS_RING.opacityPercent}%,
+                transparent
+            );
+            outline-offset: ${FOCUS_RING.offsetPx}px;
         }
     }
 `

@@ -1,6 +1,8 @@
 import styled, { css } from 'styled-components';
 import { themeVar } from '../theming';
 
+const ONLINE_BORDER_WIDTH_PX = 2
+
 interface Props {
     url?: string;
     $size?: number;
@@ -25,11 +27,10 @@ export const Avatar = ({
 }
 
 const Image = styled.img<Props>`
-    cursor: pointer;
     border-radius: 50%;
     width: ${({$size}) => $size}px;
     height: ${({$size}) => $size}px;
     ${({$isOnline}) => $isOnline && css`
-        border: 2px solid ${themeVar('accent600')};
+        border: ${ONLINE_BORDER_WIDTH_PX}px solid ${themeVar('success')};
     `}
 `

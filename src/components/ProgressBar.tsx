@@ -1,5 +1,8 @@
 import styled from 'styled-components'
 import { themeVar } from '../theming'
+import { BORDER_RADIUS_PX, SPACING_PX } from '../const'
+
+const PROGRESS_MIN_VISIBLE_PERCENT = 15
 
 type Props = {
   completed: number,
@@ -13,12 +16,12 @@ export const ProgressBar = ({ completed, style }: Props) => (
 )
 
 const Container = styled.div`
-    border-radius: 50px;
-    background-color: ${themeVar('default400')};
+    border-radius: ${BORDER_RADIUS_PX.pill}px;
+    background-color: ${themeVar('borderSubtle')};
     text-align: center;
     flex-shrink: 1;
     flex-grow: 1;
-    height: 40px;
+    height: ${SPACING_PX.xs}px;
 `
 
 
@@ -26,7 +29,7 @@ const Filter = styled.div<Props>`
     height: 100%;
     width: ${({ completed }) => completed}%;
     max-width: 100%;
-    min-width: 15%;
+    min-width: ${PROGRESS_MIN_VISIBLE_PERCENT}%;
     border-radius: inherit;
-    background-color: ${themeVar('default700')};
+    background-color: ${themeVar('actionPrimary')};
 `

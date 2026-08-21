@@ -1,5 +1,14 @@
 import styled from 'styled-components'
 import { themeVar } from '../theming'
+import { BORDER_RADIUS_PX, FOCUS_RING, MOTION_DURATION_MS } from '../const'
+
+const SWITCH_WIDTH_PX = 40
+const SWITCH_HEIGHT_PX = 18
+const SWITCH_THUMB_SIZE_PX = 12
+const SWITCH_THUMB_LEFT_PX = 4
+const SWITCH_THUMB_BOTTOM_PX = 3
+const SWITCH_THUMB_TRANSLATE_X_PX = 20
+const VISUALLY_HIDDEN_SIZE_PX = 1
 
 type Props = {
   checked?: boolean
@@ -21,15 +30,18 @@ export const Switch = (
 const Label = styled.label`
     position: relative;
     display: block;
-    width: 40px;
-    height: 18px;
+    width: ${SWITCH_WIDTH_PX}px;
+    height: ${SWITCH_HEIGHT_PX}px;
     margin-left: 0;
+    cursor: pointer;
+    &:has(input:disabled) { cursor: not-allowed; }
 `
 
 const Input = styled.input`
     opacity: 0;
-    width: 0;
-    height: 0;
+    position: absolute;
+    width: ${VISUALLY_HIDDEN_SIZE_PX}px;
+    height: ${VISUALLY_HIDDEN_SIZE_PX}px;
 `
 
 const Container = styled.div`
@@ -41,43 +53,47 @@ const Container = styled.div`
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: ${themeVar('default500')};
-    -webkit-transition: .4s;
-    transition: .4s;
+    background-color: ${themeVar('borderStrong')};
+    transition: background-color ${MOTION_DURATION_MS.standard}ms ease,
+      box-shadow ${MOTION_DURATION_MS.standard}ms ease;
   }
 
   .slider:before {
     position: absolute;
     content: "";
-    height: 12px;
-    width: 12px;
-    left: 4px;
-    bottom: 3px;
+    height: ${SWITCH_THUMB_SIZE_PX}px;
+    width: ${SWITCH_THUMB_SIZE_PX}px;
+    left: ${SWITCH_THUMB_LEFT_PX}px;
+    bottom: ${SWITCH_THUMB_BOTTOM_PX}px;
     background-color: white;
-    -webkit-transition: .4s;
-    transition: .4s;
+    transition: transform ${MOTION_DURATION_MS.standard}ms ease;
   }
 
   
   input:checked + .slider {
-    background-color: ${themeVar('accent500')};
+    background-color: ${themeVar('actionPrimary')};
   }
   
-  input:focus + .slider {
-    box-shadow: 0 0 1px ${themeVar('accent500')};
+  input:focus-visible + .slider {
+    box-shadow: 0 0 0 ${FOCUS_RING.widthPx}px color-mix(
+      in srgb,
+      ${themeVar('focusRing')} ${FOCUS_RING.opacityPercent}%,
+      transparent
+    );
   }
   input:disabled + .slider { 
-    background-color: ${themeVar('default600')};
+    background-color: ${themeVar('actionDisabled')};
+    cursor: not-allowed;
   }
 
   input:checked + .slider:before {
-    -webkit-transform: translateX(20px);
-    -ms-transform: translateX(20px);
-    transform: translateX(20px);
+    -webkit-transform: translateX(${SWITCH_THUMB_TRANSLATE_X_PX}px);
+    -ms-transform: translateX(${SWITCH_THUMB_TRANSLATE_X_PX}px);
+    transform: translateX(${SWITCH_THUMB_TRANSLATE_X_PX}px);
   }
 
   .slider.round {
-    border-radius: 34px;
+    border-radius: ${BORDER_RADIUS_PX.pill}px;
   }
 
   .slider.round:before {

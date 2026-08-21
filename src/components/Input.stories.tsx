@@ -24,3 +24,10 @@ export const InputWithError: Story = {
     hasError: true
   },
 };
+
+export const Disabled: Story = {
+  args: {
+    value: 'Disabled value',
+    disabled: true,
+  },
+};

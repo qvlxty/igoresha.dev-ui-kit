@@ -909,7 +909,7 @@ var Modal = ({ visible, onClose, children, loading = false, style }) => {
 };
 var Container2 = import_styled_components9.default.div`
     position: relative;
-    background-color: ${themeVar("surfaceElevated")};
+    background-color: ${themeVar("surfacePage")};
     width: min(${MODAL_WIDTH_VIEWPORT_PERCENT}vw, ${TABLET_WIDTH}px);
     padding: ${SPACING_PX.xl}px;
     max-width: ${TABLET_WIDTH}px;

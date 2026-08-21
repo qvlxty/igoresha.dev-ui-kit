@@ -70,7 +70,7 @@ export const Modal: React.FC<Props> = (
 
 const Container = styled.div`
     position: relative;
-    background-color: ${themeVar('surfaceElevated')};
+    background-color: ${themeVar('surfacePage')};
     width: min(${MODAL_WIDTH_VIEWPORT_PERCENT}vw, ${TABLET_WIDTH}px);
     padding: ${SPACING_PX.xl}px;
     max-width: ${TABLET_WIDTH}px;

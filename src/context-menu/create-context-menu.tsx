@@ -71,6 +71,7 @@ export const createContextMenu = <T = unknown,>() => {
 
     const ContextMenu: React.FunctionComponent<Props<T>> = ({ items, title }) => {
         const [left, top, payload] = useUnit([$left, $top, $payload])
+        const menuRef = React.useRef<HTMLDivElement>(null)
         const clearContextMenu = React.useCallback(() => {
             closeMenu()
         }, [])
@@ -84,11 +85,17 @@ export const createContextMenu = <T = unknown,>() => {
         }, [itemsToRender])
 
         React.useEffect(() => {
-            document.addEventListener('click', clearContextMenu)
-            return () => {
-                document.removeEventListener('click', clearContextMenu)
+            if (payload === null) return
+            const handleOutsidePointerDown = (event: PointerEvent) => {
+                if (!menuRef.current?.contains(event.target as Node)) {
+                    clearContextMenu()
+                }
             }
-        }, [])
+            document.addEventListener('pointerdown', handleOutsidePointerDown, true)
+            return () => {
+                document.removeEventListener('pointerdown', handleOutsidePointerDown, true)
+            }
+        }, [clearContextMenu, payload])
 
         const [selectedIdx, setSelectedIdx] = useArrowKeys({
             visible: payload !== null,
@@ -102,6 +109,7 @@ export const createContextMenu = <T = unknown,>() => {
         }
         return (
             <Motion
+                ref={menuRef}
                 onContextMenuCapture={(e) => e.preventDefault()}
                 style={{ left, top }}
             >

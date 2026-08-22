@@ -1481,6 +1481,7 @@ var createContextMenu = () => {
   });
   const ContextMenu = ({ items, title }) => {
     const [left, top, payload] = useUnit2([$left, $top, $payload]);
+    const menuRef = React7.useRef(null);
     const clearContextMenu = React7.useCallback(() => {
       closeMenu();
     }, []);
@@ -1491,11 +1492,17 @@ var createContextMenu = () => {
       setHeight(itemsToRender.length * CONTEXT_MENU_ITEM_HEIGHT_PX);
     }, [itemsToRender]);
     React7.useEffect(() => {
-      document.addEventListener("click", clearContextMenu);
-      return () => {
-        document.removeEventListener("click", clearContextMenu);
+      if (payload === null) return;
+      const handleOutsidePointerDown = (event) => {
+        if (!menuRef.current?.contains(event.target)) {
+          clearContextMenu();
+        }
       };
-    }, []);
+      document.addEventListener("pointerdown", handleOutsidePointerDown, true);
+      return () => {
+        document.removeEventListener("pointerdown", handleOutsidePointerDown, true);
+      };
+    }, [clearContextMenu, payload]);
     const [selectedIdx, setSelectedIdx] = useArrowKeys({
       visible: payload !== null,
       length: itemsToRender.length,
@@ -1508,6 +1515,7 @@ var createContextMenu = () => {
     return /* @__PURE__ */ jsxs10(
       Motion,
       {
+        ref: menuRef,
         onContextMenuCapture: (e) => e.preventDefault(),
         style: { left, top },
         children: [

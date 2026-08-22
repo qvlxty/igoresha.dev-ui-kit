@@ -16,6 +16,12 @@ const MODAL_WIDTH_VIEWPORT_PERCENT = 85
 const MODAL_BORDER_WIDTH_PX = 1
 const MODAL_SHADOW_Y_PX = SPACING_PX.xl
 const MODAL_SHADOW_BLUR_PX = 64
+const MODAL_SCROLLBAR_WIDTH_PX = SPACING_PX.xs
+const MODAL_SCROLLBAR_THUMB_BORDER_PX = 2
+const MODAL_CLOSE_SCROLLBAR_GAP_PX = SPACING_PX.xs
+const MODAL_CLOSE_RIGHT_PX = SPACING_PX.md
+    + MODAL_SCROLLBAR_WIDTH_PX
+    + MODAL_CLOSE_SCROLLBAR_GAP_PX
 const OVERLAY_Z_INDEX = 20
 const OVERLAY_BLUR_PX = 5
 
@@ -82,14 +88,12 @@ const Container = styled.div`
     border: ${MODAL_BORDER_WIDTH_PX}px solid ${themeVar('borderSubtle')};
     border-radius: ${BORDER_RADIUS_PX.xlarge}px;
     box-shadow: 0 ${MODAL_SHADOW_Y_PX}px ${MODAL_SHADOW_BLUR_PX}px ${themeVar('shadowColor')};
-    scrollbar-width: thin;
-    scrollbar-color: ${themeVar('scrollbarThumb')} transparent;
 `
 
 const ModalHeader = styled.div`
     position: absolute;
     top: ${SPACING_PX.md}px;
-    right: ${SPACING_PX.md}px;
+    right: ${MODAL_CLOSE_RIGHT_PX}px;
     z-index: 1;
     display: flex;
     justify-content: flex-end;
@@ -129,8 +133,20 @@ const ModalContent = styled.div<{ $loading: boolean }>`
     min-height: 0;
     flex: 1;
     overflow-y: auto;
+    scrollbar-gutter: stable;
     scrollbar-width: thin;
     scrollbar-color: ${themeVar('scrollbarThumb')} transparent;
+
+    &::-webkit-scrollbar { width: ${MODAL_SCROLLBAR_WIDTH_PX}px; }
+    &::-webkit-scrollbar-track { background: transparent; }
+    &::-webkit-scrollbar-thumb {
+        background: ${themeVar('scrollbarThumb')};
+        border: ${MODAL_SCROLLBAR_THUMB_BORDER_PX}px solid ${themeVar('surfacePage')};
+        border-radius: ${BORDER_RADIUS_PX.pill}px;
+    }
+    &::-webkit-scrollbar-thumb:hover {
+        background: ${themeVar('scrollbarThumbHover')};
+    }
     ${({ $loading }) => $loading && `
         display: flex;
         align-items: center;

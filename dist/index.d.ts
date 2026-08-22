@@ -26,6 +26,7 @@ declare const lightTheme: {
     surfaceElevated: string;
     surfaceHover: string;
     surfaceSelected: string;
+    surfaceCaption: string;
     textPrimary: string;
     textSecondary: string;
     textMuted: string;

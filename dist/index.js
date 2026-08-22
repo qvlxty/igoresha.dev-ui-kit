@@ -166,6 +166,7 @@ var lightTheme = {
   surfaceElevated: "#ffffff",
   surfaceHover: "#f4f1f7",
   surfaceSelected: "#eee8ff",
+  surfaceCaption: "#f7f7fa",
   textPrimary: "#17131f",
   textSecondary: "#4f485d",
   textMuted: "#657889",
@@ -748,6 +749,10 @@ var List = import_styled_components6.default.ul`
     border-radius: ${BORDER_RADIUS_PX.large}px;
     box-shadow: 0 ${MENU_SHADOW_Y_PX}px ${MENU_SHADOW_BLUR_PX}px ${themeVar("shadowColor")};
 
+    display: flex;
+    flex-direction: column;
+    gap: ${SPACING_PX.xxs}px;
+
     &::-webkit-scrollbar { width: ${SCROLLBAR_WIDTH_PX}px; }
     &::-webkit-scrollbar-track { background: transparent; }
     &::-webkit-scrollbar-thumb {
@@ -879,6 +884,10 @@ var MODAL_WIDTH_VIEWPORT_PERCENT = 85;
 var MODAL_BORDER_WIDTH_PX = 1;
 var MODAL_SHADOW_Y_PX = SPACING_PX.xl;
 var MODAL_SHADOW_BLUR_PX = 64;
+var MODAL_SCROLLBAR_WIDTH_PX = SPACING_PX.xs;
+var MODAL_SCROLLBAR_THUMB_BORDER_PX = 2;
+var MODAL_CLOSE_SCROLLBAR_GAP_PX = SPACING_PX.xs;
+var MODAL_CLOSE_RIGHT_PX = SPACING_PX.md + MODAL_SCROLLBAR_WIDTH_PX + MODAL_CLOSE_SCROLLBAR_GAP_PX;
 var OVERLAY_Z_INDEX = 20;
 var OVERLAY_BLUR_PX = 5;
 var Modal = ({ visible, onClose, children, loading = false, style }) => {
@@ -921,13 +930,11 @@ var Container2 = import_styled_components9.default.div`
     border: ${MODAL_BORDER_WIDTH_PX}px solid ${themeVar("borderSubtle")};
     border-radius: ${BORDER_RADIUS_PX.xlarge}px;
     box-shadow: 0 ${MODAL_SHADOW_Y_PX}px ${MODAL_SHADOW_BLUR_PX}px ${themeVar("shadowColor")};
-    scrollbar-width: thin;
-    scrollbar-color: ${themeVar("scrollbarThumb")} transparent;
 `;
 var ModalHeader = import_styled_components9.default.div`
     position: absolute;
     top: ${SPACING_PX.md}px;
-    right: ${SPACING_PX.md}px;
+    right: ${MODAL_CLOSE_RIGHT_PX}px;
     z-index: 1;
     display: flex;
     justify-content: flex-end;
@@ -965,8 +972,20 @@ var ModalContent = import_styled_components9.default.div`
     min-height: 0;
     flex: 1;
     overflow-y: auto;
+    scrollbar-gutter: stable;
     scrollbar-width: thin;
     scrollbar-color: ${themeVar("scrollbarThumb")} transparent;
+
+    &::-webkit-scrollbar { width: ${MODAL_SCROLLBAR_WIDTH_PX}px; }
+    &::-webkit-scrollbar-track { background: transparent; }
+    &::-webkit-scrollbar-thumb {
+        background: ${themeVar("scrollbarThumb")};
+        border: ${MODAL_SCROLLBAR_THUMB_BORDER_PX}px solid ${themeVar("surfacePage")};
+        border-radius: ${BORDER_RADIUS_PX.pill}px;
+    }
+    &::-webkit-scrollbar-thumb:hover {
+        background: ${themeVar("scrollbarThumbHover")};
+    }
     ${({ $loading }) => $loading && `
         display: flex;
         align-items: center;

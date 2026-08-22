@@ -288,6 +288,10 @@ const List = styled.ul<{ $placement: 'top' | 'bottom', $maxHeight: number }>`
     border-radius: ${BORDER_RADIUS_PX.large}px;
     box-shadow: 0 ${MENU_SHADOW_Y_PX}px ${MENU_SHADOW_BLUR_PX}px ${themeVar('shadowColor')};
 
+    display: flex;
+    flex-direction: column;
+    gap: ${SPACING_PX.xxs}px;
+
     &::-webkit-scrollbar { width: ${SCROLLBAR_WIDTH_PX}px; }
     &::-webkit-scrollbar-track { background: transparent; }
     &::-webkit-scrollbar-thumb {

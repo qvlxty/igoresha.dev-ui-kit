@@ -4,6 +4,7 @@ export const lightTheme = {
   surfaceElevated: "#ffffff",
   surfaceHover: "#f4f1f7",
   surfaceSelected: "#eee8ff",
+  surfaceCaption: "#f7f7fa",
   textPrimary: "#17131f",
   textSecondary: "#4f485d",
   textMuted: "#657889",

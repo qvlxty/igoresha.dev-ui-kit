@@ -14,7 +14,7 @@ type Story = StoryObj<typeof meta>
 const tokenGroups: Record<string, Array<keyof Theme>> = {
   Surfaces: [
     'surfacePage', 'surfaceBase', 'surfaceElevated', 'surfaceHover',
-    'surfaceSelected', 'overlayBackdrop',
+    'surfaceSelected', 'overlayBackdrop', 'surfaceCaption'
   ],
   Text: ['textPrimary', 'textSecondary', 'textMuted', 'textDisabled', 'textOnAccent'],
   Borders: ['borderSubtle', 'borderDefault', 'borderStrong', 'borderDisabled', 'focusRing'],

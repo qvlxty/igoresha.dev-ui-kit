@@ -441,7 +441,9 @@ var ButtonCss = import_styled_components5.css`
         cursor: not-allowed;
     }
 `;
-var Button = import_styled_components5.default.button.attrs({ type: "button" })`
+var Button = import_styled_components5.default.button.attrs((props) => ({
+  type: props.type ?? "button"
+}))`
     ${ButtonCss}
 `;
 var LinkButton = import_styled_components5.default.a`
@@ -1571,9 +1573,9 @@ var createContextMenu = () => {
           clearContextMenu();
         }
       };
-      document.addEventListener("pointerdown", handleOutsidePointerDown, true);
+      window.addEventListener("pointerdown", handleOutsidePointerDown, true);
       return () => {
-        document.removeEventListener("pointerdown", handleOutsidePointerDown, true);
+        window.removeEventListener("pointerdown", handleOutsidePointerDown, true);
       };
     }, [clearContextMenu, payload]);
     const [selectedIdx, setSelectedIdx] = useArrowKeys({

@@ -91,9 +91,9 @@ export const createContextMenu = <T = unknown,>() => {
                     clearContextMenu()
                 }
             }
-            document.addEventListener('pointerdown', handleOutsidePointerDown, true)
+            window.addEventListener('pointerdown', handleOutsidePointerDown, true)
             return () => {
-                document.removeEventListener('pointerdown', handleOutsidePointerDown, true)
+                window.removeEventListener('pointerdown', handleOutsidePointerDown, true)
             }
         }, [clearContextMenu, payload])
 

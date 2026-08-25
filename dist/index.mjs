@@ -368,7 +368,9 @@ var ButtonCss = css2`
         cursor: not-allowed;
     }
 `;
-var Button = styled3.button.attrs({ type: "button" })`
+var Button = styled3.button.attrs((props) => ({
+  type: props.type ?? "button"
+}))`
     ${ButtonCss}
 `;
 var LinkButton = styled3.a`
@@ -1498,9 +1500,9 @@ var createContextMenu = () => {
           clearContextMenu();
         }
       };
-      document.addEventListener("pointerdown", handleOutsidePointerDown, true);
+      window.addEventListener("pointerdown", handleOutsidePointerDown, true);
       return () => {
-        document.removeEventListener("pointerdown", handleOutsidePointerDown, true);
+        window.removeEventListener("pointerdown", handleOutsidePointerDown, true);
       };
     }, [clearContextMenu, payload]);
     const [selectedIdx, setSelectedIdx] = useArrowKeys({

@@ -119,7 +119,9 @@ const ButtonCss = css<ButtonProps & ThemedStyledProps>`
     }
 `
 
-const Button = styled.button.attrs({ type: 'button' })<ButtonProps & ThemedStyledProps>`
+const Button = styled.button.attrs((props) => ({
+    type: props.type ?? 'button',
+}))<ButtonProps & ThemedStyledProps>`
     ${ButtonCss}
 `
 

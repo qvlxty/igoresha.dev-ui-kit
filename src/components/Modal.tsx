@@ -25,6 +25,25 @@ const MODAL_CLOSE_RIGHT_PX = SPACING_PX.md
 const OVERLAY_Z_INDEX = 20
 const OVERLAY_BLUR_PX = 5
 
+let bodyScrollLockCount = 0
+let bodyOverflowBeforeLock = ''
+
+const lockBodyScroll = () => {
+    if (bodyScrollLockCount === 0) {
+        bodyOverflowBeforeLock = document.body.style.overflow
+        document.body.style.overflow = 'hidden'
+    }
+    bodyScrollLockCount += 1
+}
+
+const unlockBodyScroll = () => {
+    bodyScrollLockCount = Math.max(0, bodyScrollLockCount - 1)
+    if (bodyScrollLockCount === 0) {
+        document.body.style.overflow = bodyOverflowBeforeLock
+        bodyOverflowBeforeLock = ''
+    }
+}
+
 type Props = {
     visible: boolean,
     onClose: () => void,
@@ -37,13 +56,10 @@ export const Modal: React.FC<Props> = (
     { visible, onClose, children, loading = false, style }
 ) => {
     React.useEffect(() => {
-        const previousOverflow = document.body.style.overflow
-        if (visible) {
-            document.body.style.overflow = 'hidden'
-        }
-        return () => {
-            document.body.style.overflow = previousOverflow
-        }
+        if (!visible) return
+
+        lockBodyScroll()
+        return unlockBodyScroll
     }, [visible])
 
     React.useEffect(() => {

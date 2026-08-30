@@ -819,15 +819,27 @@ var MODAL_CLOSE_SCROLLBAR_GAP_PX = SPACING_PX.xs;
 var MODAL_CLOSE_RIGHT_PX = SPACING_PX.md + MODAL_SCROLLBAR_WIDTH_PX + MODAL_CLOSE_SCROLLBAR_GAP_PX;
 var OVERLAY_Z_INDEX = 20;
 var OVERLAY_BLUR_PX = 5;
+var bodyScrollLockCount = 0;
+var bodyOverflowBeforeLock = "";
+var lockBodyScroll = () => {
+  if (bodyScrollLockCount === 0) {
+    bodyOverflowBeforeLock = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+  }
+  bodyScrollLockCount += 1;
+};
+var unlockBodyScroll = () => {
+  bodyScrollLockCount = Math.max(0, bodyScrollLockCount - 1);
+  if (bodyScrollLockCount === 0) {
+    document.body.style.overflow = bodyOverflowBeforeLock;
+    bodyOverflowBeforeLock = "";
+  }
+};
 var Modal = ({ visible, onClose, children, loading = false, style }) => {
   React5.useEffect(() => {
-    const previousOverflow = document.body.style.overflow;
-    if (visible) {
-      document.body.style.overflow = "hidden";
-    }
-    return () => {
-      document.body.style.overflow = previousOverflow;
-    };
+    if (!visible) return;
+    lockBodyScroll();
+    return unlockBodyScroll;
   }, [visible]);
   React5.useEffect(() => {
     if (!visible) return;
